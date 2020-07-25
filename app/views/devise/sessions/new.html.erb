@@ -12,7 +12,7 @@
                 <h1 class="title has-text-dark">Log in</h1>
               </div>
 
-              <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+              <%= form_for(:user, url: user_session_path) do |f| %>
                 <div class="field">
                   <%= f.label :email, class: 'label' %>
                   <div class="control"><%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'input' %></div>
