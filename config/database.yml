@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: singulus_production
-  username: singulus
-  password: <%= ENV['SINGULUS_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
