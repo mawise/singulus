@@ -15,3 +15,11 @@ require:
 
 AllCops:
   NewCops: enable
+
+Metrics/AbcSize:
+  Exclude:
+    - db/migrate/*.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*.rb

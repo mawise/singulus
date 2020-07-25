@@ -1,0 +1,6 @@
+<% if notice || alert %>
+  <div class="container mt-4 mb-4">
+    <% if notice %><p class="notification is-info"><%= notice %></p><% end %>
+    <% if alert %><p class="notification is-danger"><%= alert %></p><% end %>
+  </div>
+<% end %>

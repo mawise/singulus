@@ -1,0 +1,27 @@
+<header class="container pt-4 pb-4">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="<%= root_url %>%">
+          <h1 class="title">Tony Burns</h1>
+        </a>
+      </div>
+
+      <% if user_signed_in? %>
+      <ul class="navbar-start">
+        <li class="navbar-item is-size-4"><a class="has-text-dark" href="/articles">Articles</a></li>
+        <li class="navbar-item is-size-4"><a class="has-text-dark" href="/notes">Notes</a></li>
+        <li class="navbar-item is-size-4"><a class="has-text-dark" href="/photos">Photos</a></li>
+      </ul>
+      <% end %>
+
+      <ul class="navbar-end">
+        <% if user_signed_in? %>
+          <li class="navbar-item"><%= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'button has-text-dark' %>
+        <% else %>
+          <li class="navbar-item"><%= link_to 'Log in', new_user_session_path, class: 'button has-text-dark' %>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+</header>
