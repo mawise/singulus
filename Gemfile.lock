@@ -73,6 +73,8 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
+    doorkeeper (5.4.0)
+      railties (>= 5)
     erubi (1.9.0)
     ffi (1.13.1)
     globalid (0.4.2)
@@ -239,6 +241,7 @@ DEPENDENCIES
   brakeman
   byebug
   devise
+  doorkeeper
   jbuilder (~> 2.7)
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
