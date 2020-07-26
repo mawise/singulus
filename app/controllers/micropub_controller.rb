@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MicropubController < ActionController::API
   before_action -> { doorkeeper_authorize!(*ALL_SCOPES) }
 
