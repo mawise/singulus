@@ -19,6 +19,13 @@ gem 'webpacker', '~> 4.2'
 
 # Data stores
 gem 'pg', '~> 1.2'
+gem 'redis', '~> 4.2'
+gem 'redis-namespace', '~> 1.7'
+
+# Background processing
+gem 'sidekiq', '~> 6.1'
+gem 'sidekiq-scheduler', '~> 3.0'
+gem 'sidekiq-unique-jobs', '~> 5.0'
 
 # Security
 gem 'devise', '~> 4.7'
@@ -48,4 +55,8 @@ group :development do
   gem 'rubocop-rspec', '~> 1.42', require: false
   gem 'spring', '~> 2.1'
   gem 'spring-watcher-listen', '~> 2.0'
+end
+
+group :test do
+  gem 'rspec-sidekiq', '~> 1.1'
 end
