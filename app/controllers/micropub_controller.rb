@@ -1,28 +1,28 @@
 # frozen_string_literal: true
 
+# [Micropub](https://micropub.spec.indieweb.org/) server implementation.
 class MicropubController < ActionController::API
-  before_action -> { doorkeeper_authorize!(*ALL_SCOPES) }
+  before_action :doorkeeper_authorize!
+  #-> { doorkeeper_authorize!(*ALL_SCOPES) }
 
   def create
-    head :created, location: 'https://tonyburns.net', content_type: 'application/json'
+    head :accepted, location: root_url
   end
 
   def show
-    permitted = params.permit(:q)
-    query = permitted[:q]
-    if query && query == 'config'
-      render json: config_body.to_json
-    else
+    case query_params[:q]
+    when 'config'
       render json: {}.to_json
     end
   end
 
   private
 
-  def config_body
-    {
-      'media-endpoint' => micropub_url,
-      'syndicate-to': []
-    }
+  def query_params
+    params.permit(:q)
+  end
+
+  def doorkeeper_unauthorized_render_options(error: nil)
+    { json: { error: 'unauthorized' } }
   end
 end

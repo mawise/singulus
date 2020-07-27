@@ -16,7 +16,17 @@ RSpec.describe 'Micropub Server Implementation Report - Query', type: :request d
   before { get '/micropub', params: params, headers: headers }
 
   # https://micropub.rocks/server-tests/600?endpoint=501
-  pending '600 - Configuration Query'
+  describe '600 - Configuration Query' do
+    let(:params) { { q: 'config' } }
+
+    it 'returns HTTP 200' do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'returns a JSON object' do
+      expect(JSON.parse(response.body)).to be_a(Hash)
+    end
+  end
 
   # https://micropub.rocks/server-tests/601?endpoint=501
   pending '601 - Syndication Endpoint Query'
