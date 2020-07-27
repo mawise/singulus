@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   # Only allow login via the web interface, as well as the unlock endpoint.
   devise_for :users, only: %i[sessions], path: '',
@@ -13,6 +15,10 @@ Rails.application.routes.draw do
 
   scope format: false do
     resources :notes
+  end
+
+  authenticate :user do
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   root to: 'home#index'
