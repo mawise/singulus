@@ -15,6 +15,11 @@ require:
 
 AllCops:
   NewCops: enable
+  Exclude:
+    - bin/*
+    - db/schema.rb
+    - node_modules/**/*
+    - vendor/**/*
 
 Metrics/AbcSize:
   Exclude:
