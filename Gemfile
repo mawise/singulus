@@ -42,7 +42,7 @@ group :development, :test do
   gem 'pry', '~> 0.13'
   gem 'pry-byebug', '~> 3.9'
   gem 'pry-rails', '~> 0.3'
-  gem 'rspec-rails', '~> 2.7'
+  gem 'rspec-rails', '~> 4.0'
 end
 
 group :development do
@@ -55,8 +55,4 @@ group :development do
   gem 'rubocop-rspec', '~> 1.42', require: false
   gem 'spring', '~> 2.1'
   gem 'spring-watcher-listen', '~> 2.0'
-end
-
-group :test do
-  gem 'rspec-sidekiq', '~> 1.1'
 end
