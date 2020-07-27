@@ -35,6 +35,9 @@ gem 'doorkeeper', '~> 5.4'
 gem 'octokit', '~> 4.18'
 gem 'rugged', '~> 1.0'
 
+# Miscellaneous
+gem 'kaminari', '~> 1.2'
+
 group :development, :test do
   gem 'byebug', '~> 11.1'
   gem 'factory_bot_rails', '~> 6.1'

@@ -1,0 +1,54 @@
+<main id="main" aria-role="main">
+  <section class="section">
+    <div class="container pb-6">
+      <%= render partial: 'partials/notifications' %>
+      <div class="columns mt-4">
+        <div class="column"></div>
+
+        <div class="column is-three-quarters">
+
+          <nav class="level">
+            <div class="level-item">
+              <%= link_to 'New Note', new_note_path, class: 'button is-info' %>
+            </div>
+          </nav>
+          <table class="table">
+            <thead>
+              <tr>
+                <td>ID</td>
+                <td>Content</td>
+                <td>Published</td>
+                <td>Created</td>
+                <td>Updated</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @notes.each do |note| %>
+                <tr>
+                  <td><%= link_to note.id, note_path(note) %></td>
+                  <td><%= note.content %></td>
+                  <td><%= time_tag(note.published_at) if note.published_at %></td>
+                  <td><%= time_tag(note.created_at) %></td>
+                  <td><%= time_tag(note.updated_at) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="column"></div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="columns">
+        <div class="column"></div>
+
+        <div class="column is-one-third"><%= paginate @notes %></div>
+
+        <div class="column"></div>
+      </div>
+    </div>
+  </section>
+</main>
