@@ -17,7 +17,8 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
     @note.author = current_user
-    if @note.save
+    @note.published_at = Time.now.utc
+    if save_note
       redirect_to note_path(@note), notice: 'Note was successfully created'
     else
       render :new
@@ -45,6 +46,15 @@ class NotesController < ApplicationController
 
   def find_note
     @note = Note.find(params[:id])
+  end
+
+  def save_note
+    on_retry = proc do |_, _try, _, _|
+      Rails.logger.info('Collison generating short_uid, trying again')
+    end
+    Retriable.retriable on: [ActiveRecord::RecordNotUnique], on_retry: on_retry do
+      @note.save
+    end
   end
 
   def note_params
