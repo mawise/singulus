@@ -22,7 +22,7 @@ class MicropubController < ActionController::API
     params.permit(:q)
   end
 
-  def doorkeeper_unauthorized_render_options(error: nil)
+  def doorkeeper_unauthorized_render_options(*)
     { json: { error: 'unauthorized' } }
   end
 end
