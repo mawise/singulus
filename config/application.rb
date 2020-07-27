@@ -34,5 +34,8 @@ module Singulus
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.site_name = ENV.fetch('SITE_NAME')
+    config.site_url = ENV.fetch('SITE_URL')
   end
 end
