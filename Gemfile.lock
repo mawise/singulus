@@ -262,9 +262,6 @@ GEM
       sidekiq (>= 3)
       thwait
       tilt (>= 1.4.0)
-    sidekiq-unique-jobs (5.0.2)
-      sidekiq (>= 4.0)
-      thor
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -337,7 +334,6 @@ DEPENDENCIES
   sass-rails (~> 6.0)
   sidekiq (~> 6.1)
   sidekiq-scheduler (~> 3.0)
-  sidekiq-unique-jobs (~> 5.0)
   spring (~> 2.1)
   spring-watcher-listen (~> 2.0)
   turbolinks (~> 5.2)
