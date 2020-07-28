@@ -17,7 +17,30 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
   before { post '/micropub', params: params, headers: headers }
 
   # https://micropub.rocks/server-tests/200?endpoint=501
-  pending '200 - Create an h-entry post (JSON)'
+  describe '200 - Create an h-entry post (JSON)' do
+    let(:content) { "Micropub test of creating an h-entry with a JSON request" }
+    let(:params) do
+      {
+        "type": ["h-entry"],
+        "properties": {
+          "content": [content]
+        }
+      }.to_json
+    end
+
+    it 'returns HTTP accepted' do
+      expect(response).to have_http_status(:accepted)
+    end
+
+    it 'returns a Location header with the permalink URL of the new entry' do
+      entry = Entry.find_by(content: content)
+      expect(response.headers['Location']).to eq(entry.permalink_url)
+    end
+
+    it 'queues the note for publication' do
+      expect(PublishWorker.jobs.size).to eq(1)
+    end
+  end
 
   # https://micropub.rocks/server-tests/201?endpoint=501
   pending '201 - Create an h-entry post with multiple categories (JSON)'
