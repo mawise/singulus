@@ -34,11 +34,11 @@ class MicropubController < ActionController::API
   end
 
   def create_entry(attrs)
-    @entry = Note.new(attrs)
+    @entry = Entry.new(attrs)
     @entry.author_id = doorkeeper_token.resource_owner_id
     @entry.published_at = Time.now.utc
     if save_entry
-      PublishWorker.perform_async('create', 'note', @entry.id)
+      PublishWorker.perform_async('create', @entry.id)
       head :accepted, location: @entry.permalink_url
     else
       render json: { error: 'invalid_request', error_description: @entry.errors.full_messages }.to_json

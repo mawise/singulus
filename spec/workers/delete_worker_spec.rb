@@ -21,11 +21,11 @@ describe DeleteWorker, type: :worker do
   end
 
   it 'deletes the entry content' do # rubocop:disable RSpec/ExampleLength
-    described_class.new.perform(entry.attributes)
+    described_class.new.perform(entry.id, entry.hugo_source_path)
 
     expect(github).to have_received(:delete_contents).with(
       github_repo,
-      "content/notes/#{entry.short_uid}.md",
+      "content/notes/#{entry.id}.md",
       anything,
       sha,
       hash_including(branch: github_branch)

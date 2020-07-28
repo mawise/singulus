@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   post '/micropub', to: 'micropub#create', format: false
 
   scope format: false do
-    resources :notes
+    resources :entries
   end
 
   authenticate :user do

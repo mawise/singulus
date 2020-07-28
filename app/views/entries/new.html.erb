@@ -9,18 +9,33 @@
           <div class="card">
             <div class="card-content">
               <div class="container has-text-centered pb-4">
-                <h1 class="title has-text-dark">New Note</h1>
+                <h1 class="title has-text-dark">New Entry</h1>
               </div>
 
-              <%= form_for(@note) do |f| %>
+              <%= form_for(@entry) do |f| %>
+                <div class="field">
+                  <%= f.label :name, class: 'label' %>
+                  <div class="control"><%= f.text_field :name, class: 'input' %></div>
+                </div>
+
+                <div>
+                  <%= f.label :slug, class: 'label' %>
+                  <div class="control"><%= f.text_field :slug, class: 'input' %></div>
+                </div>
+
                 <div class="field">
                   <%= f.label :content, class: 'label' %>
                   <div class="control"><%= f.text_area :content, class: 'textarea', autofocus: true %></div>
                 </div>
 
+                <div class="field">
+                  <%= f.label :summary, class: 'label' %>
+                  <div class="control"><%= f.text_area :summary, class: 'textarea' %></div>
+                </div>
+
                 <div class="field is-grouped">
                   <div class="control">
-                    <%= f.submit "Create note", class: 'button is-link' %>
+                    <%= f.submit "Create entry", class: 'button is-link' %>
                   </div>
                 </div>
               <% end %>

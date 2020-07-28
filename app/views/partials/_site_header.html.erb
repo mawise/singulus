@@ -9,9 +9,7 @@
 
       <% if user_signed_in? %>
       <ul class="navbar-start">
-        <li class="navbar-item is-size-4"><a class="has-text-dark" href="/articles">Articles</a></li>
-        <li class="navbar-item is-size-4"><a class="has-text-dark" href="/notes">Notes</a></li>
-        <li class="navbar-item is-size-4"><a class="has-text-dark" href="/photos">Photos</a></li>
+        <li class="navbar-item is-size-4"><%= link_to 'Entries', entries_path, class: 'has-text-dark' %></li>
       </ul>
       <% end %>
 

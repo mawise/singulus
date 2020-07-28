@@ -4,9 +4,8 @@
 class PublishWorker < ApplicationWorker
   include GitHubManipulator
 
-  def perform(action, type, id)
-    find_entry(type, id)
-    @path = "content/notes/#{entry.short_uid}.md"
+  def perform(action, id)
+    find_entry(id)
 
     case action
     when 'create'
@@ -18,17 +17,21 @@ class PublishWorker < ApplicationWorker
 
   private
 
-  attr_reader :entry, :path
+  attr_reader :entry
 
-  def find_entry(type, id)
-    klass = type.classify.constantize
-    @entry = klass.find(id)
+  def find_entry(id)
+    @entry = Entry.find(id)
+  end
+
+  def path
+    entry.hugo_source_path
   end
 
   def content
     <<~CONTENT
       ---
-      slug: "#{entry.short_uid}"
+      id: "#{entry.id}"
+      slug: "#{entry.slug}"
       date: "#{entry.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z')}"
       ---
 
@@ -41,12 +44,12 @@ class PublishWorker < ApplicationWorker
   end
 
   def perform_create
-    message = "Creating entry #{entry.short_uid}"
+    message = "Creating entry #{entry.id}"
     github.create_contents(github_repo, path, message, content, branch: github_branch)
   end
 
   def perform_update
-    message = "Updating entry #{entry.short_uid}"
+    message = "Updating entry #{entry.id}"
     github.update_contents(github_repo, path, message, sha, content, branch: github_branch)
   end
 end

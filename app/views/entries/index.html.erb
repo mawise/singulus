@@ -9,14 +9,15 @@
 
           <nav class="level">
             <div class="level-item">
-              <%= link_to 'New Note', new_note_path, class: 'button is-info' %>
+              <%= link_to 'New Entry', new_entry_path, class: 'button is-info' %>
             </div>
           </nav>
           <table class="table">
             <thead>
               <tr>
-                <td>ID</td>
-                <td>Content</td>
+                <td>Short UID</td>
+                <td>Type</td>
+                <td>Description</td>
                 <td>Published</td>
                 <td>Created</td>
                 <td>Updated</td>
@@ -24,13 +25,14 @@
             </thead>
 
             <tbody>
-              <% @notes.each do |note| %>
+              <% @entries.each do |entry| %>
                 <tr>
-                  <td><%= link_to note.id, note_path(note) %></td>
-                  <td><%= note.content %></td>
-                  <td><%= time_tag(note.published_at) if note.published_at %></td>
-                  <td><%= time_tag(note.created_at) %></td>
-                  <td><%= time_tag(note.updated_at) %></td>
+                  <td><%= link_to entry.short_uid, entry_path(entry) %></td>
+                  <td><%= entry.entry_type.titleize %></td>
+                  <td><%= entry.name.present? ? entry.name : (entry.summary.present? ? entry.summary : entry.content) %></td>
+                  <td><%= entry.published_at.present? ? time_tag(entry.published_at) : 'Unpublished' %></td>
+                  <td><%= time_tag(entry.created_at) %></td>
+                  <td><%= time_tag(entry.updated_at) %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -45,7 +47,7 @@
       <div class="columns">
         <div class="column"></div>
 
-        <div class="column is-one-third"><%= paginate @notes %></div>
+        <div class="column is-one-third"><%= paginate @entries %></div>
 
         <div class="column"></div>
       </div>

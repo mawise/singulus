@@ -10,24 +10,34 @@
             <div class="card-content">
               <article class="media">
                 <div class="media-content">
-                  <div class="content e-content">
-                    <%= @note.content %>
-                  </div>
+                  <% if @entry.name.present? %><h1><%= @entry.name %></h1><% end %>
+
+                  <% if @entry.summary.present? %>
+                    <div class="content">
+                      <small><%= @entry.summary %></small>
+                    </div>
+                  <% end %>
+
+                  <% if @entry.content.present? %>
+                    <div class="content">
+                      <%= @entry.content %>
+                    </div>
+                  <% end %>
 
                   <div class="content">
                     <small>
-                      <%= @note.published? ? time_tag(@note.published_at) : 'Unpublished' %>
+                      <%= @entry.published? ? time_tag(@entry.published_at) : 'Unpublished' %>
                     </small>
                   </div>
 
                   <nav class="level">
                     <div class="level-left">
                       <div class="level-item">
-                        <%= link_to 'Edit', edit_note_path(@note), class: 'button is-info' %>
+                        <%= link_to 'Edit', edit_entry_path(@entry), class: 'button is-info' %>
                       </div>
 
                       <div class="level-item">
-                        <%= button_to 'Delete', note_path(@note), class: 'button is-danger', method: :delete %>
+                        <%= button_to 'Delete', entry_path(@entry), class: 'button is-danger', method: :delete %>
                       </div>
                     </div>
                   </nav>

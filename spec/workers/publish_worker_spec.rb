@@ -8,7 +8,7 @@ describe PublishWorker, type: :worker do
   let(:github_branch) { 'some-branch' }
 
   let(:user) { FactoryBot.create(:user) }
-  let(:entry) { FactoryBot.create(:note, author: user) }
+  let(:entry) { FactoryBot.create(:note, :published, author: user) }
 
   before do
     allow(Octokit::Client).to receive(:new) { github }
@@ -18,11 +18,11 @@ describe PublishWorker, type: :worker do
 
   describe 'with action of create' do
     it 'creates the entry content' do # rubocop:disable RSpec/ExampleLength
-      described_class.new.perform('create', 'note', entry.id)
+      described_class.new.perform('create', entry.id)
 
       expect(github).to have_received(:create_contents).with(
         github_repo,
-        "content/notes/#{entry.short_uid}.md",
+        "content/notes/#{entry.id}.md",
         anything,
         /#{Regexp.escape(entry.content)}/,
         hash_including(branch: github_branch)
@@ -39,11 +39,11 @@ describe PublishWorker, type: :worker do
     end
 
     it 'updates the entry content' do # rubocop:disable RSpec/ExampleLength
-      described_class.new.perform('update', 'note', entry.id)
+      described_class.new.perform('update', entry.id)
 
       expect(github).to have_received(:update_contents).with(
         github_repo,
-        "content/notes/#{entry.short_uid}.md",
+        "content/notes/#{entry.id}.md",
         anything,
         sha,
         /#{Regexp.escape(entry.content)}/,

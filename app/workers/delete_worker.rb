@@ -4,11 +4,10 @@
 class DeleteWorker < ApplicationWorker
   include GitHubManipulator
 
-  def perform(entry)
-    path = "content/notes/#{entry['short_uid']}.md"
-    file = github.contents(github_repo, path: path, ref: github_branch)
+  def perform(id, hugo_source_path)
+    file = github.contents(github_repo, path: hugo_source_path, ref: github_branch)
     sha = file.sha
-    message = "Deleting entry #{entry['short_uid']}"
-    github.delete_contents(github_repo, path, message, sha, branch: github_branch)
+    message = "Deleting entry #{id}"
+    github.delete_contents(github_repo, hugo_source_path, message, sha, branch: github_branch)
   end
 end

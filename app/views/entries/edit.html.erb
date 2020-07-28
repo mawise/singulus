@@ -9,21 +9,31 @@
           <div class="card">
             <div class="card-content">
               <div class="container has-text-centered pb-4">
-                <h1 class="title has-text-dark">Edit Note</h1>
+                <h1 class="title has-text-dark">Edit Entry</h1>
               </div>
 
-              <%= form_for(@note) do |f| %>
+              <%= form_for(@entry) do |f| %>
+                <div class="field">
+                  <%= f.label :name, class: 'label' %>
+                  <div class="control"><%= f.text_field :summary, class: 'input' %></div>
+                </div>
+
                 <div class="field">
                   <%= f.label :content, class: 'label' %>
                   <div class="control"><%= f.text_area :content, class: 'textarea', autofocus: true %></div>
                 </div>
 
+                <div class="field">
+                  <%= f.label :summary, class: 'label' %>
+                  <div class="control"><%= f.text_area :summary, class: 'textarea' %></div>
+                </div>
+
                 <div class="field is-grouped">
                   <div class="control">
-                    <%= f.submit "Update note", class: 'button is-link' %>
+                    <%= f.submit "Update entry", class: 'button is-link' %>
                   </div>
 
-                  <div class="control"><%= button_to 'Delete note', note_path(@note), method: :delete, class: 'button is-danger' %></div>
+                  <div class="control"><%= button_to 'Delete entry', entry_path(@entry), method: :delete, class: 'button is-danger' %></div>
                 </div>
               <% end %>
             </div>
