@@ -18,6 +18,10 @@ This application is built first and foremost for me to [eat what I cook](https:/
 - [ ] [Publish (on your) Own Site, Syndicate Elsewhere (POSSE)](https://indieweb.org/POSSE) for content on [tonyburns.net](https://tonyburns.net)
 - [ ] [Webauthn](https://webauthn.io/) support for using Yubikeys as 2FA
 
+## Diagram
+
+![Data Movement](/docs/assets/data_movement_diagram.png?raw=true "Data Movement")
+
 ## License
 
 Singulus is licensed under the [MIT License](https://opensource.org/licenses/MIT).
