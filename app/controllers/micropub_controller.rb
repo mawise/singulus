@@ -2,11 +2,18 @@
 
 # [Micropub](https://micropub.spec.indieweb.org/) server implementation.
 class MicropubController < ActionController::API
+  include Doorkeeper::Helpers::Controller
+
   before_action :doorkeeper_authorize!
-  #-> { doorkeeper_authorize!(*ALL_SCOPES) }
 
   def create
-    head :accepted, location: root_url
+    @entry = Note.new(entry_params)
+    @entry.author_id = doorkeeper_token.resource_owner_id
+    @entry.published_at = Time.now.utc
+    if save_entry
+      PublishWorker.perform_async('create', 'note', @entry.id)
+      head :accepted, location: @entry.permalink_url
+    end
   end
 
   def show
@@ -17,6 +24,19 @@ class MicropubController < ActionController::API
   end
 
   private
+
+  def entry_params
+    params.permit(:content)
+  end
+
+  def save_entry
+    on_retry = proc do |_, _try, _, _|
+      Rails.logger.info('Collison generating short_uid, trying again')
+    end
+    Retriable.retriable on: [ActiveRecord::RecordNotUnique], on_retry: on_retry do
+      @entry.save
+    end
+  end
 
   def query_params
     params.permit(:q)

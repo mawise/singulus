@@ -27,9 +27,7 @@ RSpec.describe 'Notes', type: :request do
     end
 
     it 'queues the note for publication' do
-      expect do
-        post '/notes', params: params
-      end.to change(PublishWorker.jobs, :size).by(1)
+      expect(PublishWorker.jobs.size).to eq(1)
     end
   end
 
@@ -52,9 +50,7 @@ RSpec.describe 'Notes', type: :request do
       end
 
       it 'queues the note for re-publication' do
-        expect do
-          patch "/notes/#{note.id}", params: params
-        end.to change(PublishWorker.jobs, :size).by(1)
+        expect(PublishWorker.jobs.size).to eq(1)
       end
     end
 
@@ -65,9 +61,7 @@ RSpec.describe 'Notes', type: :request do
       end
 
       it 'queues the note for deletion' do
-        expect do
-          delete "/notes/#{note.id}"
-        end.to change(DeleteWorker.jobs, :size).by(1)
+        expect(DeleteWorker.jobs.size).to eq(1)
       end
     end
   end
