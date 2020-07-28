@@ -19,6 +19,7 @@ class NotesController < ApplicationController
     @note.author = current_user
     @note.published_at = Time.now.utc
     if save_note
+      PublishWorker.perform_async('create', 'note', @note.id)
       redirect_to note_path(@note), notice: 'Note was successfully created'
     else
       render :new
@@ -31,6 +32,7 @@ class NotesController < ApplicationController
 
   def update
     if @note.update(note_params)
+      PublishWorker.perform_async('update', 'note', @note.id)
       redirect_to note_path(@note), notice: 'Note was successfully updated'
     else
       render :edit
@@ -39,6 +41,7 @@ class NotesController < ApplicationController
 
   def destroy
     @note.destroy
+    DeleteWorker.perform_async(@note.attributes)
     redirect_to notes_path
   end
 

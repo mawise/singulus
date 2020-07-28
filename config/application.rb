@@ -35,6 +35,10 @@ module Singulus
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    config.x.github.token = ENV.fetch('GITHUB_TOKEN')
+    config.x.github.branch = ENV.fetch('GITHUB_BRANCH')
+    config.x.github.repo = ENV.fetch('GITHUB_REPO')
+
     config.site_name = ENV.fetch('SITE_NAME')
     config.site_url = ENV.fetch('SITE_URL')
   end
