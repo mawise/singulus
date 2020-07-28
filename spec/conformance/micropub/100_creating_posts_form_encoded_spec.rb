@@ -17,9 +17,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
 
   before do
     allow(Rails.configuration).to receive(:site_url) { site_url }
+    post '/micropub', params: params, headers: headers
   end
-
-  before { post '/micropub', params: params, headers: headers }
 
   # https://micropub.rocks/server-tests/100?endpoint=501
   describe '100 - Create an h-entry post (form-encoded)' do

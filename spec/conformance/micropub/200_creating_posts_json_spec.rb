@@ -18,10 +18,10 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
 
   # https://micropub.rocks/server-tests/200?endpoint=501
   describe '200 - Create an h-entry post (JSON)' do
-    let(:content) { "Micropub test of creating an h-entry with a JSON request" }
+    let(:content) { 'Micropub test of creating an h-entry with a JSON request' }
     let(:params) do
       {
-        "type": ["h-entry"],
+        "type": ['h-entry'],
         "properties": {
           "content": [content]
         }
