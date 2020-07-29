@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Helpers for determining an entry's post type.
 module EntryType
   extend ActiveSupport::Concern
 
@@ -9,7 +12,7 @@ module EntryType
   #
   # @see https://indieweb.org/posts
   # @see https://indieweb.org/post-type-discovery#Algorithm
-  def entry_type
+  def entry_type # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     if content.present?
       normalized_content = content.strip.squeeze
     elsif summary.present?
@@ -21,7 +24,7 @@ module EntryType
     return 'note' if name.blank?
 
     normalized_name = name.strip.squeeze
-    return 'article' unless /\A#{Regexp.escape(name)}/.match?(normalized_content)
+    return 'article' unless /\A#{Regexp.escape(normalized_name)}/.match?(normalized_content)
 
     'note'
   end

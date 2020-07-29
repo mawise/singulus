@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 # Adds additional columns to the entries table that represent h-entry properties and removes STI.
 class AddMicroformatColumnsToEntries < ActiveRecord::Migration[6.0]
   def change
     enable_extension 'hstore'
 
-    remove_column :entries, :type
+    remove_column :entries, :type # rubocop:disable Rails/ReversibleMigration
 
-    change_table :entries, id: :uuid do |t|
+    change_table :entries, id: :uuid do |t| # rubocop:disable Rails/BulkChangeTable
       t.text :name
       t.text :summary
       t.text :url

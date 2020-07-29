@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Manages entries.
 class EntriesController < ApplicationController
   before_action :authenticate_user!
 

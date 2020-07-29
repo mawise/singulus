@@ -15,5 +15,5 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :delete_all
 
-  has_many :entries, as: :author
+  has_many :entries, as: :author, dependent: :destroy
 end
