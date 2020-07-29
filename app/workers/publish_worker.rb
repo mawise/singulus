@@ -5,7 +5,7 @@ class PublishWorker < ApplicationWorker
   include GitHubManipulator
 
   def perform(action, id)
-    find_entry(id)
+    find_post(id)
 
     case action
     when 'create'
@@ -17,25 +17,25 @@ class PublishWorker < ApplicationWorker
 
   private
 
-  attr_reader :entry
+  attr_reader :post
 
-  def find_entry(id)
-    @entry = Entry.find(id)
+  def find_post(id)
+    @post = Post.find(id)
   end
 
   def path
-    entry.hugo_source_path
+    post.hugo_source_path
   end
 
   def content
     <<~CONTENT
       ---
-      id: "#{entry.id}"
-      slug: "#{entry.slug}"
-      date: "#{entry.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z')}"
+      id: "#{post.id}"
+      slug: "#{post.slug}"
+      date: "#{post.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z')}"
       ---
 
-      #{entry.content}
+      #{post.content}
     CONTENT
   end
 
@@ -44,12 +44,12 @@ class PublishWorker < ApplicationWorker
   end
 
   def perform_create
-    message = "Creating entry #{entry.id}"
+    message = "Creating post #{post.id}"
     github.create_contents(github_repo, path, message, content, branch: github_branch)
   end
 
   def perform_update
-    message = "Updating entry #{entry.id}"
+    message = "Updating post #{post.id}"
     github.update_contents(github_repo, path, message, sha, content, branch: github_branch)
   end
 end

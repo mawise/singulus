@@ -29,9 +29,9 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
       expect(response).to have_http_status(:accepted)
     end
 
-    it 'returns a Location header with the permalink URL of the new entry' do
-      entry = Entry.find_by(content: content)
-      expect(response.headers['Location']).to eq(entry.permalink_url)
+    it 'returns a Location header with the permalink URL of the new post' do
+      post = Post.find_by(content: content)
+      expect(response.headers['Location']).to eq(post.permalink_url)
     end
 
     it 'queues the note for publication' do

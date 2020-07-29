@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Helpers for determining an entry's post type.
-module EntryType
+# Helpers for determining an post's post type.
+module PostType
   extend ActiveSupport::Concern
 
-  # Returns the post type of the entry.
+  # Returns the post type of the post.
   #
   # Currently supports:
   # - [article](https://indieweb.org/article)
@@ -12,7 +12,7 @@ module EntryType
   #
   # @see https://indieweb.org/posts
   # @see https://indieweb.org/post-type-discovery#Algorithm
-  def entry_type # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def post_type # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     if content.present?
       normalized_content = content.strip.squeeze
     elsif summary.present?
@@ -31,7 +31,7 @@ module EntryType
 
   def permalink_url
     prefix = Rails.configuration.site_url
-    case entry_type
+    case post_type
     when 'article'
       "#{prefix}/articles/#{slug}"
     when 'note'
@@ -40,7 +40,7 @@ module EntryType
   end
 
   def hugo_source_path
-    case entry_type
+    case post_type
     when 'article'
       "content/articles/#{id}.md"
     when 'note'

@@ -9,10 +9,10 @@
           <div class="card">
             <div class="card-content">
               <div class="container has-text-centered pb-4">
-                <h1 class="title has-text-dark">Edit Entry</h1>
+                <h1 class="title has-text-dark">Edit Post</h1>
               </div>
 
-              <%= form_for(@entry) do |f| %>
+              <%= form_for(@post) do |f| %>
                 <div class="field">
                   <%= f.label :name, class: 'label' %>
                   <div class="control"><%= f.text_field :summary, class: 'input' %></div>
@@ -30,10 +30,10 @@
 
                 <div class="field is-grouped">
                   <div class="control">
-                    <%= f.submit "Update entry", class: 'button is-link' %>
+                    <%= f.submit "Update post", class: 'button is-link' %>
                   </div>
 
-                  <div class="control"><%= button_to 'Delete entry', entry_path(@entry), method: :delete, class: 'button is-danger' %></div>
+                  <div class="control"><%= button_to 'Delete post', post_path(@post), method: :delete, class: 'button is-danger' %></div>
                 </div>
               <% end %>
             </div>

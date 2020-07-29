@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :entry do
+  factory :post do
     trait :published do
       published_at { Faker::Date.backward(days: 365) }
     end

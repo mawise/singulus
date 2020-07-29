@@ -25,44 +25,44 @@ class MicropubController < ActionController::API
   private
 
   def handle_form_encoded
-    create_entry(entry_params_form_encoded)
+    create_post(post_params_form_encoded)
   end
 
   def handle_json
-    attrs = entry_params_json[:properties].to_h.transform_values(&:first)
-    create_entry(attrs)
+    attrs = post_params_json[:properties].to_h.transform_values(&:first)
+    create_post(attrs)
   end
 
-  def create_entry(attrs)
-    @entry = Entry.new(attrs)
-    @entry.author_id = doorkeeper_token.resource_owner_id
-    @entry.published_at = Time.now.utc
-    if save_entry
-      PublishWorker.perform_async('create', @entry.id)
-      head :accepted, location: @entry.permalink_url
+  def create_post(attrs)
+    @post = Post.new(attrs)
+    @post.author_id = doorkeeper_token.resource_owner_id
+    @post.published_at = Time.now.utc
+    if save_post
+      PublishWorker.perform_async('create', @post.id)
+      head :accepted, location: @post.permalink_url
     else
-      render json: { error: 'invalid_request', error_description: @entry.errors.full_messages }.to_json
+      render json: { error: 'invalid_request', error_description: @post.errors.full_messages }.to_json
     end
   end
 
-  def entry_params_form_encoded
+  def post_params_form_encoded
     params.permit(:content)
   end
 
-  def entry_params_json
+  def post_params_json
     params.permit(type: [], properties: { content: [] })
   end
 
   def create_attributes_json
-    entry_params_json[:properties].map { |k, v| }
+    post_params_json[:properties].map { |k, v| }
   end
 
-  def save_entry
+  def save_post
     on_retry = proc do |_, _try, _, _|
       Rails.logger.info('Collison generating short_uid, trying again')
     end
     Retriable.retriable on: [ActiveRecord::RecordNotUnique], on_retry: on_retry do
-      @entry.save
+      @post.save
     end
   end
 

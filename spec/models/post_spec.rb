@@ -2,21 +2,21 @@
 
 require 'rails_helper'
 
-describe Entry, type: :model do
+describe Post, type: :model do
   let(:user) { FactoryBot.create(:user) }
 
   it 'generates a unique short ID upon creation' do
-    entry = FactoryBot.create(:note, author: user)
-    expect(entry.short_uid).not_to be_nil
+    post = FactoryBot.create(:note, author: user)
+    expect(post.short_uid).not_to be_nil
   end
 
   it 'generates a slug from the name upon creation if none is specified' do
-    entry = FactoryBot.create(:note, name: 'My Post', author: user)
-    expect(entry.slug).to eq('my-post')
+    post = FactoryBot.create(:note, name: 'My Post', author: user)
+    expect(post.slug).to eq('my-post')
   end
 
   it 'generates a slug from the short UID upon creation if no name is specified' do
-    entry = FactoryBot.create(:note, author: user)
-    expect(entry.slug).to eq(entry.short_uid)
+    post = FactoryBot.create(:note, author: user)
+    expect(post.slug).to eq(post.short_uid)
   end
 end

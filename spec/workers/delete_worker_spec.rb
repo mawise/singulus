@@ -8,7 +8,7 @@ describe DeleteWorker, type: :worker do
   let(:github_branch) { 'some-branch' }
 
   let(:user) { FactoryBot.create(:user) }
-  let(:entry) { FactoryBot.create(:note, author: user) }
+  let(:post) { FactoryBot.create(:note, author: user) }
 
   let(:sha) { SecureRandom.hex }
   let(:contents) { double(sha: sha) } # rubocop:disable RSpec/VerifiedDoubles
@@ -20,12 +20,12 @@ describe DeleteWorker, type: :worker do
     allow(github).to receive(:contents).and_return(contents)
   end
 
-  it 'deletes the entry content' do # rubocop:disable RSpec/ExampleLength
-    described_class.new.perform(entry.id, entry.hugo_source_path)
+  it 'deletes the post content' do # rubocop:disable RSpec/ExampleLength
+    described_class.new.perform(post.id, post.hugo_source_path)
 
     expect(github).to have_received(:delete_contents).with(
       github_repo,
-      "content/notes/#{entry.id}.md",
+      "content/notes/#{post.id}.md",
       anything,
       sha,
       hash_including(branch: github_branch)

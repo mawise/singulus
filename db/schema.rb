@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_190452) do
+ActiveRecord::Schema.define(version: 2020_07_29_191643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -36,26 +36,6 @@ ActiveRecord::Schema.define(version: 2020_07_29_190452) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
-
-  create_table "entries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "author_id", null: false
-    t.text "content"
-    t.datetime "published_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.text "short_uid"
-    t.text "name"
-    t.text "summary"
-    t.text "url"
-    t.text "categories", default: [], array: true
-    t.text "slug"
-    t.index ["author_id"], name: "index_entries_on_author_id"
-    t.index ["categories"], name: "index_entries_on_categories", using: :gin
-    t.index ["published_at"], name: "index_entries_on_published_at"
-    t.index ["short_uid"], name: "index_entries_on_short_uid", unique: true
-    t.index ["slug"], name: "index_entries_on_slug", unique: true
-    t.index ["url"], name: "index_entries_on_url"
   end
 
   create_table "oauth_access_grants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -100,6 +80,26 @@ ActiveRecord::Schema.define(version: 2020_07_29_190452) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
+  create_table "posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "author_id", null: false
+    t.text "content"
+    t.datetime "published_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "short_uid"
+    t.text "name"
+    t.text "summary"
+    t.text "url"
+    t.text "categories", default: [], array: true
+    t.text "slug"
+    t.index ["author_id"], name: "index_posts_on_author_id"
+    t.index ["categories"], name: "index_posts_on_categories", using: :gin
+    t.index ["published_at"], name: "index_posts_on_published_at"
+    t.index ["short_uid"], name: "index_posts_on_short_uid", unique: true
+    t.index ["slug"], name: "index_posts_on_slug", unique: true
+    t.index ["url"], name: "index_posts_on_url"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -120,9 +120,9 @@ ActiveRecord::Schema.define(version: 2020_07_29_190452) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "entries", "users", column: "author_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
+  add_foreign_key "posts", "users", column: "author_id"
 end

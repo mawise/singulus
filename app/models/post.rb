@@ -3,8 +3,8 @@
 # Represents episodic or datestamped content.
 #
 # @see http://microformats.org/wiki/h-entry.
-class Entry < ApplicationRecord
-  include EntryType
+class Post < ApplicationRecord
+  include PostType
 
   belongs_to :author, class_name: 'User'
 
