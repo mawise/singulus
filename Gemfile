@@ -30,6 +30,9 @@ gem 'sidekiq-scheduler', '~> 3.0'
 gem 'devise', '~> 4.7'
 gem 'doorkeeper', '~> 5.4'
 
+# Cloud
+gem 'aws-sdk-s3', '~> 1.75'
+
 # Git/GitHub
 gem 'octokit', '~> 4.18'
 gem 'rugged', '~> 1.0'
