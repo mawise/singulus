@@ -111,25 +111,21 @@ jobs:
         run: |
           yarn install --pure-lockfile
 
-      - name: Set up test database
-        env:
-          RAILS_ENV: test
-        run: |
-          bin/rails db:setup
-
       - name: Run tests
+        env:
+          ASSETS_BUCKET: assets.test.singulus.dev
+          ASSETS_URL: https://assets.test.singulus.dev
+          AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+          AWS_REGION: us-east-1
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
+          GITHUB_BRANCH: main
+          GITHUB_REPO: craftyphotons/singulus-hugo-test
+          GITHUB_TOKEN: ${{ secrets.TEST_GITHUB_TOKEN }}
+          RAILS_ENV: test
+          SINGULUS_HOST: hub.tonyburns.test
+          SITE_NAME: "Tony Burns"
+          SITE_URL: "https://craftyphotons.github.io/singulus-hugo-test"
         run: |
           export DEVISE_PEPPER=$(bin/rails secret)
-          export GITHUB_TOKEN=${{ secrets.TEST_GITHUB_TOKEN }}
-          export GITHUB_REPO=craftyphotons/singulus-hugo-test
-          # TODO: create/destroy branch to test against dynamically for each workflow run
-          export GITHUB_BRANCH=main
-          export SINGULUS_HOST=hub.tonyburns.test
-          export SITE_NAME="Tony Burns"
-          export SITE_URL="https://craftyphotons.github.io/singulus-hugo-test"
-          export AWS_ACCESS_KEY_ID=${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
-          export AWS_REGION=us-east-1
-          export ASSETS_BUCKET=assets.test.singulus.dev
-          export ASSETS_URL=https://assets.test.singulus.dev
+          bin/rails db:setup
           bin/rspec
