@@ -57,6 +57,7 @@ end
 
 group :development do
   gem 'brakeman', '~> 4.8'
+  gem 'bundler-audit', '~> 0.7'
   gem 'listen', '~> 3.2'
   gem 'rubocop', '~> 0.88'
   gem 'rubocop-faker', '~> 1.1', require: false
