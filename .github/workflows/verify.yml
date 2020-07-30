@@ -76,8 +76,6 @@ jobs:
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.x
 
       - name: Ruby gem cache
         uses: actions/cache@v1
@@ -95,7 +93,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: '14'
 
       - name: Find yarn cache location
         id: yarn-cache
