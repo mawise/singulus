@@ -24,6 +24,18 @@
                     </div>
                   <% end %>
 
+                  <% if @post.assets.any? %>
+                    <% @post.assets.each do |asset| %>
+                      <% next unless asset.image? %>
+                      <div class="box p-2">
+                        <figure class="image">
+                          <%= image_tag asset.file_url, alt: asset.alt, class: 'image' %>
+                        </figure>
+                        <p><strong>Alt:</strong> <%= asset.alt %></p>
+                      </div>
+                    <% end %>
+                  <% end %>
+
                   <div class="content">
                     <small>
                       <%= @post.published? ? time_tag(@post.published_at) : 'Unpublished' %>

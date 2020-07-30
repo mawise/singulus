@@ -33,6 +33,29 @@
                   <div class="control"><%= f.text_area :summary, class: 'textarea' %></div>
                 </div>
 
+                <%= f.fields_for :assets, @post.assets.first do |ff| %>
+                  <div class="field">
+                    <div class="level">
+                      <div class="level-item">
+                        <div class="file is-boxed">
+                          <%= ff.label :file, class: 'file-label' do %>
+                            <%= ff.file_field :file, class: 'file-input' %>
+                            <span class="file-cta">
+                              <span class="file-icon"><i class="fas fa-upload"></i></span>
+                              <span class="file-label">Add photo, video, or audio</span>
+                            </span>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <%= ff.label :alt, 'Alt Text', class: 'label' %>
+                    <div class="control"><%= ff.text_field :alt, class: 'input' %></div>
+                  </div>
+                <% end %>
+
                 <div class="field is-grouped">
                   <div class="control">
                     <%= f.submit "Create post", class: 'button is-link' %>

@@ -33,6 +33,10 @@ gem 'doorkeeper', '~> 5.4'
 # Cloud
 gem 'aws-sdk-s3', '~> 1.75'
 
+# File uploads
+gem 'fastimage', '~> 2.2'
+gem 'shrine', '~> 3.0'
+
 # Git/GitHub
 gem 'octokit', '~> 4.18'
 gem 'rugged', '~> 1.0'

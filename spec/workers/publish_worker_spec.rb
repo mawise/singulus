@@ -51,4 +51,38 @@ describe PublishWorker, type: :worker do
       )
     end
   end
+
+  context 'when post has photos' do
+    let(:fixtures_path) { Rails.root.join('spec/fixtures') }
+    let(:file) { File.open(File.join(fixtures_path, 'photos/4.1.01.jpeg'), 'rb') }
+    let(:alt) { 'Alternative text for the photo' }
+
+    before do
+      post.assets.create(file: file, alt: alt)
+    end
+
+    it 'adds the photo URL to the front matter' do # rubocop:disable RSpec/ExampleLength
+      described_class.new.perform('create', post.id)
+
+      expect(github).to have_received(:create_contents).with(
+        anything,
+        anything,
+        anything,
+        /url: #{Regexp.escape(post.assets.first.file_url)}/,
+        anything
+      )
+    end
+
+    it 'adds the photo alt text to the front matter' do # rubocop:disable RSpec/ExampleLength
+      described_class.new.perform('create', post.id)
+
+      expect(github).to have_received(:create_contents).with(
+        anything,
+        anything,
+        anything,
+        /alt: #{Regexp.escape(post.assets.first.alt)}/,
+        anything
+      )
+    end
+  end
 end

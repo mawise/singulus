@@ -12,6 +12,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @post.assets.build
   end
 
   def create
@@ -28,7 +29,9 @@ class PostsController < ApplicationController
 
   def show; end
 
-  def edit; end
+  def edit
+    @post.assets.build if @post.assets.empty?
+  end
 
   def update
     if @post.update(post_params)
@@ -52,6 +55,9 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:name, :content, :summary)
+    params.require(:post).permit(
+      :name, :content, :slug, :summary,
+      assets_attributes: %i[alt file]
+    )
   end
 end

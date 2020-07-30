@@ -2,6 +2,7 @@
 
 # Publishes content to Hugo.
 class PublishWorker < ApplicationWorker
+  include Rails.application.routes.url_helpers
   include GitHubManipulator
 
   def perform(action, id)
@@ -27,12 +28,28 @@ class PublishWorker < ApplicationWorker
     post.hugo_source_path
   end
 
+  def front_matter
+    h = {
+      id: post.id,
+      slug: post.slug,
+      date: post.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z')
+    }
+    h[:photos] = photos if post.assets.any?(&:image?)
+    h
+  end
+
+  def photos
+    post.assets.select(&:image?).map do |a|
+      {
+        url: a.file_url,
+        alt: a.alt
+      }
+    end
+  end
+
   def content
     <<~CONTENT
-      ---
-      id: "#{post.id}"
-      slug: "#{post.slug}"
-      date: "#{post.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z')}"
+      #{front_matter.deep_stringify_keys.to_yaml}
       ---
 
       #{post.content}
