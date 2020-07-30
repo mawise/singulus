@@ -58,6 +58,12 @@ development:
 test:
   <<: *default
   database: singulus_test
+  <% if ENV['GITHUB_WORKFLOW'] %>
+  host: localhost
+  port: 5432
+  username: postgres
+  password: postgres
+  <% end %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
