@@ -61,6 +61,7 @@ test:
   <% if ENV['GITHUB_WORKFLOW'] %>
   host: localhost
   port: 5432
+  username: postgres
   password: postgres
   <% end %>
 
