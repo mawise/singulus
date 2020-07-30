@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   lint:
-    name: Linters
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -11,8 +11,6 @@ jobs:
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.x
 
       - name: Ruby gem cache
         uses: actions/cache@v1
@@ -61,7 +59,7 @@ jobs:
           bin/brakeman -q -w2
 
   test:
-    name: Tests
+    name: Test
     runs-on: ubuntu-latest
     services:
       postgres:
