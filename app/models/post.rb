@@ -9,7 +9,8 @@ class Post < ApplicationRecord
   belongs_to :author, class_name: 'User'
 
   has_many :assets, dependent: :nullify
-  accepts_nested_attributes_for :assets, allow_destroy: true, reject_if: proc { |attrs| attrs['file'].blank? }
+  accepts_nested_attributes_for :assets, allow_destroy: true,
+                                         reject_if: proc { |a| a['file'].blank? && a['file_remote_url'].blank? }
 
   validates :short_uid, presence: true, uniqueness: { case_sensitive: true }
   validates :slug, presence: true, uniqueness: { case_sensitive: true }

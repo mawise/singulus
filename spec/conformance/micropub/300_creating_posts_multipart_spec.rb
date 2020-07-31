@@ -36,9 +36,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Multipar
     end
 
     it 'creates an Asset for the photo' do
-      expect(new_post.assets.count).to eq(1)
       expect(new_post.assets.first.file).not_to be_nil
-      expect(new_post.assets.first.mime_type).to eq('image/jpeg')
     end
   end
 

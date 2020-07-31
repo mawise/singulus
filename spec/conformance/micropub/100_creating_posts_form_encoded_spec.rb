@@ -64,7 +64,64 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
   end
 
   # https://micropub.rocks/server-tests/104?endpoint=501
-  pending '104 - Create an h-entry with a photo referenced by URL (form-encoded)'
+  describe '104 - Create an h-entry with a photo referenced by URL (form-encoded)' do
+    context 'with an existing asset URL' do
+      let(:asset) { Asset.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
+      let(:content) { 'Micropub test of creating a photo referenced by URL' }
+      let(:params) do
+        {
+          "h": 'entry',
+          "content": content,
+          "photo": asset.file_url
+        }
+      end
+      let(:new_post) { Post.find_by(content: content) }
+
+      it 'returns HTTP accepted' do
+        expect(response).to have_http_status(:accepted)
+      end
+
+      it 'returns a Location header with the permalink URL of the new post' do
+        expect(response.headers['Location']).to eq(new_post.permalink_url)
+      end
+
+      it 'queues the post for publication' do
+        expect(PublishWorker.jobs.size).to eq(1)
+      end
+
+      it 'links the existing asset to the post' do
+        expect(asset.reload.post_id).to eq(new_post.id)
+      end
+    end
+
+    context 'with a remote URL' do
+      let(:content) { 'Micropub test of creating a photo referenced by URL. This post should include a photo of a sunset.' } # rubocop:disable Layout/LineLength
+      let(:params) do
+        {
+          "h": ['entry'],
+          "content": content,
+          "photo": 'https://micropub.rocks/media/sunset.jpg'
+        }
+      end
+      let(:new_post) { Post.find_by(content: content) }
+
+      it 'returns HTTP accepted' do
+        expect(response).to have_http_status(:accepted)
+      end
+
+      it 'returns a Location header with the permalink URL of the new post' do
+        expect(response.headers['Location']).to eq(new_post.permalink_url)
+      end
+
+      it 'queues the post for publication' do
+        expect(PublishWorker.jobs.size).to eq(1)
+      end
+
+      it 'creates a new asset with the post' do
+        expect(new_post.assets.count).to eq(1)
+      end
+    end
+  end
 
   # https://micropub.rocks/server-tests/107?endpoint=501
   describe '107 - Create an h-entry post with one category (form-encoded)' do

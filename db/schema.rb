@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_31_162248) do
+ActiveRecord::Schema.define(version: 2020_07_31_190535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2020_07_31_162248) do
   enable_extension "plpgsql"
 
   create_table "assets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "post_id", null: false
+    t.uuid "post_id"
     t.text "alt"
     t.interval "duration"
     t.hstore "metadata", default: {}, null: false
