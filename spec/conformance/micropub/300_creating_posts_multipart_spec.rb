@@ -17,8 +17,53 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Multipar
   before { post '/micropub', params: params, headers: headers }
 
   # https://micropub.rocks/server-tests/300?endpoint=501
-  pending '300 - Create an h-entry with a photo (multipart)'
+  describe '300 - Create an h-entry with a photo (multipart)' do
+    let(:content) { 'Nice sunset tonight' }
+    let(:photo) { fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg') }
+    let(:params) { { h: 'entry', content: content, photo: photo } }
+    let(:new_post) { Post.find_by(content: content) }
+
+    it 'returns HTTP accepted' do
+      expect(response).to have_http_status(:accepted)
+    end
+
+    it 'returns a Location header with the permalink URL of the new post' do
+      expect(response.headers['Location']).to eq(new_post.permalink_url)
+    end
+
+    it 'queues the post for publication' do
+      expect(PublishWorker.jobs.size).to eq(1)
+    end
+
+    it 'creates an Asset for the photo' do
+      expect(new_post.assets.count).to eq(1)
+      expect(new_post.assets.first.file).not_to be_nil
+      expect(new_post.assets.first.mime_type).to eq('image/jpeg')
+    end
+  end
 
   # https://micropub.rocks/server-tests/301?endpoint=501
-  pending '301 - Create an h-entry with two photos (multipart)'
+  describe '301 - Create an h-entry with two photos (multipart)' do
+    let(:content) { 'Nice sunset tonight' }
+    let(:first_photo) { fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg') }
+    let(:second_photo) { fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.02.jpeg'), 'image/jpeg') }
+    let(:params) { { h: 'entry', content: content, photo: [first_photo, second_photo] } }
+    let(:new_post) { Post.find_by(content: content) }
+
+    it 'returns HTTP accepted' do
+      expect(response).to have_http_status(:accepted)
+    end
+
+    it 'returns a Location header with the permalink URL of the new post' do
+      expect(response.headers['Location']).to eq(new_post.permalink_url)
+    end
+
+    it 'queues the post for publication' do
+      expect(PublishWorker.jobs.size).to eq(1)
+    end
+
+    it 'creates an Asset for each photo' do
+      expect(new_post.assets.count).to eq(2)
+    end
+  end
 end

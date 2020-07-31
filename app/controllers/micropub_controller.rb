@@ -8,7 +8,7 @@ class MicropubController < ActionController::API
 
   def create
     case request.media_type
-    when 'application/x-www-form-urlencoded'
+    when 'application/x-www-form-urlencoded', 'multipart/form-data'
       handle_form_encoded
     when 'application/json'
       handle_json
@@ -29,8 +29,14 @@ class MicropubController < ActionController::API
   def handle_form_encoded
     attrs = post_params_form_encoded
     attrs[:categories] = attrs.delete(:category)
+    attrs[:assets_attributes] = (attrs.delete(:photo) || []).each_with_object([]) { |upload, a| a.append({ file: upload }) }
     attrs.delete(:category)
     create_post(attrs)
+  end
+
+  def handle_file_uploads
+    post_params_files[:photo].each do |file|
+    end
   end
 
   def handle_json
@@ -59,7 +65,8 @@ class MicropubController < ActionController::API
 
   def post_params_form_encoded
     params[:category] = Array(params[:category]) if params.key?(:category)
-    params.permit(:content, category: [])
+    params[:photo] = Array(params[:photo]) if params.key?(:photo)
+    params.permit(:content, category: [], photo: [])
   end
 
   def post_params_json

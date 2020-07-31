@@ -46,7 +46,7 @@
                         </div>
                       </div>
                       <div class="level-right">
-                        <% if @post.categories.any? %>
+                        <% if Array(@post.categories).any? %>
                           <div class="tags">
                             <% @post.categories.each do |c| %><span class="tag">#<%= c %></span><% end %>
                           </div>
