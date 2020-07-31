@@ -12,6 +12,8 @@ class MicropubController < ActionController::API # rubocop:disable Metrics/Class
       handle_form_encoded
     when 'application/json'
       handle_json
+    else
+      handle_unsupported_media_type
     end
   end
 
@@ -58,6 +60,11 @@ class MicropubController < ActionController::API # rubocop:disable Metrics/Class
     attrs[:categories] = attrs.delete(:category)
     attrs[:assets_attributes] = transform_json_assets(attrs)
     create_post(attrs)
+  end
+
+  def handle_unsupported_media_type
+    error = { error: 'invalid_request', error_description: 'Unsupported media type' }
+    render json: error.to_json, status: :unsupported_media_type
   end
 
   def transform_json_properties(props)
