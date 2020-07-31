@@ -25,7 +25,9 @@ class MicropubController < ActionController::API
   private
 
   def handle_form_encoded
-    create_post(post_params_form_encoded)
+    attrs = post_params_form_encoded.merge(categories: post_params_form_encoded[:category])
+    attrs.delete(:category)
+    create_post(attrs)
   end
 
   def handle_json
@@ -46,7 +48,8 @@ class MicropubController < ActionController::API
   end
 
   def post_params_form_encoded
-    params.permit(:content)
+    params[:category] = Array(params[:category]) if params.key?(:category)
+    params.permit(:content, category: [])
   end
 
   def post_params_json

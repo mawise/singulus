@@ -34,17 +34,58 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
       expect(response.headers['Location']).to eq(post.permalink_url)
     end
 
-    it 'queues the note for publication' do
+    it 'queues the post for publication' do
       expect(PublishWorker.jobs.size).to eq(1)
     end
   end
 
   # https://micropub.rocks/server-tests/101?endpoint=501
-  pending '101 - Create an h-entry post with multiple categories (form-encoded)'
+  describe '101 - Create an h-entry post with multiple categories (form-encoded)' do
+    let(:content) { 'Micropub test of creating an h-entry with categories. This post should have two categories, test1 and test2' } # rubocop:disable Layout/LineLength
+    let(:categories) { %w[test1 test2] }
+    let(:params) { { h: 'entry', content: content, category: categories } }
+    let(:new_post) { Post.find_by(content: content) }
+
+    it 'returns HTTP accepted' do
+      expect(response).to have_http_status(:accepted)
+    end
+
+    it 'returns a Location header with the permalink URL of the new post' do
+      expect(response.headers['Location']).to eq(new_post.permalink_url)
+    end
+
+    it 'queues the post for publication' do
+      expect(PublishWorker.jobs.size).to eq(1)
+    end
+
+    it 'sets categories on the post' do
+      expect(new_post.categories).to eq(%w[test1 test2])
+    end
+  end
 
   # https://micropub.rocks/server-tests/104?endpoint=501
   pending '104 - Create an h-entry with a photo referenced by URL (form-encoded)'
 
   # https://micropub.rocks/server-tests/107?endpoint=501
-  pending '107 - Create an h-entry post with one category (form-encoded)'
+  describe '107 - Create an h-entry post with one category (form-encoded)' do
+    let(:content) { 'Micropub test of creating an h-entry with one category. This post should have one category, test1' } # rubocop:disable Layout/LineLength
+    let(:params) { { h: 'entry', content: content, category: 'test1' } }
+    let(:new_post) { Post.find_by(content: content) }
+
+    it 'returns HTTP accepted' do
+      expect(response).to have_http_status(:accepted)
+    end
+
+    it 'returns a Location header with the permalink URL of the new post' do
+      expect(response.headers['Location']).to eq(new_post.permalink_url)
+    end
+
+    it 'queues the post for publication' do
+      expect(PublishWorker.jobs.size).to eq(1)
+    end
+
+    it 'sets categories on the post' do
+      expect(new_post.categories).to eq(%w[test1])
+    end
+  end
 end
