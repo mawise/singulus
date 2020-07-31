@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
 # Provides a Micropub [media endpoint](https://micropub.spec.indieweb.org/#media-endpoint).
-class MicropubMediaController < ActionController::API
-  include Doorkeeper::Helpers::Controller
-
-  before_action :doorkeeper_authorize!
-
+class MicropubMediaController < MicropubController
   def create
     if request.media_type == 'multipart/form-data'
       handle_media_upload
@@ -25,16 +21,7 @@ class MicropubMediaController < ActionController::API
     end
   end
 
-  def handle_unsupported_media_type
-    error = { error: 'invalid_request', error_description: 'Unsupported media type' }
-    render json: error.to_json, status: :unsupported_media_type
-  end
-
   def media_params
     params.permit(:file)
-  end
-
-  def doorkeeper_unauthorized_render_options(*)
-    { json: { error: 'unauthorized' } }
   end
 end

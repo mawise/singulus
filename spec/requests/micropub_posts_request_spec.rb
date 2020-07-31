@@ -2,16 +2,15 @@
 
 require 'rails_helper'
 
-# See spec/conformance/micropub for Micropub server implementation tests
-RSpec.describe '/micropub/media', type: :request do
+RSpec.describe '/micropub', type: :request do
   let(:user) { FactoryBot.create(:user) }
   let(:application) { FactoryBot.create(:application) }
   let(:access_token) { FactoryBot.create(:access_token, application: application, resource_owner_id: user.id) }
   let(:auth_header) { { 'Authorization': "Bearer #{access_token.token}" } }
 
-  describe 'POST to /micropub/media with unsupported content type' do
+  describe 'POST to /micropub with unsupported content type' do
     before do
-      post '/micropub/media', headers: { 'Content-Type': 'text/plain' }.merge(auth_header)
+      post '/micropub', headers: { 'Content-Type': 'text/plain' }.merge(auth_header)
     end
 
     it 'returns HTTP unsupported media type' do
