@@ -25,6 +25,7 @@ gem 'redis-namespace', '~> 1.7'
 # Background processing
 gem 'sidekiq', '~> 6.1'
 gem 'sidekiq-scheduler', '~> 3.0'
+gem 'sidekiq-unique-jobs', '~> 7.0.0.beta22'
 
 # Security
 gem 'devise', '~> 4.7'

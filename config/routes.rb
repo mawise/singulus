@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'sidekiq/web'
+require 'sidekiq_unique_jobs/web'
 
 Rails.application.routes.draw do
   # Only allow login via the web interface, as well as the unlock endpoint.

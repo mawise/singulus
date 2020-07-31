@@ -5,6 +5,8 @@ class PublishWorker < ApplicationWorker
   include Rails.application.routes.url_helpers
   include GitHubManipulator
 
+  sidekiq_options retries: 10, lock: :while_executing, on_conflict: :reschedule, queue: 'hugo'
+
   def perform(action, id)
     find_post(id)
 
@@ -14,6 +16,8 @@ class PublishWorker < ApplicationWorker
     when 'update'
       perform_update
     end
+  rescue Octokit::NotFound => e
+    Rails.logger.info("Tried to update the post but it was not found: #{id}")
   end
 
   private
