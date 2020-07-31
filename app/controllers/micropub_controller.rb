@@ -24,14 +24,24 @@ class MicropubController < ActionController::API
 
   private
 
+  FIRST_VALUE_ONLY = %i[content].freeze
+
   def handle_form_encoded
-    attrs = post_params_form_encoded.merge(categories: post_params_form_encoded[:category])
+    attrs = post_params_form_encoded
+    attrs[:categories] = attrs.delete(:category)
     attrs.delete(:category)
     create_post(attrs)
   end
 
   def handle_json
-    attrs = post_params_json[:properties].to_h.transform_values(&:first)
+    attrs = post_params_json[:properties].to_h.deep_symbolize_keys.each_with_object({}) do |(k, v), h|
+      h[k] = if FIRST_VALUE_ONLY.include?(k)
+               v.first
+             else
+               v
+             end
+    end
+    attrs[:categories] = attrs.delete(:category)
     create_post(attrs)
   end
 
@@ -53,7 +63,7 @@ class MicropubController < ActionController::API
   end
 
   def post_params_json
-    params.permit(type: [], properties: { content: [] })
+    params.permit(type: [], properties: { content: [], category: [] })
   end
 
   def create_attributes_json
