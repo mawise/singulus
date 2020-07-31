@@ -1,4 +1,4 @@
-web: bundle exec puma -C config/puma.rb
+web: ./bin/puma -C config/puma.rb
 webpack: ./bin/webpack-dev-server --listen-host 0.0.0.0
-worker: bundle exec sidekiq -c ${SIDEKIQ_CONCURRENCY:-5}
+worker: ./bin/sidekiq -c ${SIDEKIQ_CONCURRENCY:-5} -q default -q hugo
 ngrok: ngrok http -hostname=$SINGULUS_HOST 5000
