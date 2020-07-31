@@ -44,7 +44,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
 
   # https://micropub.rocks/server-tests/201?endpoint=501
   describe '201 - Create an h-entry post with multiple categories (JSON)' do
-    let(:content) { 'Micropub test of creating an h-entry with a JSON request containing multiple categories. This post should have two categories, test1 and test2.' }
+    let(:content) { 'Micropub test of creating an h-entry with a JSON request containing multiple categories. This post should have two categories, test1 and test2.' } # rubocop:disable Layout/LineLength
     let(:params) do
       {
         "type": ['h-entry'],
