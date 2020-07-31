@@ -2,7 +2,7 @@
 
 # Represents an asset (photo, video, audio, etc.) attached to a post.
 class Asset < ApplicationRecord
-  belongs_to :post
+  belongs_to :post, optional: true
 
   include AssetUploader::Attachment(:file)
 

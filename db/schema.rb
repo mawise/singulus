@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_30_020512) do
+ActiveRecord::Schema.define(version: 2020_07_31_162248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -110,7 +110,6 @@ ActiveRecord::Schema.define(version: 2020_07_30_020512) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  add_foreign_key "assets", "posts"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
