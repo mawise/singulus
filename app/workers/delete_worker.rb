@@ -11,7 +11,7 @@ class DeleteWorker < ApplicationWorker
     sha = file.sha
     message = "Deleting post #{id}"
     github.delete_contents(github_repo, hugo_source_path, message, sha, branch: github_branch)
-  rescue Octokit::NotFound => e
+  rescue Octokit::NotFound
     Rails.logger.info("Tried to delete the post but it was not found: #{id}")
   end
 end

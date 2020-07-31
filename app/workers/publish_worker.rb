@@ -16,7 +16,7 @@ class PublishWorker < ApplicationWorker
     when 'update'
       perform_update
     end
-  rescue Octokit::NotFound => e
+  rescue Octokit::NotFound
     Rails.logger.info("Tried to update the post but it was not found: #{id}")
   end
 
@@ -33,14 +33,18 @@ class PublishWorker < ApplicationWorker
   end
 
   def front_matter
-    h = {
+    h = default_front_matter
+    h[:categories] = post.categories if post.categories.any?
+    h[:photos] = photos if post.assets.any?(&:image?)
+    h
+  end
+
+  def default_front_matter
+    {
       id: post.id,
       slug: post.slug,
       date: post.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z')
     }
-    h[:categories] = post.categories if post.categories.any?
-    h[:photos] = photos if post.assets.any?(&:image?)
-    h
   end
 
   def photos
