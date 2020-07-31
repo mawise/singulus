@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   use_doorkeeper
 
-  get '/micropub', to: 'micropub#show', as: :micropub, format: false
+  get '/micropub', to: 'micropub_queries#show', as: :micropub, format: false
   post '/micropub', to: 'micropub#create', format: false
   post '/micropub/media', to: 'micropub_media#create', as: :micropub_media, format: false
 

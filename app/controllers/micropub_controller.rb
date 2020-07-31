@@ -17,13 +17,6 @@ class MicropubController < ActionController::API # rubocop:disable Metrics/Class
     end
   end
 
-  def show
-    case query_params[:q]
-    when 'config'
-      render json: { 'media-endpoint': micropub_media_url }.to_json
-    end
-  end
-
   private
 
   FIRST_VALUE_ONLY = %i[content].freeze
@@ -139,10 +132,6 @@ class MicropubController < ActionController::API # rubocop:disable Metrics/Class
     Retriable.retriable on: [ActiveRecord::RecordNotUnique], on_retry: on_retry do
       @post.save
     end
-  end
-
-  def query_params
-    params.permit(:q)
   end
 
   def doorkeeper_unauthorized_render_options(*)
