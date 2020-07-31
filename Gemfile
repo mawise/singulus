@@ -43,6 +43,7 @@ gem 'octokit', '~> 4.18'
 gem 'rugged', '~> 1.0'
 
 # Miscellaneous
+gem 'interactor-rails', '~> 2.0'
 gem 'kaminari', '~> 1.2'
 gem 'retriable', '~> 3.1'
 
