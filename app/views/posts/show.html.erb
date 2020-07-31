@@ -37,9 +37,22 @@
                   <% end %>
 
                   <div class="content">
-                    <small>
-                      <%= @post.published? ? time_tag(@post.published_at) : 'Unpublished' %>
-                    </small>
+                    <div class="level">
+                      <div class="level-left">
+                        <div class="level-item">
+                          <small>
+                            <%= @post.published? ? time_tag(@post.published_at) : 'Unpublished' %>
+                          </small>
+                        </div>
+                      </div>
+                      <div class="level-right">
+                        <% if @post.categories.any? %>
+                          <div class="tags">
+                            <% @post.categories.each do |c| %><span class="tag">#<%= c %></span><% end %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
                   </div>
 
                   <nav class="level">

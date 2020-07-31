@@ -19,4 +19,19 @@ describe Post, type: :model do
     post = FactoryBot.create(:note, author: user)
     expect(post.slug).to eq(post.short_uid)
   end
+
+  it 'converts category names to categories on create' do
+    post = FactoryBot.create(:note, author: user, category_names: 'one, two, three')
+    expect(post.categories).to eq(%w[one two three])
+  end
+
+  it 'converts category names to categories on update' do
+    post = FactoryBot.create(:note, author: user, categories: %w[one two three])
+    expect { post.update(category_names: 'four, five, six') }.to change(post, :categories).to eq(%w[four five six])
+  end
+
+  it 'returns categories as comma-separated category names' do
+    post = FactoryBot.create(:note, author: user, categories: %w[one two three])
+    expect(post.category_names).to eq('one, two, three')
+  end
 end

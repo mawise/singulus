@@ -28,12 +28,17 @@
                   <div class="control"><%= f.text_area :summary, class: 'textarea' %></div>
                 </div>
 
+                <div class="field">
+                  <%= f.label :category_names, 'Categories', class: 'label' %>
+                  <div class="control"><%= f.text_area :category_names, class: 'textarea' %></div>
+                </div>
+
                 <div class="field is-grouped">
                   <div class="control">
                     <%= f.submit "Update post", class: 'button is-link' %>
                   </div>
 
-                  <div class="control"><%= button_to 'Delete post', post_path(@post), method: :delete, class: 'button is-danger' %></div>
+                  <div class="control"><%= link_to 'Delete post', post_path(@post), method: :delete, class: 'button is-danger' %></div>
                 </div>
               <% end %>
             </div>

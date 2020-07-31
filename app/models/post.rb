@@ -17,6 +17,14 @@ class Post < ApplicationRecord
   before_validation :generate_short_uid, on: :create
   before_validation :generate_slug, on: :create
 
+  def category_names
+    categories.join(', ')
+  end
+
+  def category_names=(val)
+    self.categories = val.strip.gsub(/\s+/, ' ').split(',').map(&:strip)
+  end
+
   def published?
     published_at.present?
   end

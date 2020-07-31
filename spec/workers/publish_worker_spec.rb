@@ -52,6 +52,21 @@ describe PublishWorker, type: :worker do
     end
   end
 
+  context 'when post has categories' do
+    it 'adds the categories to the front matter' do # rubocop:disable RSpec/ExampleLength
+      post.update(categories: %w[foo bar])
+      described_class.new.perform('create', post.id)
+
+      expect(github).to have_received(:create_contents).with(
+        anything,
+        anything,
+        anything,
+        /categories:\n- foo\n- bar/m,
+        anything
+      )
+    end
+  end
+
   context 'when post has photos' do
     let(:fixtures_path) { Rails.root.join('spec/fixtures') }
     let(:file) { File.open(File.join(fixtures_path, 'photos/4.1.01.jpeg'), 'rb') }

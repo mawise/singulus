@@ -56,7 +56,7 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(
-      :name, :content, :slug, :summary,
+      :name, :content, :slug, :summary, :category_names,
       assets_attributes: %i[alt file]
     )
   end

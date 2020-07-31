@@ -33,6 +33,11 @@
                   <div class="control"><%= f.text_area :summary, class: 'textarea' %></div>
                 </div>
 
+                <div class="field">
+                  <%= f.label :category_names, 'Categories', class: 'label' %>
+                  <div class="control"><%= f.text_area :category_names, class: 'textarea' %></div>
+                </div>
+
                 <%= f.fields_for :assets, @post.assets.first do |ff| %>
                   <div class="field">
                     <div class="level">

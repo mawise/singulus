@@ -34,6 +34,7 @@ class PublishWorker < ApplicationWorker
       slug: post.slug,
       date: post.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z')
     }
+    h[:categories] = post.categories if post.categories.any?
     h[:photos] = photos if post.assets.any?(&:image?)
     h
   end
