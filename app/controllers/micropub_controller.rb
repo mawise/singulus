@@ -20,7 +20,7 @@ class MicropubController < ActionController::API # rubocop:disable Metrics/Class
   def show
     case query_params[:q]
     when 'config'
-      render json: { 'media-endpoint': micropub_url }.to_json
+      render json: { 'media-endpoint': micropub_media_url }.to_json
     end
   end
 
@@ -29,18 +29,14 @@ class MicropubController < ActionController::API # rubocop:disable Metrics/Class
   FIRST_VALUE_ONLY = %i[content].freeze
 
   def handle_form_encoded
-    if media_params[:file].present?
-      create_asset(media_params[:file])
-    else
-      attrs = post_params_form_encoded
-      attrs[:categories] = attrs.delete(:category)
+    attrs = post_params_form_encoded
+    attrs[:categories] = attrs.delete(:category)
 
-      photos = attrs.delete(:photo) || []
-      transform_photos_form_encoded(photos, attrs)
+    photos = attrs.delete(:photo) || []
+    transform_photos_form_encoded(photos, attrs)
 
-      attrs.delete(:category)
-      create_post(attrs)
-    end
+    attrs.delete(:category)
+    create_post(attrs)
   end
 
   def transform_photos_form_encoded(photos, attrs)
@@ -110,15 +106,6 @@ class MicropubController < ActionController::API # rubocop:disable Metrics/Class
     Asset.where('file_data @> ?', { id: filename }.to_json).first
   end
 
-  def create_asset(file)
-    @asset = Asset.new(file: file)
-    if @asset.save
-      head :created, location: @asset.file_url
-    else
-      render json: { error: 'invalid_request', error_description: @asset.errors.full_messages }.to_json
-    end
-  end
-
   def create_post(attrs)
     @post = Post.new(attrs)
     @post.author_id = doorkeeper_token.resource_owner_id
@@ -129,10 +116,6 @@ class MicropubController < ActionController::API # rubocop:disable Metrics/Class
     else
       render json: { error: 'invalid_request', error_description: @post.errors.full_messages }.to_json
     end
-  end
-
-  def media_params
-    params.permit(:file)
   end
 
   def post_params_form_encoded

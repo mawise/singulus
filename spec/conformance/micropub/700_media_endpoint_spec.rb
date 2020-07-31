@@ -14,7 +14,7 @@ RSpec.describe 'Micropub Server Implementation Report - Media Endpoint', type: :
     }
   end
 
-  before { post '/micropub', params: params, headers: headers }
+  before { post '/micropub/media', params: params, headers: headers }
 
   # https://micropub.rocks/server-tests/700?endpoint=501
   describe '700 - Upload a jpg to the Media Endpoint' do
