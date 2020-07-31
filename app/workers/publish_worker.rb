@@ -34,7 +34,7 @@ class PublishWorker < ApplicationWorker
 
   def front_matter
     h = default_front_matter
-    h[:categories] = post.categories if post.categories.any?
+    h[:categories] = post.categories if Array(post.categories).any?
     h[:photos] = photos if post.assets.any?(&:image?)
     h
   end

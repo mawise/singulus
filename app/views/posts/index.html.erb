@@ -27,7 +27,7 @@
                 <td><%= post.post_type.titleize %></td>
                 <td><%= post.name.present? ? post.name : (post.summary.present? ? post.summary : post.content) %></td>
                 <td>
-                  <% if post.categories.any? %>
+                  <% if Array(post.categories).any? %>
                   <div class="tags">
                     <% post.categories.each do |c| %><span class="tag">#<%= c %></span><% end %>
                   </div>
