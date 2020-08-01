@@ -63,8 +63,29 @@ jobs:
     runs-on: ubuntu-latest
     services:
       elasticsearch:
-        image: elasticsearch:7.8.1
+        image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.8.1
+        env:
+          discovery.type: single-node
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
         ports: ["9200:9200"]
+        options: >-
+          --health-cmd "curl --silent --fail localhost:9200/_cluster/health || exit 1"
+          --health-interval 30s
+          --health-timeout 30s
+          --health-retires 3
+
+      minio:
+        image: minio/minio:latest
+        env:
+          MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
+          MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
+        ports: ["9000:9000"]
+        options: >-
+          --health-cmd "curl --silent --fail localhost:9000/minio/health/live || exit 1"
+          --health-interval 30s
+          --health-timeout 30s
+          --health-retries 3
+
       postgres:
         image: postgres:12-alpine
         env:
@@ -120,19 +141,25 @@ jobs:
 
       - name: Run tests
         env:
-          ASSETS_BUCKET: assets.test.singulus.dev
+          ASSETS_BUCKET: singulus-test
           ASSETS_URL: https://assets.test.singulus.dev
           AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
           AWS_REGION: us-east-1
           AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
+          ELASTICSEARCH_URL: http://localhost:9200
           GITHUB_BRANCH: main
           GITHUB_REPO: craftyphotons/singulus-hugo-test
           GITHUB_TOKEN: ${{ secrets.TEST_GITHUB_TOKEN }}
+          MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
+          MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
+          MINIO_ENDPOINT: http://localhost:9000
           RAILS_ENV: test
           SINGULUS_HOST: hub.tonyburns.test
           SITE_NAME: "Tony Burns"
           SITE_URL: "https://craftyphotons.github.io/singulus-hugo-test"
         run: |
           export DEVISE_PEPPER=$(bin/rails secret)
+          wget https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
+          ./mc mb singulus-test
           bin/rails db:setup
           bin/rspec
