@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_31_190535) do
+ActiveRecord::Schema.define(version: 2020_08_01_025310) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "hstore"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -83,8 +84,10 @@ ActiveRecord::Schema.define(version: 2020_07_31_190535) do
     t.text "url"
     t.text "categories", default: [], array: true
     t.text "slug"
+    t.jsonb "properties", default: "{}", null: false
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["categories"], name: "index_posts_on_categories", using: :gin
+    t.index ["properties"], name: "index_posts_on_properties", using: :gin
     t.index ["published_at"], name: "index_posts_on_published_at"
     t.index ["short_uid"], name: "index_posts_on_short_uid", unique: true
     t.index ["slug"], name: "index_posts_on_slug", unique: true
