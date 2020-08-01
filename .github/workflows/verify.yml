@@ -139,6 +139,15 @@ jobs:
         run: |
           yarn install --pure-lockfile
 
+      - name: Create bucket
+        env:
+          MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
+          MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
+        run: |
+          wget https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
+          ./mc mb singulus-test
+          sleep 30
+
       - name: Run tests
         env:
           ASSETS_BUCKET: singulus-test
@@ -159,8 +168,5 @@ jobs:
           SITE_URL: "https://craftyphotons.github.io/singulus-hugo-test"
         run: |
           export DEVISE_PEPPER=$(bin/rails secret)
-          wget https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
-          ./mc mb singulus-test
-          sleep 30
           bin/rails db:setup
           bin/rspec
