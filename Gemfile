@@ -34,6 +34,7 @@ gem 'sidekiq-unique-jobs', '~> 7.0.0.beta22'
 # Security
 gem 'devise', '~> 4.7'
 gem 'doorkeeper', '~> 5.4'
+gem 'rack-attack', '~> 6.3'
 
 # Cloud
 gem 'aws-sdk-s3', '~> 1.75'
