@@ -75,7 +75,7 @@ jobs:
           --health-retries 3
 
       minio:
-        image: minio/minio:latest
+        image: bitnami/minio:latest
         env:
           MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
           MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
