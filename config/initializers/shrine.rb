@@ -2,12 +2,12 @@
 
 require 'shrine/storage/s3'
 
-s3_options = if Rails.env.test?
+s3_options = if Rails.env.development? || Rails.env.test?
                {
                  access_key_id: ENV.fetch('MINIO_ACCESS_KEY'),
                  secret_access_key: ENV.fetch('MINIO_SECRET_KEY'),
                  endpoint: 'http://localhost:9000',
-                 bucket: 'singulus-test',
+                 bucket: ENV.fetch('ASSETS_BUCKET'),
                  region: 'us-east-1',
                  force_path_style: true
                }
