@@ -1,0 +1,9 @@
+---
+request:
+  filter_keys:
+    - access_token
+    - client_secret
+    - code
+    - password
+    - password_confirmation
+    - refresh_token

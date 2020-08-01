@@ -12,6 +12,9 @@ gem 'puma', '~> 4.1'
 gem 'rails', '~> 6.0'
 gem 'tzinfo-data', '~> 1.2020.1'
 
+# Instrumentation, logging, and monitoring
+gem 'honeybadger', '~> 4.0'
+
 # Frontend assets
 gem 'sass-rails', '~> 6.0'
 gem 'turbolinks', '~> 5.2'
