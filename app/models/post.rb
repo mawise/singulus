@@ -6,6 +6,8 @@
 class Post < ApplicationRecord
   include PostType
 
+  searchkick
+
   belongs_to :author, class_name: 'User'
 
   has_many :assets, dependent: :nullify

@@ -52,11 +52,16 @@ gem 'shrine', '~> 3.0'
 gem 'octokit', '~> 4.18'
 gem 'rugged', '~> 1.0'
 
+# Search
+gem 'searchkick', '~> 4.4'
+
 # Miscellaneous
 gem 'dry-rails', '~> 0.2'
+gem 'oj', '~> 3.10'
 gem 'interactor-rails', '~> 2.0'
 gem 'kaminari', '~> 1.2'
 gem 'retriable', '~> 3.1'
+gem 'typhoeus', '~> 1.4'
 
 group :development, :test do
   gem 'byebug', '~> 11.1'
