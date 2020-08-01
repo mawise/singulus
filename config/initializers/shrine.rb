@@ -2,14 +2,20 @@
 
 require 'shrine/storage/s3'
 
-minio_options = {
-  access_key_id: ENV.fetch('MINIO_ACCESS_KEY'),
-  secret_access_key: ENV.fetch('MINIO_SECRET_KEY'),
-  endpoint: 'http://localhost:9000',
-  region: 'us-east-1',
-  force_path_style: true,
-  public: true
-}
+case Rails.env
+when 'development', 'test'
+  s3_options = {
+    access_key_id: ENV.fetch('MINIO_ACCESS_KEY'),
+    secret_access_key: ENV.fetch('MINIO_SECRET_KEY'),
+    endpoint: 'http://localhost:9000',
+    region: 'us-east-1',
+    force_path_style: true,
+    public: true,
+    bucket: "singulus-#{Rails.env}"
+  }
+when 'production'
+  s3_options = { bucket: ENV.fetch('ASSETS_BUCKET') }
+end
 
 url_options = {
   store: {
@@ -17,15 +23,6 @@ url_options = {
     public: true
   }
 }
-
-case Rails.env
-when 'development'
-  s3_options = minio_options.merge(bucket: 'singulus-development')
-when 'test'
-  s3_options = minio_options.merge(bucket: 'singulus-test')
-when 'production'
-  s3_options = { bucket: ENV.fetch('ASSETS_BUCKET') }
-end
 
 Shrine.logger = Rails.logger
 Shrine.logger.level = Logger::WARN if Rails.env.test?
