@@ -142,17 +142,17 @@ jobs:
       - name: Run tests
         env:
           ASSETS_BUCKET: singulus-test
-          ASSETS_URL: https://assets.test.singulus.dev
-          AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
-          AWS_REGION: us-east-1
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
+          ASSETS_HOST: localhost
+          ASSETS_URL: http://localhost:9000/singulus-test
+          # AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+          # AWS_REGION: us-east-1
+          # AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
           ELASTICSEARCH_URL: http://localhost:9200
           GITHUB_BRANCH: main
           GITHUB_REPO: craftyphotons/singulus-hugo-test
           GITHUB_TOKEN: ${{ secrets.TEST_GITHUB_TOKEN }}
           MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
           MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
-          MINIO_ENDPOINT: http://localhost:9000
           RAILS_ENV: test
           SINGULUS_HOST: hub.tonyburns.test
           SITE_NAME: "Tony Burns"
