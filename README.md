@@ -7,13 +7,16 @@ Singulus is the monolith that powers [tonyburns.net](https://tonyburns.net) and 
 This application is built first and foremost for me to [eat what I cook](https://indieweb.org/eat_what_you_cook) for my own content, but by making it open source from the beginning my hope is that it will keep me accountable and perhaps be useful to others.
 
 ## Features
+
+- [x] Create basic posts with categories and photos via [Micropub](https://micropub.rocks/)
 - [x] Authentication via [Devise](https://github.com/heartcombo/devise)
 - [x] OAuth 2.0 provider via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper)
 
 ## In-Progress
 
-- [ ] Post support for basic [notes](https://indieweb.org/note)
-- [ ] [Micropub](https://micropub.rocks/) server to use from Micro.blog iOS app and iA Writer
+- [ ] Refactor the Micropub server prototype
+- [ ] Support updating posts Micropub endpoint
+- [ ] Support deleting posts via Micropub endpoint
 
 ## Roadmap*
 
