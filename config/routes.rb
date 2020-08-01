@@ -13,9 +13,9 @@ Rails.application.routes.draw do
 
   get '/health', to: 'health#show', as: :health, format: false
 
-  get '/micropub', to: 'micropub_queries#show', as: :micropub, format: false
-  post '/micropub', to: 'micropub_posts#create', format: false
-  post '/micropub/media', to: 'micropub_media#create', as: :micropub_media, format: false
+  get '/micropub', to: 'micropub/queries#show', as: :micropub, format: false
+  post '/micropub', to: 'micropub/posts#create', format: false
+  post '/micropub/media', to: 'micropub/media#create', as: :micropub_media, format: false
 
   scope format: false do
     resources :posts
