@@ -53,6 +53,7 @@ This application is built first and foremost for me to [eat what I cook](https:/
 - [ ] [Microsub](https://indieweb.org/Microsub-spec) server
 - [ ] [IndieAuth](https://indieauth.net/) provider
 - [ ] [Webauthn](https://webauthn.io/) support for using Yubikeys as 2FA
+- [ ] Full-text search endpoint
 
 _* In no particular order_
 
