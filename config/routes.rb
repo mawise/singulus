@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   use_doorkeeper
 
+  get '/health', to: 'health#show', as: :health, format: false
+
   get '/micropub', to: 'micropub_queries#show', as: :micropub, format: false
   post '/micropub', to: 'micropub_posts#create', format: false
   post '/micropub/media', to: 'micropub_media#create', as: :micropub_media, format: false
