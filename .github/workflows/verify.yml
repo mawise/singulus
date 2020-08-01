@@ -148,6 +148,7 @@ jobs:
           wget -nv https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
           echo -e "$MINIO_ACCESS_KEY\n$MINIO_SECRET_KEY" | ./mc alias set localhost http://localhost:9000 --api S3v4
           ./mc mb localhost/$ASSETS_BUCKET
+          ./mc policy set download localhost/$ASSETS_BUCKET
           ./mc ls localhost
 
       - name: Run tests

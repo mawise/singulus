@@ -47,4 +47,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   Rack::Attack.enabled = false
+
+  config.assets.url = 'http://localhost:9000/singulus-test/'
 end
