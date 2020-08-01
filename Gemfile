@@ -6,10 +6,15 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.1'
 
 # Rails
+gem 'actionmailer', '~> 6.0'
+gem 'actionpack', '~> 6.0'
+gem 'actionview', '~> 6.0'
+gem 'activemodel', '~> 6.0'
+gem 'activerecord', '~> 6.0'
+gem 'activesupport', '~> 6.0'
 gem 'bootsnap', '~> 1.4', require: false
-gem 'jbuilder', '~> 2.7'
 gem 'puma', '~> 4.1'
-gem 'rails', '~> 6.0'
+gem 'railties', '~> 6.0'
 gem 'tzinfo-data', '~> 1.2020.1'
 
 # Instrumentation, logging, and monitoring

@@ -135,8 +135,6 @@ GEM
       interactor (~> 3.0)
       rails (>= 4.2)
     jaro_winkler (1.5.4)
-    jbuilder (2.10.0)
-      activesupport (>= 5.0.0)
     jmespath (1.4.0)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
@@ -375,6 +373,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionmailer (~> 6.0)
+  actionpack (~> 6.0)
+  actionview (~> 6.0)
+  activemodel (~> 6.0)
+  activerecord (~> 6.0)
+  activesupport (~> 6.0)
   aws-sdk-s3 (~> 1.75)
   bootsnap (~> 1.4)
   brakeman (~> 4.8)
@@ -388,7 +392,6 @@ DEPENDENCIES
   fastimage (~> 2.2)
   honeybadger (~> 4.0)
   interactor-rails (~> 2.0)
-  jbuilder (~> 2.7)
   kaminari (~> 1.2)
   listen (~> 3.2)
   newrelic_rpm (~> 6.12)
@@ -399,7 +402,7 @@ DEPENDENCIES
   pry-rails (~> 0.3)
   puma (~> 4.1)
   rack-attack (~> 6.3)
-  rails (~> 6.0)
+  railties (~> 6.0)
   redis (~> 4.2)
   redis-namespace (~> 1.7)
   retriable (~> 3.1)
