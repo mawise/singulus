@@ -141,12 +141,14 @@ jobs:
 
       - name: Create bucket
         env:
+          ASSETS_BUCKET: singulus-test
           MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
           MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
         run: |
-          wget https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
-          ./mc mb singulus-test
-          sleep 30
+          wget -nv https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
+          echo -e "$MINIO_ACCESS_KEY\n$MINIO_SECRET_KEY" | mc alias set localhost http://localhost:9000 --api S3v4
+          ./mc mb localhost/$ASSETS_BUCKET
+          ./mc ls localhost
 
       - name: Run tests
         env:
