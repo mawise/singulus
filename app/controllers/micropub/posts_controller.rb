@@ -53,10 +53,10 @@ module Micropub
     def transform_json_properties(props)
       props.deep_symbolize_keys.each_with_object({}) do |(k, v), h|
         h[k] = if FIRST_VALUE_ONLY.include?(k)
-                v.first
-              else
-                v
-              end
+                 v.first
+               else
+                 v
+               end
       end
     end
 

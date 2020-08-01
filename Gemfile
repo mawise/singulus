@@ -57,9 +57,9 @@ gem 'searchkick', '~> 4.4'
 
 # Miscellaneous
 gem 'dry-rails', '~> 0.2'
-gem 'oj', '~> 3.10'
 gem 'interactor-rails', '~> 2.0'
 gem 'kaminari', '~> 1.2'
+gem 'oj', '~> 3.10'
 gem 'retriable', '~> 3.1'
 gem 'typhoeus', '~> 1.4'
 
