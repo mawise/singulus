@@ -146,7 +146,7 @@ jobs:
           MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
         run: |
           wget -nv https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
-          echo -e "$MINIO_ACCESS_KEY\n$MINIO_SECRET_KEY" | mc alias set localhost http://localhost:9000 --api S3v4
+          echo -e "$MINIO_ACCESS_KEY\n$MINIO_SECRET_KEY" | ./mc alias set localhost http://localhost:9000 --api S3v4
           ./mc mb localhost/$ASSETS_BUCKET
           ./mc ls localhost
 
