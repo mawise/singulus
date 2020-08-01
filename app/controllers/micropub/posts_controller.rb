@@ -33,7 +33,7 @@ module Micropub
 
     def transform_photos_form_encoded(photos, attrs)
       attrs[:assets_attributes] = photos.each_with_object([]) do |upload, a|
-        if upload.is_a?(String) && upload.start_with?(ENV['ASSETS_URL'])
+        if upload.is_a?(String) && upload.start_with?(assets_url)
           associate_existing_asset(upload, nil, attrs)
         elsif upload.is_a?(String)
           a.append({ file_remote_url: upload })
@@ -70,7 +70,7 @@ module Micropub
           alt = nil
         end
 
-        if url.start_with?(ENV['ASSETS_URL'])
+        if url.start_with?(assets_url)
           associate_existing_asset(url, alt, attrs)
         else
           a << { file_remote_url: url, alt: alt }
@@ -86,7 +86,7 @@ module Micropub
     end
 
     def file_id(url)
-      URI(url).path.delete_prefix('/')
+      URI(url).path.delete_prefix(URI(assets_url).path)
     end
 
     def find_asset_by_filename(filename)
@@ -101,7 +101,7 @@ module Micropub
         PublishWorker.perform_async('create', @post.id)
         head :accepted, location: @post.permalink_url
       else
-        render json: { error: 'invalid_request', error_description: @post.errors.full_messages }.to_json
+        render json: { error: 'invalid_request', error_description: @post.errors.full_messages }.to_json, status: :bad_request # rubocop:disable Layout/LineLength
       end
     end
 
@@ -126,6 +126,10 @@ module Micropub
       Retriable.retriable on: [ActiveRecord::RecordNotUnique], on_retry: on_retry do
         @post.save
       end
+    end
+
+    def assets_url
+      @assets_url ||= Rails.configuration.assets.url
     end
   end
 end

@@ -62,6 +62,30 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     services:
+      elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.8.1
+        env:
+          discovery.type: single-node
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+        ports: ["9200:9200"]
+        options: >-
+          --health-cmd "curl --silent --fail localhost:9200/_cluster/health || exit 1"
+          --health-interval 30s
+          --health-timeout 30s
+          --health-retries 3
+
+      minio:
+        image: bitnami/minio:latest
+        env:
+          MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
+          MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
+        ports: ["9000:9000"]
+        options: >-
+          --health-cmd "curl --silent --fail localhost:9000/minio/health/live || exit 1"
+          --health-interval 30s
+          --health-timeout 30s
+          --health-retries 3
+
       postgres:
         image: postgres:12-alpine
         env:
@@ -115,16 +139,32 @@ jobs:
         run: |
           yarn install --pure-lockfile
 
+      - name: Create bucket
+        env:
+          ASSETS_BUCKET: singulus-test
+          MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
+          MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
+        run: |
+          wget -nv https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
+          echo -e "$MINIO_ACCESS_KEY\n$MINIO_SECRET_KEY" | ./mc alias set localhost http://localhost:9000 --api S3v4
+          ./mc mb localhost/$ASSETS_BUCKET
+          ./mc policy set download localhost/$ASSETS_BUCKET
+          ./mc ls localhost
+
       - name: Run tests
         env:
-          ASSETS_BUCKET: assets.test.singulus.dev
-          ASSETS_URL: https://assets.test.singulus.dev
-          AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
-          AWS_REGION: us-east-1
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
+          ASSETS_BUCKET: singulus-test
+          ASSETS_HOST: localhost
+          ASSETS_URL: http://localhost:9000/singulus-test
+          # AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+          # AWS_REGION: us-east-1
+          # AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
+          ELASTICSEARCH_URL: http://localhost:9200
           GITHUB_BRANCH: main
           GITHUB_REPO: craftyphotons/singulus-hugo-test
           GITHUB_TOKEN: ${{ secrets.TEST_GITHUB_TOKEN }}
+          MINIO_ACCESS_KEY: 8410f671f6a2e6a00358a162884ed04e
+          MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
           RAILS_ENV: test
           SINGULUS_HOST: hub.tonyburns.test
           SITE_NAME: "Tony Burns"

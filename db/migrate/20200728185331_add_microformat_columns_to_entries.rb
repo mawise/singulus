@@ -7,7 +7,7 @@ class AddMicroformatColumnsToEntries < ActiveRecord::Migration[6.0]
 
     remove_column :entries, :type # rubocop:disable Rails/ReversibleMigration
 
-    change_table :entries, id: :uuid do |t|
+    change_table :entries, id: :uuid do |t| # rubocop:disable Rails/BulkChangeTable
       t.text :name
       t.text :summary
       t.text :url
