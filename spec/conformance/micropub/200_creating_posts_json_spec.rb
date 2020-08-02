@@ -119,7 +119,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
           "type": ['h-entry'],
           "properties": {
             "content": [content],
-            "photo": ['https://micropub.rocks/media/sunset.jpg']
+            "photo": ['https://raw.githubusercontent.com/craftyphotons/singulus/main/spec/fixtures/photos/sunset.jpg']
           }
         }.to_json
       end
@@ -199,7 +199,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
             "content": [content],
             "photo": [
               {
-                "value": 'https://micropub.rocks/media/sunset.jpg',
+                "value": 'https://raw.githubusercontent.com/craftyphotons/singulus/main/spec/fixtures/photos/sunset.jpg',
                 "alt": alt
               }
             ]
@@ -272,8 +272,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
           "properties": {
             "content": [content],
             "photo": [
-              'https://micropub.rocks/media/sunset.jpg',
-              'https://micropub.rocks/media/city-at-night.jpg'
+              'https://raw.githubusercontent.com/craftyphotons/singulus/main/spec/fixtures/photos/sunset.jpg',
+              'https://raw.githubusercontent.com/craftyphotons/singulus/main/spec/fixtures/photos/city-at-night.jpg'
             ]
           }
         }.to_json

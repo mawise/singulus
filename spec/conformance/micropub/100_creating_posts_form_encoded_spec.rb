@@ -100,7 +100,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
         {
           "h": ['entry'],
           "content": content,
-          "photo": 'https://micropub.rocks/media/sunset.jpg'
+          "photo": 'https://raw.githubusercontent.com/craftyphotons/singulus/main/spec/fixtures/photos/sunset.jpg'
         }
       end
       let(:new_post) { Post.find_by(content: content) }
