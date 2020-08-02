@@ -8,7 +8,9 @@ class MicropubController < ActionController::API
 
   protected
 
-  def handle_unsupported_media_type
+  def handle_unsupported_media_type!
+    return if supported_media_types.include?(request.media_type)
+
     error = { error: 'invalid_request', error_description: 'Unsupported media type' }
     render json: error.to_json, status: :unsupported_media_type
   end

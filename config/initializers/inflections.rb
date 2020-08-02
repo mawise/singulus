@@ -7,4 +7,5 @@ end
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'IndieAuth'
   inflect.acronym 'GitHub'
+  inflect.acronym 'JSON'
 end
