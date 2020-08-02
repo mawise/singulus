@@ -477,5 +477,5 @@ Doorkeeper.configure do
 
   # WWW-Authenticate Realm (default: "Doorkeeper").
   #
-  realm 'Doorkeeper'
+  realm 'Singulus'
 end
