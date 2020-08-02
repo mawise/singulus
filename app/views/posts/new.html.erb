@@ -38,7 +38,7 @@
                   <div class="control"><%= f.text_area :category_names, class: 'textarea' %></div>
                 </div>
 
-                <%= f.fields_for :assets, @post.assets.first do |ff| %>
+                <%= f.fields_for :photos, @post.photos.first do |ff| %>
                   <div class="field">
                     <div class="level">
                       <div class="level-item">
@@ -47,7 +47,7 @@
                             <%= ff.file_field :file, class: 'file-input' %>
                             <span class="file-cta">
                               <span class="file-icon"><i class="fas fa-upload"></i></span>
-                              <span class="file-label">Add photo, video, or audio</span>
+                              <span class="file-label">Add photo</span>
                             </span>
                           <% end %>
                         </div>

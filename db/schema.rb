@@ -10,25 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_01_025310) do
+ActiveRecord::Schema.define(version: 2020_08_02_011215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "hstore"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
-
-  create_table "assets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "post_id"
-    t.text "alt"
-    t.interval "duration"
-    t.hstore "metadata", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.jsonb "file_data"
-    t.index ["metadata"], name: "index_assets_on_metadata", using: :gin
-    t.index ["post_id"], name: "index_assets_on_post_id"
-  end
 
   create_table "oauth_access_grants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "resource_owner_id", null: false
@@ -70,6 +58,18 @@ ActiveRecord::Schema.define(version: 2020_08_01_025310) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
+  end
+
+  create_table "photos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "post_id"
+    t.text "alt"
+    t.interval "duration"
+    t.hstore "metadata", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "file_data"
+    t.index ["metadata"], name: "index_photos_on_metadata", using: :gin
+    t.index ["post_id"], name: "index_photos_on_post_id"
   end
 
   create_table "posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

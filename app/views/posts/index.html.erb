@@ -21,7 +21,7 @@
           </thead>
 
           <tbody>
-            <% @entries.each do |post| %>
+            <% @posts.each do |post| %>
               <tr>
                 <td><%= link_to post.short_uid, post_path(post) %></td>
                 <td><%= post.post_type.titleize %></td>
@@ -47,7 +47,7 @@
       <div class="columns">
         <div class="column"></div>
 
-        <div class="column is-one-third"><%= paginate @entries %></div>
+        <div class="column is-one-third"><%= paginate @posts %></div>
 
         <div class="column"></div>
       </div>

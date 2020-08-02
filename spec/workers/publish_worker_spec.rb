@@ -73,7 +73,7 @@ describe PublishWorker, type: :worker do
     let(:alt) { 'Alternative text for the photo' }
 
     before do
-      post.assets.create(file: file, alt: alt)
+      post.photos.create(file: file, alt: alt)
     end
 
     it 'adds the photo URL to the front matter' do # rubocop:disable RSpec/ExampleLength
@@ -83,7 +83,7 @@ describe PublishWorker, type: :worker do
         anything,
         anything,
         anything,
-        /url: #{Regexp.escape(post.assets.first.file_url)}/,
+        /url: #{Regexp.escape(post.photos.first.file_url)}/,
         anything
       )
     end
@@ -95,7 +95,7 @@ describe PublishWorker, type: :worker do
         anything,
         anything,
         anything,
-        /alt: #{Regexp.escape(post.assets.first.alt)}/,
+        /alt: #{Regexp.escape(post.photos.first.alt)}/,
         anything
       )
     end

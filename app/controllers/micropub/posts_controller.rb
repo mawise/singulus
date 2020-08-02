@@ -32,9 +32,9 @@ module Micropub
     end
 
     def transform_photos_form_encoded(photos, attrs)
-      attrs[:assets_attributes] = photos.each_with_object([]) do |upload, a|
+      attrs[:photos_attributes] = photos.each_with_object([]) do |upload, a|
         if upload.is_a?(String) && upload.start_with?(assets_url)
-          associate_existing_asset(upload, nil, attrs)
+          associate_existing_photo(upload, nil, attrs)
         elsif upload.is_a?(String)
           a.append({ file_remote_url: upload })
         else
@@ -46,7 +46,7 @@ module Micropub
     def handle_json
       attrs = transform_json_properties(post_params_json[:properties].to_h)
       attrs[:categories] = attrs.delete(:category)
-      attrs[:assets_attributes] = transform_json_assets(attrs)
+      attrs[:photos_attributes] = transform_json_photos(attrs)
       create_post(attrs)
     end
 
@@ -60,7 +60,7 @@ module Micropub
       end
     end
 
-    def transform_json_assets(attrs) # rubocop:disable Metrics/MethodLength
+    def transform_json_photos(attrs) # rubocop:disable Metrics/MethodLength
       (attrs.delete(:photo) || []).each_with_object([]) do |item, a|
         if item.respond_to?(:key?)
           url = item[:value]
@@ -71,26 +71,26 @@ module Micropub
         end
 
         if url.start_with?(assets_url)
-          associate_existing_asset(url, alt, attrs)
+          associate_existing_photo(url, alt, attrs)
         else
           a << { file_remote_url: url, alt: alt }
         end
       end
     end
 
-    def associate_existing_asset(url, alt, attrs)
-      asset = find_asset_by_filename(file_id(url))
-      attrs[:asset_ids] ||= []
-      attrs[:asset_ids] << asset.id if asset
-      Asset.update(alt: alt) if alt
+    def associate_existing_photo(url, alt, attrs)
+      photo = find_photo_by_filename(file_id(url))
+      attrs[:photo_ids] ||= []
+      attrs[:photo_ids] << photo.id if photo
+      Photo.update(alt: alt) if alt
     end
 
     def file_id(url)
       URI(url).path.delete_prefix(URI(assets_url).path)
     end
 
-    def find_asset_by_filename(filename)
-      Asset.where('file_data @> ?', { id: filename }.to_json).first
+    def find_photo_by_filename(filename)
+      Photo.where('file_data @> ?', { id: filename }.to_json).first
     end
 
     def create_post(attrs)

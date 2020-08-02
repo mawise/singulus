@@ -65,14 +65,14 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
 
   # https://micropub.rocks/server-tests/104?endpoint=501
   describe '104 - Create an h-entry with a photo referenced by URL (form-encoded)' do
-    context 'with an existing asset URL' do
-      let(:asset) { Asset.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
+    context 'with an existing photo URL' do
+      let(:photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
       let(:content) { 'Micropub test of creating a photo referenced by URL' }
       let(:params) do
         {
           "h": 'entry',
           "content": content,
-          "photo": asset.file_url
+          "photo": photo.file_url
         }
       end
       let(:new_post) { Post.find_by(content: content) }
@@ -89,8 +89,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
         expect(PublishWorker.jobs.size).to eq(1)
       end
 
-      it 'links the existing asset to the post' do
-        expect(asset.reload.post_id).to eq(new_post.id)
+      it 'links the existing photo to the post' do
+        expect(photo.reload.post_id).to eq(new_post.id)
       end
     end
 
@@ -117,8 +117,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
         expect(PublishWorker.jobs.size).to eq(1)
       end
 
-      it 'creates a new asset with the post' do
-        expect(new_post.assets.count).to eq(1)
+      it 'creates a new photo with the post' do
+        expect(new_post.photos.count).to eq(1)
       end
     end
   end

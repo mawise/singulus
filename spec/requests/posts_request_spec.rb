@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Entries', type: :request do
+RSpec.describe '/posts', type: :request do
   let(:user) { FactoryBot.create(:user) }
 
   before do

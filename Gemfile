@@ -74,17 +74,17 @@ group :development, :test do
 end
 
 group :development do
-  gem 'brakeman', '~> 4.8'
-  gem 'bundler-audit', '~> 0.7'
-  gem 'listen', '~> 3.2'
-  gem 'rubocop', '~> 0.88'
+  gem 'brakeman', '~> 4.8', require: false
+  gem 'bundler-audit', '~> 0.7', require: false
+  gem 'listen', '~> 3.2', require: false
+  gem 'rubocop', '~> 0.88', require: false
   gem 'rubocop-faker', '~> 1.1', require: false
   gem 'rubocop-performance', '~> 1.7', require: false
   gem 'rubocop-rails', '~> 2.7', require: false
   gem 'rubocop-rspec', '~> 1.42', require: false
-  gem 'solargraph', '~> 0.39'
-  gem 'spring', '~> 2.1'
-  gem 'spring-watcher-listen', '~> 2.0'
+  gem 'solargraph', '~> 0.39', require: false
+  gem 'spring', '~> 2.1', require: false
+  gem 'spring-watcher-listen', '~> 2.0', require: false
   gem 'web-console', '~> 4.0'
 end
 

@@ -24,16 +24,13 @@
                     </div>
                   <% end %>
 
-                  <% if @post.assets.any? %>
-                    <% @post.assets.each do |asset| %>
-                      <% next unless asset.image? %>
-                      <div class="box p-2">
-                        <figure class="image">
-                          <%= image_tag asset.file_url, alt: asset.alt, class: 'image' %>
-                        </figure>
-                        <p><strong>Alt:</strong> <%= asset.alt %></p>
-                      </div>
-                    <% end %>
+                  <% @post.photos.each do |photo| %>
+                    <div class="box p-2">
+                      <figure class="image">
+                        <%= image_tag photo.file_url, alt: photo.alt, class: 'image' %>
+                      </figure>
+                      <p><strong>Alt:</strong> <%= photo.alt %></p>
+                    </div>
                   <% end %>
 
                   <div class="content">

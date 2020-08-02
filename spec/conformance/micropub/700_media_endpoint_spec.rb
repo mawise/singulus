@@ -20,7 +20,7 @@ RSpec.describe 'Micropub Server Implementation Report - Media Endpoint', type: :
   describe '700 - Upload a jpg to the Media Endpoint' do
     let(:photo) { fixture_file_upload(Rails.root.join('spec/fixtures/photos/sunset.jpg'), 'image/jpeg') }
     let(:params) { { file: photo } }
-    let(:new_asset) { Asset.where('file_data @> ?', { metadata: { filename: 'sunset.jpg' } }.to_json).first }
+    let(:new_asset) { Photo.where('file_data @> ?', { metadata: { filename: 'sunset.jpg' } }.to_json).first }
 
     it 'returns HTTP created' do
       expect(response).to have_http_status(:created)
@@ -43,7 +43,7 @@ RSpec.describe 'Micropub Server Implementation Report - Media Endpoint', type: :
   describe '701 - Upload a png to the Media Endpoint' do
     let(:photo) { fixture_file_upload(Rails.root.join('spec/fixtures/photos/micropub-rocks.png'), 'image/png') }
     let(:params) { { file: photo } }
-    let(:new_asset) { Asset.where('file_data @> ?', { metadata: { filename: 'micropub-rocks.png' } }.to_json).first }
+    let(:new_asset) { Photo.where('file_data @> ?', { metadata: { filename: 'micropub-rocks.png' } }.to_json).first }
 
     it 'returns HTTP created' do
       expect(response).to have_http_status(:created)
@@ -66,7 +66,7 @@ RSpec.describe 'Micropub Server Implementation Report - Media Endpoint', type: :
   describe '702 - Upload a gif to the Media Endpoint' do
     let(:photo) { fixture_file_upload(Rails.root.join('spec/fixtures/photos/w3c-socialwg.gif'), 'image/gif') }
     let(:params) { { file: photo } }
-    let(:new_asset) { Asset.where('file_data @> ?', { metadata: { filename: 'w3c-socialwg.gif' } }.to_json).first }
+    let(:new_asset) { Photo.where('file_data @> ?', { metadata: { filename: 'w3c-socialwg.gif' } }.to_json).first }
 
     it 'returns HTTP created' do
       expect(response).to have_http_status(:created)

@@ -7,12 +7,12 @@ class PostsController < ApplicationController
   before_action :find_post, only: %i[show edit update destroy]
 
   def index
-    @entries = Post.order(published_at: :desc, created_at: :desc).page(params[:page])
+    @posts = Post.order(published_at: :desc, created_at: :desc).page(params[:page])
   end
 
   def new
     @post = Post.new
-    @post.assets.build
+    @post.photos.build
   end
 
   def create
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
   def show; end
 
   def edit
-    @post.assets.build if @post.assets.empty?
+    @post.photos.build if @post.photos.empty?
   end
 
   def update
@@ -57,7 +57,7 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(
       :name, :content, :slug, :summary, :category_names,
-      assets_attributes: %i[alt file]
+      photos_attributes: %i[alt file]
     )
   end
 end

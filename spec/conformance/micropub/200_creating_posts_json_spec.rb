@@ -81,15 +81,15 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
 
   # https://micropub.rocks/server-tests/203?endpoint=501
   describe '203 - Create an h-entry with a photo referenced by URL (JSON)' do
-    context 'with an existing asset URL' do
-      let(:asset) { Asset.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
+    context 'with an existing photo URL' do
+      let(:photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
       let(:content) { 'Micropub test of creating a photo referenced by URL. This post should include a photo of a person.' } # rubocop:disable Layout/LineLength
       let(:params) do
         {
           "type": ['h-entry'],
           "properties": {
             "content": [content],
-            "photo": [asset.file_url]
+            "photo": [photo.file_url]
           }
         }.to_json
       end
@@ -107,8 +107,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
         expect(PublishWorker.jobs.size).to eq(1)
       end
 
-      it 'links the existing asset to the post' do
-        expect(asset.reload.post_id).to eq(new_post.id)
+      it 'links the existing photo to the post' do
+        expect(photo.reload.post_id).to eq(new_post.id)
       end
     end
 
@@ -137,8 +137,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
         expect(PublishWorker.jobs.size).to eq(1)
       end
 
-      it 'creates a new asset with the post' do
-        expect(new_post.assets.count).to eq(1)
+      it 'creates a new photo with the post' do
+        expect(new_post.photos.count).to eq(1)
       end
     end
   end
@@ -148,8 +148,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
 
   # https://micropub.rocks/server-tests/205?endpoint=501
   describe '205 - Create an h-entry post with a photo with alt text (JSON)' do
-    context 'with an existing asset URL' do
-      let(:asset) { Asset.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
+    context 'with an existing photo URL' do
+      let(:photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
       let(:content) { 'Micropub test of creating a photo referenced by URL with alt text. This post should include a photo of a person.' } # rubocop:disable Layout/LineLength
       let(:alt) { 'Photo of a person' }
       let(:params) do
@@ -159,7 +159,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
             "content": [content],
             "photo": [
               {
-                "value": asset.file_url,
+                "value": photo.file_url,
                 "alt": alt
               }
             ]
@@ -180,12 +180,12 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
         expect(PublishWorker.jobs.size).to eq(1)
       end
 
-      it 'links the asset to the post' do
-        expect(asset.reload.post_id).to eq(new_post.id)
+      it 'links the photo to the post' do
+        expect(photo.reload.post_id).to eq(new_post.id)
       end
 
-      it 'updates the alt text on the asset' do
-        expect(asset.reload.alt).to eq(alt)
+      it 'updates the alt text on the photo' do
+        expect(photo.reload.alt).to eq(alt)
       end
     end
 
@@ -216,28 +216,28 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
         expect(response.headers['Location']).to eq(new_post.permalink_url)
       end
 
-      it 'creates a new asset with the post' do
-        expect(new_post.assets.count).to eq(1)
+      it 'creates a new photo with the post' do
+        expect(new_post.photos.count).to eq(1)
       end
 
-      it 'sets the alt text on the asset' do
-        expect(new_post.assets.first.alt).to eq(alt)
+      it 'sets the alt text on the photo' do
+        expect(new_post.photos.first.alt).to eq(alt)
       end
     end
   end
 
   # https://micropub.rocks/server-tests/206?endpoint=501
   describe '206 - Create an h-entry with multiple photos referenced by URL (JSON)' do
-    context 'with a existing asset URLs' do
-      let(:first_asset) { Asset.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
-      let(:second_asset) { Asset.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.02.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
+    context 'with a existing photo URLs' do
+      let(:first_photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
+      let(:second_photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.02.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
       let(:content) { 'Micropub test of creating a photo referenced by URL. This post should include a photo of a person.' } # rubocop:disable Layout/LineLength
       let(:params) do
         {
           "type": ['h-entry'],
           "properties": {
             "content": [content],
-            "photo": [first_asset.file_url, second_asset.file_url]
+            "photo": [first_photo.file_url, second_photo.file_url]
           }
         }.to_json
       end
@@ -255,12 +255,12 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
         expect(PublishWorker.jobs.size).to eq(1)
       end
 
-      it 'links the first existing asset to the post' do
-        expect(first_asset.reload.post_id).to eq(new_post.id)
+      it 'links the first existing photo to the post' do
+        expect(first_photo.reload.post_id).to eq(new_post.id)
       end
 
-      it 'links the second existing asset to the post' do
-        expect(second_asset.reload.post_id).to eq(new_post.id)
+      it 'links the second existing photo to the post' do
+        expect(second_photo.reload.post_id).to eq(new_post.id)
       end
     end
 
@@ -292,8 +292,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
         expect(PublishWorker.jobs.size).to eq(1)
       end
 
-      it 'creates a new asset with the post' do
-        expect(new_post.assets.count).to eq(2)
+      it 'creates a new photo with the post' do
+        expect(new_post.photos.count).to eq(2)
       end
     end
   end

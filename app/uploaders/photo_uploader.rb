@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Uploader for photo, video, and audio assets.
-class AssetUploader < Shrine
+# Uploader for photo assets.
+class PhotoUploader < Shrine
   plugin :add_metadata
   plugin :determine_mime_type
   plugin :signature

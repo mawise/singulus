@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post '/micropub/media', to: 'micropub/media#create', as: :micropub_media, format: false
 
   scope format: false do
+    resources :photos
     resources :posts
   end
 

@@ -35,7 +35,7 @@ class PublishWorker < ApplicationWorker
   def front_matter
     h = default_front_matter
     h[:categories] = post.categories if Array(post.categories).any?
-    h[:photos] = photos if post.assets.any?(&:image?)
+    h[:photos] = photos if post.photos.any?
     h
   end
 
@@ -48,7 +48,7 @@ class PublishWorker < ApplicationWorker
   end
 
   def photos
-    post.assets.select(&:image?).map do |a|
+    post.photos.map do |a|
       {
         url: a.file_url,
         alt: a.alt

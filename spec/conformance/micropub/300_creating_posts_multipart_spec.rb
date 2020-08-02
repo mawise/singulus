@@ -35,8 +35,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Multipar
       expect(PublishWorker.jobs.size).to eq(1)
     end
 
-    it 'creates an Asset for the photo' do
-      expect(new_post.assets.first.file).not_to be_nil
+    it 'creates an Photo for the photo' do
+      expect(new_post.photos.first.file).not_to be_nil
     end
   end
 
@@ -60,8 +60,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Multipar
       expect(PublishWorker.jobs.size).to eq(1)
     end
 
-    it 'creates an Asset for each photo' do
-      expect(new_post.assets.count).to eq(2)
+    it 'creates each photo' do
+      expect(new_post.photos.count).to eq(2)
     end
   end
 end

@@ -1,0 +1,58 @@
+<main id="main" aria-role="main">
+  <section class="section">
+    <div class="container pb-6">
+      <%= render partial: 'partials/notifications' %>
+        <nav class="level">
+          <div class="level-item">
+            <%= link_to 'New Photo', new_photo_path, class: 'button is-info' %>
+          </div>
+        </nav>
+        <table class="table">
+          <thead>
+            <tr>
+              <td>ID</td>
+              <td>Preview</td>
+              <td>Alt Text</td>
+              <td>Post</td>
+              <td>Created</td>
+              <td>Updated</td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @photos.each do |photo| %>
+              <tr>
+                <td><%= link_to photo.id, photo_path(photo) %></td>
+                <td>
+                  <div class="box p-1">
+                    <figure class="image">
+                      <%= image_tag photo.file_url, alt: photo.alt, class: 'image' %>
+                    </figure>
+                  </div>
+                </td>
+                <td><%= photo.alt %></td>
+                <td>
+                  <% if photo.post %>
+                    <%= photo.post.name.present? ? photo.post.name : (assset.post.summary.present? ? photo.post.summary : photo.post.content) %>
+                  <% end %>
+                </td>
+                <td><%= time_tag(photo.created_at) %></td>
+                <td><%= time_tag(photo.updated_at) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="columns">
+        <div class="column"></div>
+
+        <div class="column is-one-third"><%= paginate @photos %></div>
+
+        <div class="column"></div>
+      </div>
+    </div>
+  </section>
+</main>
