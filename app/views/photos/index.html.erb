@@ -33,7 +33,7 @@
                 <td><%= photo.alt %></td>
                 <td>
                   <% if photo.post %>
-                    <%= photo.post.name.present? ? photo.post.name : (assset.post.summary.present? ? photo.post.summary : photo.post.content) %>
+                    <%= photo.post.name.present? ? photo.post.name : (photo.post.summary.present? ? photo.post.summary : photo.post.content) %>
                   <% end %>
                 </td>
                 <td><%= time_tag(photo.created_at) %></td>
