@@ -27,13 +27,12 @@ module Micropub
       photos = attrs.delete(:photo) || []
       transform_photos_form_encoded(photos, attrs)
 
-      attrs.delete(:category)
       create_post(attrs)
     end
 
     def transform_photos_form_encoded(photos, attrs)
       attrs[:photos_attributes] = photos.each_with_object([]) do |upload, a|
-        if upload.is_a?(String) && upload.start_with?(assets_url)
+        if upload.is_a?(String) && existing_asset?(upload)
           associate_existing_photo(upload, nil, attrs)
         elsif upload.is_a?(String)
           a.append({ file_remote_url: upload })
@@ -43,10 +42,19 @@ module Micropub
       end
     end
 
+    def post_params_form_encoded
+      params[:category] = Array(params[:category]) if params.key?(:category)
+      params[:photo] = Array(params[:photo]) if params.key?(:photo)
+      params.permit(:content, category: [], photo: [])
+    end
+
     def handle_json
       attrs = transform_json_properties(post_params_json[:properties].to_h)
       attrs[:categories] = attrs.delete(:category)
-      attrs[:photos_attributes] = transform_json_photos(attrs)
+
+      photos = attrs.delete(:photo) || []
+      attrs[:photos_attributes] = transform_json_photos(photos, attrs)
+
       create_post(attrs)
     end
 
@@ -60,8 +68,8 @@ module Micropub
       end
     end
 
-    def transform_json_photos(attrs) # rubocop:disable Metrics/MethodLength
-      (attrs.delete(:photo) || []).each_with_object([]) do |item, a|
+    def transform_json_photos(photos, attrs) # rubocop:disable Metrics/MethodLength
+      photos.each_with_object([]) do |item, a|
         if item.respond_to?(:key?)
           url = item[:value]
           alt = item[:alt]
@@ -70,12 +78,32 @@ module Micropub
           alt = nil
         end
 
-        if url.start_with?(assets_url)
+        if existing_asset?(url)
           associate_existing_photo(url, alt, attrs)
         else
           a << { file_remote_url: url, alt: alt }
         end
       end
+    end
+
+    def post_params_json
+      params.permit(type: [], properties: {})
+    end
+
+    def create_post(attrs)
+      @post = Post.new(attrs)
+      @post.author_id = doorkeeper_token.resource_owner_id
+      @post.published_at = Time.now.utc
+      if @post.save_unique
+        PublishWorker.perform_async('create', @post.id)
+        head :accepted, location: @post.permalink_url
+      else
+        render json: { error: 'invalid_request', error_description: @post.errors.full_messages }.to_json, status: :bad_request # rubocop:disable Layout/LineLength
+      end
+    end
+
+    def existing_asset?(url)
+      url.start_with?(assets_url)
     end
 
     def associate_existing_photo(url, alt, attrs)
@@ -91,32 +119,6 @@ module Micropub
 
     def find_photo_by_filename(filename)
       Photo.where('file_data @> ?', { id: filename }.to_json).first
-    end
-
-    def create_post(attrs)
-      @post = Post.new(attrs)
-      @post.author_id = doorkeeper_token.resource_owner_id
-      @post.published_at = Time.now.utc
-      if @post.save_unique
-        PublishWorker.perform_async('create', @post.id)
-        head :accepted, location: @post.permalink_url
-      else
-        render json: { error: 'invalid_request', error_description: @post.errors.full_messages }.to_json, status: :bad_request # rubocop:disable Layout/LineLength
-      end
-    end
-
-    def post_params_form_encoded
-      params[:category] = Array(params[:category]) if params.key?(:category)
-      params[:photo] = Array(params[:photo]) if params.key?(:photo)
-      params.permit(:content, category: [], photo: [])
-    end
-
-    def post_params_json
-      params.permit(type: [], properties: {})
-    end
-
-    def create_attributes_json
-      post_params_json[:properties].map { |k, v| }
     end
 
     def assets_url
