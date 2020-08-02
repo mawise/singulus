@@ -1,4 +1,3 @@
----
 request:
   filter_keys:
     - access_token

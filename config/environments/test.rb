@@ -28,7 +28,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # ActionView configuration
-  config.action_view.cache_template_loading = true  
+  config.action_view.cache_template_loading = true
 
   # ActiveSupport configuration
   config.active_support.deprecation = :stderr
