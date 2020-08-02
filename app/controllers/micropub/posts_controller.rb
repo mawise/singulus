@@ -4,7 +4,7 @@ module Micropub
   # Provides  Micropub [create](https://micropub.spec.indieweb.org/#create),
   # [update](https://micropub.spec.indieweb.org/#update), and
   # [delete](https://micropub.spec.indieweb.org/#delete) endpoints.
-  class PostsController < MicropubController # rubocop:disable Metrics/ClassLength
+  class PostsController < MicropubController
     def create
       case request.media_type
       when 'application/x-www-form-urlencoded', 'multipart/form-data'
@@ -97,7 +97,7 @@ module Micropub
       @post = Post.new(attrs)
       @post.author_id = doorkeeper_token.resource_owner_id
       @post.published_at = Time.now.utc
-      if save_post
+      if @post.save_unique
         PublishWorker.perform_async('create', @post.id)
         head :accepted, location: @post.permalink_url
       else
@@ -117,15 +117,6 @@ module Micropub
 
     def create_attributes_json
       post_params_json[:properties].map { |k, v| }
-    end
-
-    def save_post
-      on_retry = proc do |_, _try, _, _|
-        Rails.logger.info('Collison generating short_uid, trying again')
-      end
-      Retriable.retriable on: [ActiveRecord::RecordNotUnique], on_retry: on_retry do
-        @post.save
-      end
     end
 
     def assets_url
