@@ -2,6 +2,8 @@
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/craftyphotons/singulus/Verify?style=for-the-badge)](https://github.com/craftyphotons/singulus/actions?query=workflow%3AVerify)
 
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/craftyphotons/singulus?style=for-the-badge)](https://codeclimate.com/github/craftyphotons/singulus)
+
 Singulus is the monolith that powers [tonyburns.net](https://tonyburns.net) and facilitates dynamic needs for me on the [IndieWeb](https://indieweb.org/).
 
 This application is built first and foremost for me to [eat what I cook](https://indieweb.org/eat_what_you_cook) for my own content, but by making it open source from the beginning my hope is that it will keep me accountable and perhaps be useful to others.
