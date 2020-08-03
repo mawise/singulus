@@ -20,7 +20,7 @@
 
                   <% if @post.content.present? %>
                     <div class="content">
-                      <%= @post.content %>
+                      <%= to_html_from_markdown(@post.content) %>
                     </div>
                   <% end %>
 
