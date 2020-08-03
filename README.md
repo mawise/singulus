@@ -8,6 +8,7 @@ This application is built first and foremost for me to [eat what I cook](https:/
 
 ## Features
 
+- [x] [IndieAuth](https://indieauth.net/) server built on top of [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper)
 - [x] Create basic posts with categories and photos via [Micropub](https://micropub.rocks/)
 - [x] Authentication via [Devise](https://github.com/heartcombo/devise)
 - [x] OAuth 2.0 provider via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper)
@@ -51,7 +52,6 @@ This application is built first and foremost for me to [eat what I cook](https:/
 - [ ] Send and receive [Webmentions](https://webmention.rocks/)
 - [ ] [ActivityPub](https://www.w3.org/TR/activitypub/) server
 - [ ] [Microsub](https://indieweb.org/Microsub-spec) server
-- [ ] [IndieAuth](https://indieauth.net/) provider
 - [ ] [Webauthn](https://webauthn.io/) support for using Yubikeys as 2FA
 - [ ] Full-text search endpoint
 
