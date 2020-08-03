@@ -75,6 +75,7 @@ end
 
 group :development do
   gem 'brakeman', '~> 4.8', require: false
+  gem 'bullet', '~> 6.1'
   gem 'bundler-audit', '~> 0.7', require: false
   gem 'listen', '~> 3.2', require: false
   gem 'rubocop', '~> 0.88', require: false
