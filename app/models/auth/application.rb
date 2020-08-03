@@ -6,5 +6,7 @@ module Auth
     include Doorkeeper::Orm::ActiveRecord::Mixins::Application
 
     self.table_name = 'oauth_applications'
+
+    validates :url, uniqueness: { case_sensitive: true }
   end
 end

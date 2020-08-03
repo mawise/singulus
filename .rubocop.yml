@@ -33,3 +33,7 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Exclude:
     - db/migrate/*.rb
+
+RSpec/FilePath:
+  CustomTransform:
+    IndieAuth: indieauth

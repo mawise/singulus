@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_011215) do
+ActiveRecord::Schema.define(version: 2020_08_03_004307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -57,7 +57,9 @@ ActiveRecord::Schema.define(version: 2020_08_02_011215) do
     t.boolean "confidential", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "url"
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
+    t.index ["url"], name: "index_oauth_applications_on_url", unique: true
   end
 
   create_table "photos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -109,6 +111,9 @@ ActiveRecord::Schema.define(version: 2020_08_02_011215) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.text "profile_urls", default: [], null: false, array: true
+    t.text "canonical_profile_url"
+    t.index ["canonical_profile_url"], name: "index_users_on_canonical_profile_url"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end

@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
+# https://indieweb.org/scope
 ALL_SCOPES = %w[
-  posts:read
-  posts:write
-  user:read
-  user:write
+  create
+  delete
+  draft
+  media
+  profile
+  update
 ].freeze
 DEFAULT_SCOPES = %w[
-  user:read
+  profile
 ].freeze
 
 Doorkeeper.configure do
@@ -76,16 +79,16 @@ Doorkeeper.configure do
   # Enforce token request content type to application/x-www-form-urlencoded.
   # It is not enabled by default to not break prior versions of the gem.
   #
-  # enforce_content_type
+  enforce_content_type
 
   # Authorization Code expiration time (default: 10 minutes).
   #
-  # authorization_code_expires_in 10.minutes
+  authorization_code_expires_in(Rails.env.development? ? 24.hours : 10.minutes)
 
   # Access token expiration time (default: 2 hours).
   # If you want to disable expiration, set this to `nil`.
   #
-  # access_token_expires_in 2.hours
+  access_token_expires_in(Rails.env.development? ? 24.hours : 2.hours)
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to

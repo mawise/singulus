@@ -5,13 +5,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :lockable,
          :rememberable, :trackable, :validatable
 
-  has_many :access_grants, # rubocop:disable Rails/InverseOf
-           class_name: 'Doorkeeper::AccessGrant',
+  has_many :access_grants,
+           inverse_of: :user,
+           class_name: 'Auth::AccessGrant',
            foreign_key: :resource_owner_id,
            dependent: :delete_all
 
-  has_many :access_tokens, # rubocop:disable Rails/InverseOf
-           class_name: 'Doorkeeper::AccessToken',
+  has_many :access_tokens,
+           inverse_of: :user,
+           class_name: 'Auth::AccessToken',
            foreign_key: :resource_owner_id,
            dependent: :delete_all
 
