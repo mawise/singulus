@@ -24,7 +24,7 @@ gem 'newrelic_rpm', '~> 6.12'
 # Frontend assets
 gem 'sass-rails', '~> 6.0'
 gem 'turbolinks', '~> 5.2'
-gem 'webpacker', '~> 4.2'
+gem 'webpacker', '~> 5.1'
 
 # Data stores
 gem 'pg', '~> 1.2'
