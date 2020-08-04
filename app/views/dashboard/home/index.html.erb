@@ -1,0 +1,8 @@
+<main id="main" aria-role="main">
+  <section class="section pt-6 pb-6">
+    <div class="container">
+      <%= render partial: 'partials/notifications' %>
+      <h1 class="title has-text-centered">Welcome back, <%= current_user.name.split(' ').first %>!</h1>
+    </div>
+  </section>
+</main>

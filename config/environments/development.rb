@@ -5,7 +5,6 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.cache_classes = false
   config.consider_all_requests_local = true
   config.eager_load = false
-  config.hosts << ENV['SINGULUS_HOST']
 
   # Caching configuration
   if Rails.root.join('tmp/caching-dev.txt').exist?

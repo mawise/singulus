@@ -9,8 +9,8 @@
 
       <% if user_signed_in? %>
       <ul class="navbar-start">
-        <li class="navbar-item is-size-4"><%= link_to 'Posts', posts_path, class: 'has-text-dark' %></li>
-        <li class="navbar-item is-size-4"><%= link_to 'Photos', photos_path, class: 'has-text-dark' %></li>
+        <li class="navbar-item is-size-4"><%= link_to 'Posts', dashboard_posts_path, class: 'has-text-dark' %></li>
+        <li class="navbar-item is-size-4"><%= link_to 'Photos', dashboard_photos_path, class: 'has-text-dark' %></li>
       </ul>
       <% end %>
 
@@ -18,7 +18,7 @@
         <% if user_signed_in? %>
           <li class="navbar-item"><%= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'button has-text-dark' %>
         <% else %>
-          <li class="navbar-item"><%= link_to 'Log in', new_user_session_path, class: 'button has-text-dark' %>
+          <li class="navbar-item"><%= link_to 'Log in', new_user_session_url(host: hub_host), class: 'button has-text-dark' %>
         <% end %>
       </ul>
     </div>

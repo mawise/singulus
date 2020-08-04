@@ -30,7 +30,7 @@ module PostType
   end
 
   def permalink_url
-    prefix = Rails.configuration.site_url
+    prefix = Rails.configuration.x.site.url
     case post_type
     when 'article'
       "#{prefix}/articles/#{slug}"

@@ -57,6 +57,7 @@ gem 'searchkick', '~> 4.4'
 
 # Miscellaneous
 gem 'dry-rails', '~> 0.2'
+gem 'flutie', '~> 2.2'
 gem 'interactor-rails', '~> 2.0'
 gem 'kaminari', '~> 1.2'
 gem 'kramdown', '~> 2.3'

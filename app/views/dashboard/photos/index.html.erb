@@ -4,7 +4,7 @@
       <%= render partial: 'partials/notifications' %>
         <nav class="level">
           <div class="level-item">
-            <%= link_to 'New Photo', new_photo_path, class: 'button is-info' %>
+            <%= link_to 'New Photo', new_dashboard_photo_path, class: 'button is-info' %>
           </div>
         </nav>
         <table class="table">
@@ -22,7 +22,7 @@
           <tbody>
             <% @photos.each do |photo| %>
               <tr>
-                <td><%= link_to photo.id, photo_path(photo) %></td>
+                <td><%= link_to photo.id, dashboard_photo_path(photo) %></td>
                 <td>
                   <div class="box p-1">
                     <figure class="image">

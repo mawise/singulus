@@ -30,7 +30,17 @@ module Singulus
     config.x.github.repo = ENV.fetch('GITHUB_REPO')
 
     # Site configuration
-    config.site_name = ENV.fetch('SITE_NAME')
-    config.site_url = ENV.fetch('SITE_URL')
+    config.x.site.name = ENV.fetch('SITE_NAME')
+    config.x.site.url = ENV.fetch('SITE_URL')
+
+    # Hub configuration
+    config.x.hub.host = ENV.fetch('HUB_HOST')
+
+    # Shortlink configuration
+    config.x.shortlinks.host = ENV.fetch('SHORTLINKS_HOST')
+
+    # Hosts
+    config.hosts << config.x.hub.host
+    config.hosts << config.x.shortlinks.host
   end
 end

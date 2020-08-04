@@ -1,7 +1,7 @@
 # Singulus
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/craftyphotons/singulus/Verify?style=for-the-badge)](https://github.com/craftyphotons/singulus/actions?query=workflow%3AVerify)
-
+&nbsp;
 [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/craftyphotons/singulus?style=for-the-badge)](https://codeclimate.com/github/craftyphotons/singulus)
 
 Singulus is the monolith that powers [tonyburns.net](https://tonyburns.net) and facilitates dynamic needs for me on the [IndieWeb](https://indieweb.org/).

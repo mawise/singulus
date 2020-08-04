@@ -16,6 +16,7 @@
 </head>
 
 <body class="<%= body_class %>">
+  <%= render partial: 'partials/site_header'%>
   <%= yield %>
 
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>

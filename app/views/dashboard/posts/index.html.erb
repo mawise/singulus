@@ -4,7 +4,7 @@
       <%= render partial: 'partials/notifications' %>
         <nav class="level">
           <div class="level-item">
-            <%= link_to 'New Post', new_post_path, class: 'button is-info' %>
+            <%= link_to 'New Post', new_dashboard_post_path, class: 'button is-info' %>
           </div>
         </nav>
         <table class="table">
@@ -23,7 +23,7 @@
           <tbody>
             <% @posts.each do |post| %>
               <tr>
-                <td><%= link_to post.short_uid, post_path(post) %></td>
+                <td><%= link_to post.short_uid, dashboard_post_path(post) %></td>
                 <td><%= post.post_type.titleize %></td>
                 <td><%= to_html_from_markdown(post.name.present? ? post.name : (post.summary.present? ? post.summary : post.content)) %></td>
                 <td>

@@ -16,7 +16,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
   end
 
   before do
-    allow(Rails.configuration).to receive(:site_url) { site_url }
+    allow(Rails.configuration.x.site).to receive(:url) { site_url }
     post '/micropub', params: params, headers: headers
   end
 

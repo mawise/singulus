@@ -3,10 +3,14 @@
 # Common application helpers.
 module ApplicationHelper
   def site_name
-    Rails.configuration.site_name
+    Rails.configuration.x.site.name
   end
 
   def site_url
-    Rails.configuration.site_url
+    Rails.configuration.x.site.url
+  end
+
+  def hub_host
+    Rails.configuration.x.hub.host
   end
 end

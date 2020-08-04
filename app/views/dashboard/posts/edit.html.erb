@@ -38,7 +38,7 @@
                     <%= f.submit "Update post", class: 'button is-link' %>
                   </div>
 
-                  <div class="control"><%= link_to 'Delete post', post_path(@post), method: :delete, class: 'button is-danger' %></div>
+                  <div class="control"><%= link_to 'Delete post', dashboard_post_path(@post), method: :delete, class: 'button is-danger' %></div>
                 </div>
               <% end %>
             </div>
