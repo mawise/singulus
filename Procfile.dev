@@ -1,5 +1,4 @@
 web: ./bin/puma -C config/puma.rb
 webpack: ./bin/webpack-dev-server --listen-host 0.0.0.0
 worker: ./bin/sidekiq -c ${SIDEKIQ_CONCURRENCY:-5} -q default -q hugo
-ngrok-web: ngrok http -hostname=$SINGULUS_HOST 5000
-ngrok-minio: ngrok http -hostname=$ASSETS_HOST 9000
+ngrok: ngrok start hub assets web
