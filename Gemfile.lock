@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    absolutely (4.0.0)
+      addressable (~> 2.7)
     actioncable (6.0.3.2)
       actionpack (= 6.0.3.2)
       nio4r (~> 2.0)
@@ -208,6 +210,7 @@ GEM
       rails (>= 4.2)
     jaro_winkler (1.5.4)
     jmespath (1.4.0)
+    json (2.3.1)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -224,6 +227,8 @@ GEM
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
+    link-header-parser (2.0.0)
+      absolutely (~> 4.0)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -236,6 +241,9 @@ GEM
       mimemagic (~> 0.3.2)
     maruku (0.7.3)
     method_source (1.0.0)
+    microformats (4.2.0)
+      json (~> 2.2)
+      nokogiri (~> 1.10)
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
@@ -481,7 +489,9 @@ DEPENDENCIES
   kaminari (~> 1.2)
   kramdown (~> 2.3)
   kramdown-parser-gfm (~> 1.1.0)
+  link-header-parser (~> 2.0)
   listen (~> 3.2)
+  microformats (~> 4.2)
   newrelic_rpm (~> 6.12)
   octokit (~> 4.18)
   oj (~> 3.10)
