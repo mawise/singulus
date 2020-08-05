@@ -20,6 +20,7 @@ module Dashboard
       @post.published_at = Time.now.utc
       if @post.save_unique
         PublishWorker.perform_async('create', @post.id)
+        @post.shortlinks.create(link: @post.short_uid, target_url: @post.permalink_url, tags: %w[auto])
         redirect_to dashboard_post_path(@post), notice: 'Post was successfully created'
       else
         render :new
