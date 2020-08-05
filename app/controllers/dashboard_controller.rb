@@ -2,4 +2,5 @@
 
 # Base class for dashboard controllers.
 class DashboardController < ApplicationController
+  before_action :authenticate_user!
 end

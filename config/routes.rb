@@ -41,6 +41,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     namespace :dashboard, format: false do
       resources :photos
       resources :posts
+      resources :shortlinks
 
       root to: 'home#index'
     end

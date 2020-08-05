@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_03_004307) do
+ActiveRecord::Schema.define(version: 2020_08_04_235510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -94,6 +94,23 @@ ActiveRecord::Schema.define(version: 2020_08_03_004307) do
     t.index ["short_uid"], name: "index_posts_on_short_uid", unique: true
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["url"], name: "index_posts_on_url"
+  end
+
+  create_table "shortlinks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "resource_type"
+    t.uuid "resource_id"
+    t.text "link", null: false
+    t.text "target_url", null: false
+    t.text "title"
+    t.text "tags", default: [], null: false, array: true
+    t.integer "expires_in"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["link"], name: "index_shortlinks_on_link", unique: true
+    t.index ["resource_id", "resource_type"], name: "index_shortlinks_on_resource_id_and_resource_type"
+    t.index ["resource_type", "resource_id"], name: "index_shortlinks_on_resource_type_and_resource_id"
+    t.index ["tags"], name: "index_shortlinks_on_tags", using: :gin
+    t.index ["target_url"], name: "index_shortlinks_on_target_url"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

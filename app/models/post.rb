@@ -10,6 +10,8 @@ class Post < ApplicationRecord
 
   belongs_to :author, class_name: 'User'
 
+  has_many :shortlinks, as: :resource, dependent: :nullify
+
   has_many :photos, dependent: :nullify
   accepts_nested_attributes_for :photos, allow_destroy: true,
                                          reject_if: proc { |a| a['file'].blank? && a['file_remote_url'].blank? }

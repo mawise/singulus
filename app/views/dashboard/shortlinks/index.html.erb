@@ -1,0 +1,54 @@
+<main id="main" aria-role="main">
+  <section class="section">
+    <div class="container pb-6">
+      <%= render partial: 'partials/notifications' %>
+        <nav class="level">
+          <div class="level-item">
+            <%= link_to 'New Shortlink', new_dashboard_shortlink_path, class: 'button is-primary' %>
+          </div>
+        </nav>
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th>Link</th>
+              <th>Target URL</th>
+              <th>Expires At</th>
+              <th>Tags</th>
+              <th>Created</th>
+              <th>Updated</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @shortlinks.each do |shortlink| %>
+              <tr>
+                <td><%= link_to shortlink.link, dashboard_shortlink_path(shortlink) %></td>
+                <td><%= link_to shortlink.target_url, shortlink.target_url, target: '_blank' %></td>
+                <td><%= time_tag(shortlink.expired_at) if shortlink.expires_in %></td>
+                <td>
+                  <% if Array(shortlink.tags).any? %>
+                  <div class="tags">
+                    <% shortlink.tags.each do |t| %><span class="tag">#<%= t %></span><% end %>
+                  </div>
+                  <% end %>
+                </td>
+                <td><%= time_tag(shortlink.created_at) %></td>
+                <td><%= time_tag(shortlink.updated_at) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="columns">
+        <div class="column"></div>
+
+        <div class="column is-one-third"><%= paginate @shortlinks %></div>
+
+        <div class="column"></div>
+      </div>
+    </div>
+  </section>
+</main>

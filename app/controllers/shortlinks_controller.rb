@@ -2,13 +2,12 @@
 
 # Serves and manages shortlinks.
 class ShortlinksController < ApplicationController
-  def index; end
-
-  def create; end
-
-  def show; end
-
-  def update; end
-
-  def destroy; end
+  def show
+    @shortlink = Shortlink.find_by(link: params[:id])
+    if @shortlink.present?
+      redirect_to @shortlink.target_url
+    else
+      render :not_found, status: :not_found
+    end
+  end
 end

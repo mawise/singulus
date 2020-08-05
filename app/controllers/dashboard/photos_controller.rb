@@ -3,8 +3,6 @@
 module Dashboard
   # Manages photos.
   class PhotosController < DashboardController
-    before_action :authenticate_user!
-
     before_action :find_photo, only: %i[show edit update destroy]
 
     def index

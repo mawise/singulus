@@ -67,6 +67,7 @@ gem 'microformats', '~> 4.2'
 gem 'oj', '~> 3.10'
 gem 'retriable', '~> 3.1'
 gem 'typhoeus', '~> 1.4'
+gem 'validate_url', '~> 1.0'
 
 group :development, :test do
   gem 'byebug', '~> 11.1'

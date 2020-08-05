@@ -3,8 +3,6 @@
 module Dashboard
   # Manages posts.
   class PostsController < DashboardController
-    before_action :authenticate_user!
-
     before_action :find_post, only: %i[show edit update destroy]
 
     def index
