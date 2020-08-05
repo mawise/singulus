@@ -38,6 +38,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     post '/micropub', to: 'micropub/posts#create', format: false
     post '/micropub/media', to: 'micropub/media#create', as: :micropub_media, format: false
 
+    resources :webmentions, only: %i[index create show], format: false
+
     namespace :dashboard, format: false do
       resources :photos
       resources :posts

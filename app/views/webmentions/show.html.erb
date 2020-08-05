@@ -1,0 +1,32 @@
+<main id="main" aria-role="main">
+  <section class="hero is-medium is-dark is-fullheight">
+    <div class="hero-head"></div>
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns mt-4">
+          <div class="column"></div>
+
+          <div class="column is-one-third">
+            <div class="card">
+              <header class="card-header">
+              <h1 class="card-header-title"><%= @webmention.short_uid %></h1>
+                <div class="card-header-icon">
+                  <span class="icon">
+                    <i class="fas fa-quote-right"></i>
+                  </span>
+                </div>
+              </header>
+              <div class="card-content">
+                <p><i class="fas fa-link"></i>&nbsp;<strong>Source:</strong> <%= link_to @webmention.source_url, @webmention.source_url %></p>
+                <p><i class="fas fa-link"></i>&nbsp;<strong>Target:</strong> <%= link_to @webmention.target_url, @webmention.target_url %></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="column"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-foot has-text-dark"><%= render partial: 'partials/site_footer' %></div>
+  </section>
+</main>

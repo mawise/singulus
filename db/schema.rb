@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_04_235510) do
+ActiveRecord::Schema.define(version: 2020_08_05_193453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -135,9 +135,31 @@ ActiveRecord::Schema.define(version: 2020_08_04_235510) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "webmentions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "short_uid", null: false
+    t.uuid "source_id"
+    t.text "source_url", null: false
+    t.jsonb "source_properties", default: {}, null: false
+    t.uuid "target_id"
+    t.text "target_url", null: false
+    t.datetime "verified_at"
+    t.datetime "approved_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["source_id", "target_id"], name: "index_webmentions_on_source_id_and_target_id", unique: true
+    t.index ["source_id"], name: "index_webmentions_on_source_id"
+    t.index ["source_properties"], name: "index_webmentions_on_source_properties", using: :gin
+    t.index ["source_url", "target_id"], name: "index_webmentions_on_source_url_and_target_id", unique: true
+    t.index ["source_url", "target_url"], name: "index_webmentions_on_source_url_and_target_url", unique: true
+    t.index ["target_id"], name: "index_webmentions_on_target_id"
+  end
+
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "posts", "users", column: "author_id"
+  add_foreign_key "webmentions", "posts", column: "source_id"
+  add_foreign_key "webmentions", "posts", column: "target_id"
 end

@@ -1,4 +1,4 @@
 web: ./bin/puma -C config/puma.rb
 webpack: ./bin/webpack-dev-server --listen-host 0.0.0.0
-worker: ./bin/sidekiq -c ${SIDEKIQ_CONCURRENCY:-5} -q default -q hugo
+worker: ./bin/sidekiq -c ${SIDEKIQ_CONCURRENCY:-5} -q default -q hugo -q webmention
 ngrok: ngrok start hub links assets web webpack
