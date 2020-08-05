@@ -11,7 +11,7 @@
               <h1 class="card-header-title"><%= shortlinks_host %>/<%= @shortlink.link %></h1>
               <div class="card-header-icon">
                 <span class="icon">
-                  <%= link_to shortlink_url(@shortlink), class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
+                  <%= link_to shortlink_url(@shortlink.link), class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
                 </span>
                 <span class="icon ml-3">
                   <%= link_to edit_dashboard_shortlink_path(@shortlink), class: 'has-text-dark' do %><i class="fas fa-edit"></i><% end %>
