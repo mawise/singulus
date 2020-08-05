@@ -1,0 +1,57 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "10951f25a5bf4c050913158d51574ee63b350b9f293bd16a2497853cfb3625b6",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/shortlinks_controller.rb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Shortlink.find_by(:link => params[:id]).target_url)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ShortlinksController",
+        "method": "show"
+      },
+      "user_input": "Shortlink.find_by(:link => params[:id]).target_url",
+      "confidence": "High",
+      "note": "Validation of shortlink target URL is the responsibility of the user."
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "dd5b837a8e1e2fcf96ec28b73983bb9acda578388258459cf3893ae0c801b44f",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/dashboard/shortlinks/show.html.erb",
+      "line": 28,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Shortlink.find(params[:id]).target_url, Shortlink.find(params[:id]).target_url, :target => \"_blank\", :class => \"has-text-dark\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Dashboard::ShortlinksController",
+          "method": "show",
+          "line": 26,
+          "file": "app/controllers/dashboard/shortlinks_controller.rb",
+          "rendered": {
+            "name": "dashboard/shortlinks/show",
+            "file": "app/views/dashboard/shortlinks/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "dashboard/shortlinks/show"
+      },
+      "user_input": "Shortlink.find(params[:id]).target_url",
+      "confidence": "Weak",
+      "note": "Validation of shortlink target URL is the responsibility of the user."
+    }
+  ],
+  "updated": "2020-08-04 22:54:28 -0400",
+  "brakeman_version": "4.8.2"
+}
