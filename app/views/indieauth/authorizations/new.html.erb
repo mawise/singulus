@@ -7,7 +7,7 @@
     <% if @pre_auth.response_type == 'code' %>
       Authorize <strong class="text-info"><%= @pre_auth.client.name %></strong> to use your account?
     <% elsif @pre_auth.response_type == 'id' %>
-      Authenticate to <strong class="text-info"><%= @pre_auth.clientname %></strong> with your account?
+      Authenticate to <strong class="text-info"><%= @pre_auth.client.name %></strong> with your account?
     <% end %>
   </p>
 

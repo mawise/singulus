@@ -18,7 +18,7 @@ module IndieAuth
     validate :client_id, error: :invalid_request
     validate :client, error: :invalid_client
     validate :redirect_uri, error: :invalid_redirect_uri
-    validate :me, error: :invalid_profile_uri
+    validate :me, error: :invalid_me
     validate :params, error: :invalid_request
     validate :response_type, error: :unsupported_response_type
     validate :scopes, error: :invalid_scope

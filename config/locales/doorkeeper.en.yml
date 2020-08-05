@@ -90,6 +90,7 @@ en:
     errors:
       messages:
         # Common error messages
+        invalid_me: 'The profile URL provided does not match any of your registered profile URLs.'
         invalid_request:
           unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
           missing_param: 'Missing required parameter: %{value}.'
