@@ -1,22 +1,28 @@
 # frozen_string_literal: true
 
-# == Schema Information
+# ## Schema Information
 #
-# Table name: photos
+# Table name: `photos`
 #
-#  id         :uuid             not null, primary key
-#  alt        :text
-#  duration   :interval
-#  file_data  :jsonb
-#  metadata   :hstore           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  post_id    :uuid
+# ### Columns
 #
-# Indexes
+# Name              | Type               | Attributes
+# ----------------- | ------------------ | ---------------------------
+# **`id`**          | `uuid`             | `not null, primary key`
+# **`alt`**         | `text`             |
+# **`duration`**    | `interval`         |
+# **`file_data`**   | `jsonb`            |
+# **`metadata`**    | `hstore`           | `not null`
+# **`created_at`**  | `datetime`         | `not null`
+# **`updated_at`**  | `datetime`         | `not null`
+# **`post_id`**     | `uuid`             |
 #
-#  index_photos_on_metadata  (metadata) USING gin
-#  index_photos_on_post_id   (post_id)
+# ### Indexes
+#
+# * `index_photos_on_metadata` (_using_ gin):
+#     * **`metadata`**
+# * `index_photos_on_post_id`:
+#     * **`post_id`**
 #
 FactoryBot.define do
   factory :photo do

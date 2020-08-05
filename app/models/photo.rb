@@ -1,24 +1,31 @@
 # frozen_string_literal: true
 
-# == Schema Information
+# Represents a photo attached to a Post.
 #
-# Table name: photos
+# ## Schema Information
 #
-#  id         :uuid             not null, primary key
-#  alt        :text
-#  duration   :interval
-#  file_data  :jsonb
-#  metadata   :hstore           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  post_id    :uuid
+# Table name: `photos`
 #
-# Indexes
+# ### Columns
 #
-#  index_photos_on_metadata  (metadata) USING gin
-#  index_photos_on_post_id   (post_id)
+# Name              | Type               | Attributes
+# ----------------- | ------------------ | ---------------------------
+# **`id`**          | `uuid`             | `not null, primary key`
+# **`alt`**         | `text`             |
+# **`duration`**    | `interval`         |
+# **`file_data`**   | `jsonb`            |
+# **`metadata`**    | `hstore`           | `not null`
+# **`created_at`**  | `datetime`         | `not null`
+# **`updated_at`**  | `datetime`         | `not null`
+# **`post_id`**     | `uuid`             |
 #
-# Represents a photo asset.
+# ### Indexes
+#
+# * `index_photos_on_metadata` (_using_ gin):
+#     * **`metadata`**
+# * `index_photos_on_post_id`:
+#     * **`post_id`**
+#
 class Photo < ApplicationRecord
   belongs_to :post, optional: true
 

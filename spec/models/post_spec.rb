@@ -1,36 +1,48 @@
 # frozen_string_literal: true
 
-# == Schema Information
+# ## Schema Information
 #
-# Table name: posts
+# Table name: `posts`
 #
-#  id           :uuid             not null, primary key
-#  categories   :text             default([]), is an Array
-#  content      :text
-#  name         :text
-#  properties   :jsonb            not null
-#  published_at :datetime
-#  short_uid    :text
-#  slug         :text
-#  summary      :text
-#  url          :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  author_id    :uuid             not null
+# ### Columns
 #
-# Indexes
+# Name                | Type               | Attributes
+# ------------------- | ------------------ | ---------------------------
+# **`id`**            | `uuid`             | `not null, primary key`
+# **`categories`**    | `text`             | `default([]), is an Array`
+# **`content`**       | `text`             |
+# **`name`**          | `text`             |
+# **`properties`**    | `jsonb`            | `not null`
+# **`published_at`**  | `datetime`         |
+# **`short_uid`**     | `text`             |
+# **`slug`**          | `text`             |
+# **`summary`**       | `text`             |
+# **`url`**           | `text`             |
+# **`created_at`**    | `datetime`         | `not null`
+# **`updated_at`**    | `datetime`         | `not null`
+# **`author_id`**     | `uuid`             | `not null`
 #
-#  index_posts_on_author_id     (author_id)
-#  index_posts_on_categories    (categories) USING gin
-#  index_posts_on_properties    (properties) USING gin
-#  index_posts_on_published_at  (published_at)
-#  index_posts_on_short_uid     (short_uid) UNIQUE
-#  index_posts_on_slug          (slug) UNIQUE
-#  index_posts_on_url           (url)
+# ### Indexes
 #
-# Foreign Keys
+# * `index_posts_on_author_id`:
+#     * **`author_id`**
+# * `index_posts_on_categories` (_using_ gin):
+#     * **`categories`**
+# * `index_posts_on_properties` (_using_ gin):
+#     * **`properties`**
+# * `index_posts_on_published_at`:
+#     * **`published_at`**
+# * `index_posts_on_short_uid` (_unique_):
+#     * **`short_uid`**
+# * `index_posts_on_slug` (_unique_):
+#     * **`slug`**
+# * `index_posts_on_url`:
+#     * **`url`**
 #
-#  fk_rails_...  (author_id => users.id)
+# ### Foreign Keys
+#
+# * `fk_rails_...`:
+#     * **`author_id => users.id`**
 #
 require 'rails_helper'
 

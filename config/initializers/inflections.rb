@@ -9,4 +9,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'GitHub'
   inflect.acronym 'JSON'
   inflect.acronym 'OAuth'
+  inflect.acronym 'UID'
 end
