@@ -12,29 +12,22 @@
                 <h1 class="title has-text-dark">New Photo</h1>
               </div>
 
-              <%= form_for(@photo) do |f| %>
+              <%= form_for(@photo, url: dashboard_photos_path(@photo)) do |f| %>
                 <div class="field">
-                  <div class="file is-boxed">
+                  <div class="file is-boxed is-fullwidth">
                     <%= f.label :file, class: 'file-label' do %>
                       <%= f.file_field :file, class: 'file-input' %>
                       <span class="file-cta">
                         <span class="file-icon"><i class="fas fa-upload"></i></span>
-                        <span class="file-label">Add photo</span>
+                        <span class="file-label has-text-centered">Add photo</span>
                       </span>
                     <% end %>
                   </div>
                 </div>
 
-                <div class="field">
-                  <%= f.label :alt, 'Alt Text', class: 'label' %>
-                  <div class="control"><%= f.text_field :alt, class: 'input' %></div>
-                </div>
+                <%= render partial: 'photo_fields', locals: { f: f } %>
 
-                <div class="field is-grouped">
-                  <div class="control">
-                    <%= f.submit "Create photo", class: 'button is-link' %>
-                  </div>
-                </div>
+                <%= f.submit "Create photo", class: 'button is-primary is-large is-fullwidth' %>
               <% end %>
             </div>
           </div>

@@ -12,60 +12,31 @@
                 <h1 class="title has-text-dark">New Post</h1>
               </div>
 
-              <%= form_for(@post) do |f| %>
-                <div class="field">
-                  <%= f.label :name, class: 'label' %>
-                  <div class="control"><%= f.text_field :name, class: 'input' %></div>
-                </div>
+              <%= form_for(@post, url: dashboard_posts_path) do |f| %>
+                <%= render partial: 'post_fields', locals: { f: f } %>
 
-                <div>
-                  <%= f.label :slug, class: 'label' %>
-                  <div class="control"><%= f.text_field :slug, class: 'input' %></div>
-                </div>
-
-                <div class="field">
-                  <%= f.label :content, class: 'label' %>
-                  <div class="control"><%= f.text_area :content, class: 'textarea', autofocus: true %></div>
-                </div>
-
-                <div class="field">
-                  <%= f.label :summary, class: 'label' %>
-                  <div class="control"><%= f.text_area :summary, class: 'textarea' %></div>
-                </div>
-
-                <div class="field">
-                  <%= f.label :category_names, 'Categories', class: 'label' %>
-                  <div class="control"><%= f.text_area :category_names, class: 'textarea' %></div>
-                </div>
-
-                <%= f.fields_for :photos, @post.photos.first do |ff| %>
-                  <div class="field">
-                    <div class="level">
-                      <div class="level-item">
-                        <div class="file is-boxed">
-                          <%= ff.label :file, class: 'file-label' do %>
-                            <%= ff.file_field :file, class: 'file-input' %>
-                            <span class="file-cta">
-                              <span class="file-icon"><i class="fas fa-upload"></i></span>
-                              <span class="file-label">Add photo</span>
-                            </span>
-                          <% end %>
-                        </div>
+                <div class="box">
+                  <%= f.fields_for :photos, @post.photos.first do |ff| %>
+                    <div class="field">
+                      <div class="file is-boxed is-fullwidth">
+                        <%= ff.label :file, class: 'file-label' do %>
+                          <%= ff.file_field :file, class: 'file-input' %>
+                          <span class="file-cta">
+                            <span class="file-icon"><i class="fas fa-upload"></i></span>
+                            <span class="file-label has-text-centered">Add photo</span>
+                          </span>
+                        <% end %>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="field">
-                    <%= ff.label :alt, 'Alt Text', class: 'label' %>
-                    <div class="control"><%= ff.text_field :alt, class: 'input' %></div>
-                  </div>
-                <% end %>
-
-                <div class="field is-grouped">
-                  <div class="control">
-                    <%= f.submit "Create post", class: 'button is-link' %>
-                  </div>
+                    <div class="field">
+                      <%= ff.label :alt, 'Alt Text', class: 'label' %>
+                      <div class="control"><%= ff.text_field :alt, class: 'input' %></div>
+                    </div>
+                  <% end %>
                 </div>
+
+                <%= f.submit "Create post", class: 'button is-primary is-large is-fullwidth' %>
               <% end %>
             </div>
           </div>

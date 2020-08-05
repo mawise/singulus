@@ -4,31 +4,27 @@
       <%= render partial: 'partials/notifications' %>
         <nav class="level">
           <div class="level-item">
-            <%= link_to 'New Photo', new_dashboard_photo_path, class: 'button is-info' %>
+            <%= link_to 'New Photo', new_dashboard_photo_path, class: 'button is-primary' %>
           </div>
         </nav>
-        <table class="table">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
           <thead>
             <tr>
-              <td>ID</td>
-              <td>Preview</td>
-              <td>Alt Text</td>
-              <td>Post</td>
-              <td>Created</td>
-              <td>Updated</td>
+              <th>Preview</th>
+              <th>Alt Text</th>
+              <th>Post</th>
+              <th>Created</th>
+              <th>Updated</th>
             </tr>
           </thead>
 
           <tbody>
             <% @photos.each do |photo| %>
               <tr>
-                <td><%= link_to photo.id, dashboard_photo_path(photo) %></td>
                 <td>
-                  <div class="box p-1">
-                    <figure class="image">
-                      <%= image_tag photo.file_url, alt: photo.alt, class: 'image' %>
-                    </figure>
-                  </div>
+                  <figure class="image">
+                    <%= link_to dashboard_photo_path(photo) do %><%= image_tag photo.file_url, alt: photo.alt, class: 'image' %><% end %>
+                  </figure>
                 </td>
                 <td><%= photo.alt %></td>
                 <td>

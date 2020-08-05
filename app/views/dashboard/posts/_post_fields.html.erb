@@ -1,0 +1,24 @@
+<div class="field">
+  <%= f.label :name, class: 'label' %>
+  <div class="control"><%= f.text_field :name, class: 'input' %></div>
+</div>
+
+<div>
+  <%= f.label :slug, class: 'label' %>
+  <div class="control"><%= f.text_field :slug, class: 'input' %></div>
+</div>
+
+<div class="field">
+  <%= f.label :content, class: 'label' %>
+  <div class="control"><%= f.text_area :content, class: 'textarea', autofocus: true %></div>
+</div>
+
+<div class="field">
+  <%= f.label :summary, class: 'label' %>
+  <div class="control"><%= f.text_area :summary, class: 'textarea' %></div>
+</div>
+
+<div class="field">
+  <%= f.label :category_names, 'Categories', class: 'label' %>
+  <div class="control"><%= f.text_area :category_names, class: 'textarea' %></div>
+</div>

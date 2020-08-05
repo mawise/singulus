@@ -12,15 +12,12 @@
                 <h1 class="title has-text-dark">Edit Photo</h1>
               </div>
 
-              <%= form_for(@photo) do |f| %>
+              <%= form_for(@photo, url: dashboard_photo_path(@photo)) do |f| %>
                 <figure class="image">
                   <%= image_tag @photo.file_url, alt: @photo.alt, class: 'image' %>
                 </figure>
 
-                <div class="field">
-                  <%= f.label :alt, 'Alt Text', class: 'label' %>
-                  <div class="control"><%= f.text_field :alt, class: 'input' %></div>
-                </div>
+                <%= render partial: 'photo_fields', locals: { f: f } %>
 
                 <div class="field is-grouped">
                   <div class="control">

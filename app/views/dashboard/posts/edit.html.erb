@@ -12,26 +12,8 @@
                 <h1 class="title has-text-dark">Edit Post</h1>
               </div>
 
-              <%= form_for(@post) do |f| %>
-                <div class="field">
-                  <%= f.label :name, class: 'label' %>
-                  <div class="control"><%= f.text_field :summary, class: 'input' %></div>
-                </div>
-
-                <div class="field">
-                  <%= f.label :content, class: 'label' %>
-                  <div class="control"><%= f.text_area :content, class: 'textarea', autofocus: true %></div>
-                </div>
-
-                <div class="field">
-                  <%= f.label :summary, class: 'label' %>
-                  <div class="control"><%= f.text_area :summary, class: 'textarea' %></div>
-                </div>
-
-                <div class="field">
-                  <%= f.label :category_names, 'Categories', class: 'label' %>
-                  <div class="control"><%= f.text_area :category_names, class: 'textarea' %></div>
-                </div>
+              <%= form_for(@post, url: dashboard_post_path(@post)) do |f| %>
+                <%= render partial: 'post_fields', locals: { f: f } %>
 
                 <div class="field is-grouped">
                   <div class="control">

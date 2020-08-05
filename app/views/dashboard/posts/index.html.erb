@@ -4,19 +4,19 @@
       <%= render partial: 'partials/notifications' %>
         <nav class="level">
           <div class="level-item">
-            <%= link_to 'New Post', new_dashboard_post_path, class: 'button is-info' %>
+            <%= link_to 'New Post', new_dashboard_post_path, class: 'button is-primary' %>
           </div>
         </nav>
-        <table class="table">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
           <thead>
             <tr>
-              <td>Short UID</td>
-              <td>Type</td>
-              <td>Description</td>
-              <td>Categories</td>
-              <td>Published</td>
-              <td>Created</td>
-              <td>Updated</td>
+              <th>Short UID</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Categories</th>
+              <th>Published</th>
+              <th>Created</th>
+              <th>Updated</th>
             </tr>
           </thead>
 

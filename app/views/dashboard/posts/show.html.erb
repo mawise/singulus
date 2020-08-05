@@ -38,7 +38,9 @@
                       <div class="level-left">
                         <div class="level-item">
                           <small>
-                            <%= @post.published? ? time_tag(@post.published_at) : 'Unpublished' %>
+                            <i class="fas fa-calendar"></i>
+                            &nbsp;
+                            <%= @post.published_at ? time_tag(@post.published_at, @post.created_at.strftime('%e %b %Y')) : 'Unpublished' %>
                           </small>
                         </div>
                       </div>
