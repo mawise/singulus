@@ -80,6 +80,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate', '~> 3.1', require: false
   gem 'brakeman', '~> 4.9', require: false
   gem 'bullet', '~> 6.1'
   gem 'bundler-audit', '~> 0.7', require: false
