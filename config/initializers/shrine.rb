@@ -32,6 +32,6 @@ Shrine.storages = {
   store: Shrine::Storage::S3.new(**s3_options)
 }
 
-Shrine.plugin :instrumentation, notifications: ActiveSupport::Notifications
-Shrine.plugin :activerecord
-Shrine.plugin :url_options, url_options
+Shrine.plugin(:instrumentation, notifications: ActiveSupport::Notifications)
+Shrine.plugin(:activerecord)
+Shrine.plugin(:url_options, **url_options)
