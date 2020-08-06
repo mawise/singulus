@@ -23,6 +23,99 @@
     {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 4,
+      "fingerprint": "1ef3edca892e329d54925ada2286c843650c4c874b38f5b2d9ffe988071fc128",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/dashboard/webmentions/show.html.erb",
+      "line": 27,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Webmention.find(params[:id]).source_url, Webmention.find(params[:id]).source_url)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Dashboard::WebmentionsController",
+          "method": "show",
+          "line": 13,
+          "file": "app/controllers/dashboard/webmentions_controller.rb",
+          "rendered": {
+            "name": "dashboard/webmentions/show",
+            "file": "app/views/dashboard/webmentions/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "dashboard/webmentions/show"
+      },
+      "user_input": "Webmention.find(params[:id]).source_url",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "7de6592469929c99299209e2e34b1471f78b4bc23438a346a91dd5f3fdbe9eb4",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/dashboard/webmentions/show.html.erb",
+      "line": 28,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Webmention.find(params[:id]).target_url, Webmention.find(params[:id]).target_url)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Dashboard::WebmentionsController",
+          "method": "show",
+          "line": 13,
+          "file": "app/controllers/dashboard/webmentions_controller.rb",
+          "rendered": {
+            "name": "dashboard/webmentions/show",
+            "file": "app/views/dashboard/webmentions/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "dashboard/webmentions/show"
+      },
+      "user_input": "Webmention.find(params[:id]).target_url",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "b17d0032eab0381336848c0e3e6b045e3de418e976c433f6d4fc9e1b6e7e819c",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/dashboard/photos/show.html.erb",
+      "line": 14,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Photo.find(params[:id]).file_url, :class => \"has-text-dark\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Dashboard::PhotosController",
+          "method": "show",
+          "line": 26,
+          "file": "app/controllers/dashboard/photos_controller.rb",
+          "rendered": {
+            "name": "dashboard/photos/show",
+            "file": "app/views/dashboard/photos/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "dashboard/photos/show"
+      },
+      "user_input": "Photo.find(params[:id]).file_url",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
       "fingerprint": "dd5b837a8e1e2fcf96ec28b73983bb9acda578388258459cf3893ae0c801b44f",
       "check_name": "LinkToHref",
       "message": "Potentially unsafe model attribute in `link_to` href",
@@ -52,6 +145,6 @@
       "note": "Validation of shortlink target URL is the responsibility of the user."
     }
   ],
-  "updated": "2020-08-04 22:54:28 -0400",
-  "brakeman_version": "4.8.2"
+  "updated": "2020-08-06 17:17:04 -0400",
+  "brakeman_version": "4.9.0"
 }
