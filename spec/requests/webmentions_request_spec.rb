@@ -30,6 +30,24 @@ RSpec.describe '/webmentions', type: :request do
     end
   end
 
+  context 'with invalid webmention' do
+    subject(:create_webmention) { post '/webmentions', params: { source: source_url, target: target_url } }
+
+    let(:source_url) { Faker::Internet.url }
+    let(:target_url) { "#{Rails.configuration.x.site.url}/non-existent-post" }
+    let(:new_webmention) { Webmention.find_by(source_url: source_url, target_url: target_url) }
+
+    it 'returns HTTP bad request' do
+      create_webmention
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'returns a description of the error' do
+      create_webmention
+      expect(JSON.parse(response.body)).to include('error_description')
+    end
+  end
+
   describe 'GET /webmentions/:id' do
     context 'with a valid webmention as HTML' do
       let(:webmention) do
