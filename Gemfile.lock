@@ -390,7 +390,7 @@ GEM
       elasticsearch (>= 6)
       hashie
     semantic_range (2.3.0)
-    shrine (3.2.1)
+    shrine (3.2.2)
       content_disposition (~> 1.0)
       down (~> 5.1)
     sidekiq (6.1.1)
@@ -525,7 +525,7 @@ DEPENDENCIES
   rugged (~> 1.0)
   sass-rails (~> 6.0)
   searchkick (~> 4.4)
-  shrine (~> 3.0)
+  shrine (~> 3.2)
   sidekiq (~> 6.1)
   sidekiq-scheduler (~> 3.0)
   sidekiq-unique-jobs (~> 7.0.0.beta22)

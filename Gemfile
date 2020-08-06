@@ -46,7 +46,7 @@ gem 'aws-sdk-s3', '~> 1.75'
 
 # File uploads
 gem 'fastimage', '~> 2.2'
-gem 'shrine', '~> 3.0'
+gem 'shrine', '~> 3.2'
 
 # Git/GitHub
 gem 'octokit', '~> 4.18'
