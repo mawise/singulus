@@ -65,7 +65,7 @@ class Webmention < ApplicationRecord
   validate :target_exists
 
   def source_uri
-    URI.parse(source_uri)
+    URI.parse(source_url)
   end
 
   def target_uri
