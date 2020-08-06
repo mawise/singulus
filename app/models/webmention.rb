@@ -54,8 +54,8 @@ class Webmention < ApplicationRecord
   belongs_to :source, class_name: 'Post', inverse_of: :webmentions_as_source, optional: true
   belongs_to :target, class_name: 'Post', inverse_of: :webmentions_as_target, optional: true
 
-  validates :source_url, presence: true, url: true
-  validates :target_url, presence: true, url: true
+  validates :source_url, presence: true, url: { schemes: %w(http https), public_suffix: true }
+  validates :target_url, presence: true, url: { schemes: %w(http https), public_suffix: true }
 
   validate :source_url_and_target_url_cannot_be_the_same
   validate :target_exists
