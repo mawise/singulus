@@ -1,0 +1,40 @@
+<main id="main" aria-role="main">
+  <section class="section">
+    <div class="container pb-6">
+      <%= render partial: 'partials/notifications' %>
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Source</th>
+            <th>Target</th>
+            <th>Status</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @webmentions.each do |webmention| %>
+            <tr>
+              <td><%= link_to webmention.short_uid, dashboard_webmention_path(webmention) %></td>
+              <td><%= link_to webmention.source_url, webmention.source_url %></td>
+              <td><%= link_to webmention.target_url, webmention.target_url %></td>
+              <td><%= webmention.status %></td>
+              <td><%= time_tag(webmention.created_at) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="container">
+      <div class="columns">
+        <div class="column"></div>
+
+        <div class="column is-one-third"><%= paginate @webmentions %></div>
+
+        <div class="column"></div>
+      </div>
+    </div>
+  </section>
+</main>

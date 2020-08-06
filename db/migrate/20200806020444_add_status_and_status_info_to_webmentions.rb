@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Adds status and status_info columns to webmentions.
 class AddStatusAndStatusInfoToWebmentions < ActiveRecord::Migration[6.0]
   def change

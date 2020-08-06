@@ -44,6 +44,10 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       resources :photos
       resources :posts
       resources :shortlinks
+      resources :webmentions, only: %i[index show destroy] do
+        put 'approve', on: :member
+        put 'deny', on: :member
+      end
 
       root to: 'home#index'
     end
