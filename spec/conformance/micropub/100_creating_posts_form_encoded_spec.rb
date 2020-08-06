@@ -77,6 +77,12 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
       end
       let(:new_post) { Post.find_by(content: content) }
 
+      around do |example|
+        WebMock.allow_net_connect!(net_http_connect_on_start: true)
+        example.run
+        WebMock.disable_net_connect!(allow_localhost: true)
+      end
+
       it 'returns HTTP accepted' do
         expect(response).to have_http_status(:accepted)
       end
@@ -104,6 +110,12 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
         }
       end
       let(:new_post) { Post.find_by(content: content) }
+
+      around do |example|
+        WebMock.allow_net_connect!(net_http_connect_on_start: true)
+        example.run
+        WebMock.disable_net_connect!(allow_localhost: true)
+      end
 
       it 'returns HTTP accepted' do
         expect(response).to have_http_status(:accepted)

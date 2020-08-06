@@ -97,4 +97,5 @@ group :development do
 end
 
 group :test do
+  gem 'webmock', '~> 3.8'
 end
