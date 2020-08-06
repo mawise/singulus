@@ -65,6 +65,7 @@ gem 'kramdown-parser-gfm', '~> 1.1.0'
 gem 'link-header-parser', '~> 2.0'
 gem 'microformats', '~> 4.2'
 gem 'oj', '~> 3.10'
+gem 'pry-rails', '~> 0.3'
 gem 'retriable', '~> 3.1'
 gem 'typhoeus', '~> 1.4'
 gem 'validate_url', '~> 1.0'
@@ -75,7 +76,6 @@ group :development, :test do
   gem 'faker', '~> 2.13'
   gem 'pry', '~> 0.13'
   gem 'pry-byebug', '~> 3.9'
-  gem 'pry-rails', '~> 0.3'
   gem 'rspec-rails', '~> 4.0'
 end
 
