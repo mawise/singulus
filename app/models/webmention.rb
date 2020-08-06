@@ -16,6 +16,8 @@
 # **`short_uid`**          | `text`             | `not null`
 # **`source_properties`**  | `jsonb`            | `not null`
 # **`source_url`**         | `text`             | `not null`
+# **`status`**             | `text`             | `default("pending"), not null`
+# **`status_info`**        | `jsonb`            | `not null`
 # **`target_url`**         | `text`             | `not null`
 # **`verified_at`**        | `datetime`         |
 # **`created_at`**         | `datetime`         | `not null`
@@ -38,6 +40,8 @@
 # * `index_webmentions_on_source_url_and_target_url` (_unique_):
 #     * **`source_url`**
 #     * **`target_url`**
+# * `index_webmentions_on_status`:
+#     * **`status`**
 # * `index_webmentions_on_target_id`:
 #     * **`target_id`**
 #
