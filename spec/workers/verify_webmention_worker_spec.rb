@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe VerifyWebmentionWorker, type: :worker do
+RSpec.describe VerifyWebmentionWorker, type: :worker do
   subject(:worker) { described_class.new }
 
   context 'with a valid source and target' do

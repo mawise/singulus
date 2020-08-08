@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe IndieAuth::PreAuthorization, type: :model do
+RSpec.describe IndieAuth::PreAuthorization, type: :model do
   subject(:pre_auth) do
     described_class.new(
       Doorkeeper.configuration,

@@ -91,10 +91,13 @@ group :development do
   gem 'rubocop-rspec', '~> 1.42', require: false
   gem 'solargraph', '~> 0.39', require: false
   gem 'spring', '~> 2.1', require: false
+  gem 'spring-commands-rspec', '~> 1.0'
+  gem 'spring-commands-rubocop', '~> 0.2'
   gem 'spring-watcher-listen', '~> 2.0', require: false
   gem 'web-console', '~> 4.0'
 end
 
 group :test do
+  gem 'coveralls', '~> 0.8', require: false
   gem 'webmock', '~> 3.8'
 end

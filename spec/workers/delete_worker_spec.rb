@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe DeleteWorker, type: :worker do
+RSpec.describe DeleteWorker, type: :worker do
   let(:github) { instance_spy('Octokit::Client') }
   let(:github_repo) { 'some/repo' }
   let(:github_branch) { 'some-branch' }

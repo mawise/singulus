@@ -46,7 +46,7 @@
 #
 require 'rails_helper'
 
-describe Post, type: :model do
+RSpec.describe Post, type: :model do
   let(:user) { FactoryBot.create(:user) }
 
   it 'generates a unique short ID upon creation' do
