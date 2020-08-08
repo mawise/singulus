@@ -47,6 +47,8 @@ jobs:
           yarn install --pure-lockfile
 
       - name: Run linters
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           bin/rubocop --parallel
           yarn exec stylelint app/javascript/packs/**/*.scss
