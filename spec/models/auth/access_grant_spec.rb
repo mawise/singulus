@@ -6,17 +6,19 @@
 #
 # ### Columns
 #
-# Name                     | Type               | Attributes
-# ------------------------ | ------------------ | ---------------------------
-# **`id`**                 | `uuid`             | `not null, primary key`
-# **`expires_in`**         | `integer`          | `not null`
-# **`redirect_uri`**       | `text`             | `not null`
-# **`revoked_at`**         | `datetime`         |
-# **`scopes`**             | `text`             | `default(""), not null`
-# **`token`**              | `text`             | `not null`
-# **`created_at`**         | `datetime`         | `not null`
-# **`application_id`**     | `uuid`             | `not null`
-# **`resource_owner_id`**  | `uuid`             | `not null`
+# Name                         | Type               | Attributes
+# ---------------------------- | ------------------ | ---------------------------
+# **`id`**                     | `uuid`             | `not null, primary key`
+# **`code_challenge`**         | `text`             |
+# **`code_challenge_method`**  | `text`             |
+# **`expires_in`**             | `integer`          | `not null`
+# **`redirect_uri`**           | `text`             | `not null`
+# **`revoked_at`**             | `datetime`         |
+# **`scopes`**                 | `text`             | `default(""), not null`
+# **`token`**                  | `text`             | `not null`
+# **`created_at`**             | `datetime`         | `not null`
+# **`application_id`**         | `uuid`             | `not null`
+# **`resource_owner_id`**      | `uuid`             | `not null`
 #
 # ### Indexes
 #
