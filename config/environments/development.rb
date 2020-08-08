@@ -21,9 +21,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   end
 
   # Assets configuration
-  config.assets.debug = true
-  config.assets.quiet = true
-  config.assets.url = "#{ENV.fetch('ASSETS_URL')}/singulus-development/"
+  config.x.assets.url = "#{ENV.fetch('ASSETS_URL')}/singulus-development/"
 
   # ActionMailer configuration
   config.action_mailer.default_url_options = { host: 'localhost', port: ENV.fetch('PORT', 5000) }

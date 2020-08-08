@@ -19,7 +19,7 @@ end
 
 url_options = {
   store: {
-    host: Rails.configuration.assets.url,
+    host: Rails.configuration.x.assets.url,
     public: true
   }
 }

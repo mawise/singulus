@@ -21,8 +21,7 @@ Rails.application.configure do
   end
 
   # Assets configuration
-  config.assets.compile = false
-  config.assets.url = ENV.fetch('ASSETS_URL')
+  config.x.assets.url = ENV.fetch('ASSETS_URL')
 
   # ActionController configuration
   config.action_controller.perform_caching = true

@@ -39,7 +39,7 @@ module Micropub
     end
 
     def assets_url
-      @assets_url ||= Rails.configuration.assets.url
+      @assets_url ||= Rails.configuration.x.assets.url
     end
   end
 end

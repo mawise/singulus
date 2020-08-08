@@ -64,12 +64,26 @@ class Webmention < ApplicationRecord
   validate :source_url_and_target_url_cannot_be_the_same
   validate :target_exists
 
+  scope :approved, -> { where(status: 'approved') }
+  scope :denied, -> { where(status: 'denied') }
+  scope :verified, -> { where(status: 'verified') }
+  scope :pending, -> { where(status: 'pending') }
+
   def source_uri
     URI.parse(source_url)
   end
 
   def target_uri
     URI.parse(target_url)
+  end
+
+  def as_front_matter_json
+    {
+      source: source_url,
+      target: target_url,
+      properties: source_properties,
+      created_at: created_at
+    }
   end
 
   private

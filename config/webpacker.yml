@@ -7,7 +7,7 @@ default: &default
   public_root_path: public
   resolved_paths: []
   source_entry_path: packs
-  source_path: app/javascript
+  source_path: app/frontend
   webpack_compile_output: true
 
   static_assets_extensions:

@@ -25,7 +25,7 @@ class PublishWorker < ApplicationWorker
   attr_reader :post
 
   def find_post(id)
-    @post = Post.find(id)
+    @post = Post.includes(:webmentions_as_target).find(id)
   end
 
   def path
@@ -36,6 +36,7 @@ class PublishWorker < ApplicationWorker
     h = default_front_matter
     h[:categories] = post.categories if Array(post.categories).any?
     h[:photos] = photos if post.photos.any?
+    h[:webmentions] = webmentions if post.webmentions_as_target.any?
     h
   end
 
@@ -54,6 +55,10 @@ class PublishWorker < ApplicationWorker
         alt: a.alt
       }
     end
+  end
+
+  def webmentions
+    post.webmentions_as_target.all.map(&:as_front_matter_json)
   end
 
   def content
