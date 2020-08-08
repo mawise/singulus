@@ -42,5 +42,7 @@ FactoryBot.define do
     name { Faker::Name.unique.name }
     password { 'cssADoZCzK6UACc4beuB' }
     password_confirmation { 'cssADoZCzK6UACc4beuB' }
+    canonical_profile_url { Faker::Internet.url }
+    profile_urls { [canonical_profile_url] }
   end
 end
