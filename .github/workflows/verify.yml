@@ -47,10 +47,8 @@ jobs:
           yarn install --pure-lockfile
 
       - name: Run linters
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bin/rubocop --parallel
+          bundle exec rubocop --parallel
           yarn exec stylelint app/javascript/packs/**/*.scss
           yarn exec eslint
           yarn prettier --check app/**/*.{js,scss}
