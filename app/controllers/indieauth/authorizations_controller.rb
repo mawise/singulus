@@ -28,7 +28,7 @@ module IndieAuth
       elsif params[:client_id] != grant.application.url && params[:redirect_uri] != grant.redirect_uri
         render_invalid_grant
       else
-        render json: { me: grant.user.canonical_profile_url }
+        render json: grant.user.to_indieauth_json
       end
     end
 

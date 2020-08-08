@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_06_020444) do
+ActiveRecord::Schema.define(version: 2020_08_08_165410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 2020_08_06_020444) do
     t.datetime "locked_at"
     t.text "profile_urls", default: [], null: false, array: true
     t.text "canonical_profile_url"
+    t.text "photo_url"
     t.index ["canonical_profile_url"], name: "index_users_on_canonical_profile_url"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true

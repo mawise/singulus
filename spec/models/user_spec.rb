@@ -19,6 +19,7 @@
 # **`last_sign_in_ip`**        | `inet`             |
 # **`locked_at`**              | `datetime`         |
 # **`name`**                   | `string`           | `default(""), not null`
+# **`photo_url`**              | `text`             |
 # **`profile_urls`**           | `text`             | `default([]), not null, is an Array`
 # **`remember_created_at`**    | `datetime`         |
 # **`sign_in_count`**          | `integer`          | `default(0), not null`

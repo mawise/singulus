@@ -21,6 +21,7 @@
 # **`last_sign_in_ip`**        | `inet`             |
 # **`locked_at`**              | `datetime`         |
 # **`name`**                   | `string`           | `default(""), not null`
+# **`photo_url`**              | `text`             |
 # **`profile_urls`**           | `text`             | `default([]), not null, is an Array`
 # **`remember_created_at`**    | `datetime`         |
 # **`sign_in_count`**          | `integer`          | `default(0), not null`
@@ -54,4 +55,20 @@ class User < ApplicationRecord
            dependent: :delete_all
 
   has_many :posts, as: :author, dependent: :destroy
+
+  def to_indieauth_json
+    as_indieauth_json.to_json
+  end
+
+  def as_indieauth_json
+    {
+      me: canonical_profile_url,
+      profile: {
+        type: 'card',
+        name: name,
+        url: canonical_profile_url,
+        photo: photo_url
+      }
+    }
+  end
 end

@@ -34,3 +34,12 @@
 # * `fk_rails_...`:
 #     * **`resource_owner_id => users.id`**
 #
+FactoryBot.define do
+  factory :oauth_access_grant, class: 'Auth::AccessGrant' do
+    association :application, factory: :oauth_application
+    association :resource_owner, factory: :user
+    expires_in { 2.hours }
+    scopes { %i[profile] }
+    redirect_uri { 'urn:ietf:wg:oauth:2.0:oob' }
+  end
+end

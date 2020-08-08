@@ -52,7 +52,7 @@ module IndieAuth
     def authorize_response_body
       body = authorize_response.body
       user = Auth::AccessToken.find_by(token: body['access_token']).user
-      body.merge(me: user.canonical_profile_url)
+      body.merge(user.as_indieauth_json)
     end
   end
 end
