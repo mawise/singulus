@@ -18,7 +18,7 @@ gem 'railties', '~> 6.0'
 gem 'tzinfo-data', '~> 1.2020.1'
 
 # Instrumentation, logging, and monitoring
-gem 'honeybadger', '~> 4.0'
+gem 'honeybadger', '~> 4.7'
 gem 'newrelic_rpm', '~> 6.12'
 
 # Frontend assets
