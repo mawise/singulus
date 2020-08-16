@@ -5,7 +5,7 @@ class LinksController < ApplicationController
   def show
     @link = Link.find_by(name: params[:id])
     if @link.present?
-      redirect_to @link.target_url
+      redirect_to URI(@link.target_url)
     else
       render :not_found, status: :not_found
     end

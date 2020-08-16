@@ -65,6 +65,10 @@ class Link < ApplicationRecord
     end
   end
 
+  def target_uri
+    URI(target_url)
+  end
+
   private
 
   def generate_short_uid
