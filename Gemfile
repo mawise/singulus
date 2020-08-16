@@ -85,6 +85,7 @@ group :development do
   gem 'bundler-audit', '~> 0.7', require: false
   gem 'listen', '~> 3.2', require: false
   gem 'rubocop', '~> 0.89', require: false
+  gem 'rubocop-daemon', '~> 0.3', require: false
   gem 'rubocop-faker', '~> 1.1', require: false
   gem 'rubocop-performance', '~> 1.7', require: false
   gem 'rubocop-rails', '~> 2.7', require: false

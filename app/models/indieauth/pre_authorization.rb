@@ -18,13 +18,9 @@ module IndieAuth
     validate :client_id, error: :invalid_request
     validate :client, error: :invalid_client
     validate :redirect_uri, error: :invalid_redirect_uri
-    validate :params, error: :invalid_request
     validate :response_type, error: :unsupported_response_type
-    validate :scopes, error: :invalid_scope
-    validate :code_challenge_method, error: :invalid_code_challenge_method
 
-    attr_reader :client, :client_id, :code_challenge, :code_challenge_method, :missing_param,
-                :redirect_uri, :resource_owner, :response_type, :state, :me
+    attr_reader :me
 
     def initialize(_server, parameters = {}, _resource_owner = nil)
       super
