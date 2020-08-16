@@ -11,7 +11,7 @@ RSpec.describe IndieAuth::PreAuthorization, type: :model do
     )
   end
 
-  let(:user) { FactoryBot.create(:user, profile_urls: ['https://example.com/profile']) }
+  let(:user) { FactoryBot.create(:user) }
 
   # TODO: Temporary until we have the client get upserted
   let(:client) { FactoryBot.create(:oauth_application) }
@@ -24,7 +24,7 @@ RSpec.describe IndieAuth::PreAuthorization, type: :model do
     {
       client_id: client_id,
       redirect_uri: redirect_uri,
-      me: profile_url,
+      me: user.canonical_profile_url,
       response_type: response_type,
       scope: scope,
       state: '123456'
@@ -33,14 +33,6 @@ RSpec.describe IndieAuth::PreAuthorization, type: :model do
 
   it 'is authorizable with valid parameters' do
     expect(pre_auth).to be_authorizable
-  end
-
-  context 'when profile URL does not belong to authorizing user' do
-    let(:profile_url) { 'https://example.com/different-user' }
-
-    it 'is not authorizable' do
-      expect(pre_auth).not_to be_authorizable
-    end
   end
 
   context 'when redirect_uri is on a different domain than client_id' do

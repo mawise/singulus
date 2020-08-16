@@ -20,7 +20,6 @@
 # **`locked_at`**              | `datetime`         |
 # **`name`**                   | `string`           | `default(""), not null`
 # **`photo_url`**              | `text`             |
-# **`profile_urls`**           | `text`             | `default([]), not null, is an Array`
 # **`remember_created_at`**    | `datetime`         |
 # **`sign_in_count`**          | `integer`          | `default(0), not null`
 # **`unlock_token`**           | `string`           |
@@ -43,6 +42,5 @@ FactoryBot.define do
     password { 'cssADoZCzK6UACc4beuB' }
     password_confirmation { 'cssADoZCzK6UACc4beuB' }
     canonical_profile_url { Faker::Internet.url }
-    profile_urls { [canonical_profile_url] }
   end
 end

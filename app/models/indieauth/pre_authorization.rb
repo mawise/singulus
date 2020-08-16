@@ -18,7 +18,6 @@ module IndieAuth
     validate :client_id, error: :invalid_request
     validate :client, error: :invalid_client
     validate :redirect_uri, error: :invalid_redirect_uri
-    validate :me, error: :invalid_me
     validate :params, error: :invalid_request
     validate :response_type, error: :unsupported_response_type
     validate :scopes, error: :invalid_scope
@@ -71,16 +70,6 @@ module IndieAuth
       uri = checker.as_uri(redirect_uri)
       client_uri = URI.parse(client_id)
       checker.valid?(redirect_uri) && uri.host == client_uri.host
-    end
-
-    def validate_me
-      if me.blank?
-        @missing_param = :me
-        return false
-      end
-
-      # TODO: Do additional discovery on profile URL.
-      resource_owner.profile_urls.include?(me)
     end
 
     def validate_response_type
