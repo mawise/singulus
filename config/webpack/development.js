@@ -6,7 +6,7 @@ environment.config.merge({
   devServer: {
     public: process.env.WEBPACK_HOST,
     allowedHosts: [
-      process.env.HUB_HOST
+      process.env.SINGULUS_HOST
     ],
     headers: {
       "Access-Control-Allow-Origin": "*",

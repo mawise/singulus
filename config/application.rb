@@ -33,7 +33,7 @@ module Singulus
     config.x.site.url = ENV.fetch('SITE_URL', 'https://example.com')
 
     # Hub configuration
-    config.x.hub.host = ENV.fetch('HUB_HOST', 'singulus.dev')
+    config.x.hub.host = ENV.fetch('SINGULUS_HOST', 'singulus.dev')
 
     # Link configuration
     config.x.links.host = ENV.fetch('LINKS_HOST', 'sngls.dev')

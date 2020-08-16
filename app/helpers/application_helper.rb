@@ -10,10 +10,6 @@ module ApplicationHelper
     Rails.configuration.x.site.url
   end
 
-  def hub_host
-    Rails.configuration.x.hub.host
-  end
-
   def links_host
     Rails.configuration.x.links.host
   end
