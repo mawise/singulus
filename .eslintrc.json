@@ -1,6 +1,9 @@
 {
+  "parser": "babel-eslint",
   "extends": [
-    "standard",
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
     "prettier"
   ]
 }
