@@ -20,7 +20,7 @@
         <p>
           <i class="fas fa-link has-text-dark"></i>
           &nbsp;
-          <%= link_to @link.target_url, @link.target_uri, target: '_blank', class: 'has-text-dark' %>
+          <%= link_to @link.target_url, @link.target_uri.to_s, target: '_blank', class: 'has-text-dark' %>
         </p>
 
         <div class="level mt-3">
