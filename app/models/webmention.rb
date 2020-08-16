@@ -70,11 +70,11 @@ class Webmention < ApplicationRecord
   scope :pending, -> { where(status: 'pending') }
 
   def source_uri
-    URI.parse(source_url)
+    URI(source_url)
   end
 
   def target_uri
-    URI.parse(target_url)
+    URI(target_url)
   end
 
   def as_front_matter_json

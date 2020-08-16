@@ -19,8 +19,8 @@
       </header>
 
       <div class="card-content">
-        <p><i class="fas fa-link"></i>&nbsp;<strong>Source:</strong> <%= link_to @webmention.source_url, @webmention.source_url %></p>
-        <p><i class="fas fa-link"></i>&nbsp;<strong>Target:</strong> <%= link_to @webmention.target_url, @webmention.target_url %></p>
+        <p><i class="fas fa-link"></i>&nbsp;<strong>Source:</strong> <%= link_to @webmention.source_url, @webmention.source_uri.to_s %></p>
+        <p><i class="fas fa-link"></i>&nbsp;<strong>Target:</strong> <%= link_to @webmention.target_url, @webmention.target_uri.to_s %></p>
 
         <div class="level mt-3">
           <div class="level-left">

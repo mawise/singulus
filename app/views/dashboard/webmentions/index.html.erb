@@ -14,8 +14,8 @@
     <% @webmentions.each do |webmention| %>
       <tr>
         <td><%= link_to webmention.short_uid, dashboard_webmention_path(webmention) %></td>
-        <td><%= link_to webmention.source_url, webmention.source_url %></td>
-        <td><%= link_to webmention.target_url, webmention.target_url %></td>
+        <td><%= link_to webmention.source_url, webmention.source_uri %></td>
+        <td><%= link_to webmention.target_url, webmention.target_uri %></td>
         <td><%= webmention.status %></td>
         <td><%= time_tag(webmention.created_at) %></td>
       </tr>
