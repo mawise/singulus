@@ -24,7 +24,7 @@ RSpec.describe IndieAuth::PreAuthorization, type: :model do
     {
       client_id: client_id,
       redirect_uri: redirect_uri,
-      me: user.canonical_profile_url,
+      me: user.profile_url,
       response_type: response_type,
       scope: scope,
       state: '123456'

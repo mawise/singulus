@@ -20,9 +20,9 @@ RSpec.describe 'IndieAuth::Authorizations', type: :request do
         }
       end
 
-      it 'returns the canonical profile URL in the response' do
+      it 'returns the profile URL in the response' do
         post '/indieauth/authorize', params: params
-        expect(JSON.parse(response.body)['me']).to eq(user.canonical_profile_url)
+        expect(JSON.parse(response.body)['me']).to eq(user.profile_url)
       end
 
       it 'returns profile information in the response' do
