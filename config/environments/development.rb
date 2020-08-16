@@ -6,6 +6,13 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.consider_all_requests_local = true
   config.eager_load = false
 
+  # Logging configuration
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
+    logger = ActiveSupport::Logger.new($stdout)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
+
   # Caching configuration
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
