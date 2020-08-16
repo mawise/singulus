@@ -49,15 +49,12 @@ gem 'shrine', '~> 3.2'
 
 # Git/GitHub
 gem 'octokit', '~> 4.18'
-gem 'rugged', '~> 1.0'
 
 # Search
 gem 'searchkick', '~> 4.4'
 
 # Miscellaneous
-gem 'dry-rails', '~> 0.2'
 gem 'flutie', '~> 2.2'
-gem 'interactor-rails', '~> 2.0'
 gem 'kaminari', '~> 1.2'
 gem 'kramdown', '~> 2.3'
 gem 'kramdown-parser-gfm', '~> 1.1.0'
@@ -66,7 +63,6 @@ gem 'microformats', '~> 4.2'
 gem 'oj', '~> 3.10'
 gem 'pry-rails', '~> 0.3'
 gem 'retriable', '~> 3.1'
-gem 'typhoeus', '~> 1.4'
 gem 'validate_url', '~> 1.0'
 
 group :development, :test do
@@ -89,7 +85,6 @@ group :development do
   gem 'rubocop-performance', '~> 1.7', require: false
   gem 'rubocop-rails', '~> 2.7', require: false
   gem 'rubocop-rspec', '~> 1.42', require: false
-  gem 'solargraph', '~> 0.39', require: false
   gem 'spring', '~> 2.1', require: false
   gem 'spring-commands-rspec', '~> 1.0'
   gem 'spring-commands-rubocop', '~> 0.2'
