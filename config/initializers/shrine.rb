@@ -5,8 +5,8 @@ require 'shrine/storage/s3'
 case Rails.env
 when 'development', 'test'
   s3_options = {
-    access_key_id: ENV.fetch('MINIO_ACCESS_KEY'),
-    secret_access_key: ENV.fetch('MINIO_SECRET_KEY'),
+    access_key_id: ENV['MINIO_ACCESS_KEY'],
+    secret_access_key: ENV['MINIO_SECRET_KEY'],
     endpoint: 'http://localhost:9000',
     region: 'us-east-1',
     force_path_style: true,
@@ -14,7 +14,7 @@ when 'development', 'test'
     bucket: "singulus-#{Rails.env}"
   }
 when 'production'
-  s3_options = { bucket: ENV.fetch('ASSETS_BUCKET') }
+  s3_options = { bucket: ENV['ASSETS_BUCKET'] }
 end
 
 url_options = {

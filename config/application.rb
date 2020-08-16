@@ -24,19 +24,19 @@ module Singulus
     config.generators.system_tests = nil
 
     # GitHub configuration
-    config.x.github.token = ENV.fetch('GITHUB_TOKEN')
-    config.x.github.branch = ENV.fetch('GITHUB_BRANCH')
-    config.x.github.repo = ENV.fetch('GITHUB_REPO')
+    config.x.github.token = ENV.fetch('GITHUB_TOKEN', '')
+    config.x.github.branch = ENV.fetch('GITHUB_BRANCH', 'main')
+    config.x.github.repo = ENV.fetch('GITHUB_REPO', '')
 
     # Site configuration
-    config.x.site.name = ENV.fetch('SITE_NAME')
-    config.x.site.url = ENV.fetch('SITE_URL')
+    config.x.site.name = ENV.fetch('SITE_NAME', 'Singulus')
+    config.x.site.url = ENV.fetch('SITE_URL', 'https://example.com')
 
     # Hub configuration
-    config.x.hub.host = ENV.fetch('HUB_HOST')
+    config.x.hub.host = ENV.fetch('HUB_HOST', 'singulus.dev')
 
     # Shortlink configuration
-    config.x.shortlinks.host = ENV.fetch('SHORTLINKS_HOST')
+    config.x.shortlinks.host = ENV.fetch('SHORTLINKS_HOST', 'sngls.dev')
 
     # Hosts
     config.hosts << config.x.hub.host

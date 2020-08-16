@@ -111,7 +111,7 @@ Devise.setup do |config| # rubocop:disable Metrics/BlockLength
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  config.pepper = ENV.fetch('DEVISE_PEPPER')
+  config.pepper = ENV['DEVISE_PEPPER'] if ENV['DEVISE_PEPPER']
 
   # Send a notification to the original email when the user's email is changed.
   config.send_email_changed_notification = true
