@@ -75,6 +75,11 @@ RSpec.configure do |config|
     Sidekiq::Worker.clear_all
   end
 
-  config.include RequestHelpers, type: :request
-  config.include RequestHelpers::Shortlinks, host: :shortlinks
+  config.before type: :request do
+    self.host = Rails.configuration.x.hub.host
+  end
+
+  config.before type: :request, host: :shortlinks do
+    self.host = Rails.configuration.x.shortlinks.host
+  end
 end
