@@ -1,78 +1,68 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <%= render partial: 'partials/notifications' %>
-      <div class="columns mt-4">
-        <div class="column"></div>
+<div class="columns is-centered mt-4">
+  <div class="column is-three-fifths">
+    <%= render 'notifications' %>
+    <div class="card">
+      <div class="card-content">
+        <article class="media">
+          <div class="media-content">
+            <% if @post.name.present? %><h1><%= @post.name %></h1><% end %>
 
-        <div class="column is-three-fifths">
-          <div class="card">
-            <div class="card-content">
-              <article class="media">
-                <div class="media-content">
-                  <% if @post.name.present? %><h1><%= @post.name %></h1><% end %>
+            <% if @post.summary.present? %>
+              <div class="content">
+                <small><%= @post.summary %></small>
+              </div>
+            <% end %>
 
-                  <% if @post.summary.present? %>
-                    <div class="content">
-                      <small><%= @post.summary %></small>
-                    </div>
-                  <% end %>
+            <% if @post.content.present? %>
+              <div class="content">
+                <%= to_html_from_markdown(@post.content) %>
+              </div>
+            <% end %>
 
-                  <% if @post.content.present? %>
-                    <div class="content">
-                      <%= to_html_from_markdown(@post.content) %>
-                    </div>
-                  <% end %>
+            <% @post.photos.each do |photo| %>
+              <div class="box p-2">
+                <figure class="image">
+                  <%= image_tag photo.file_url, alt: photo.alt, class: 'image' %>
+                </figure>
+                <p><strong>Alt:</strong> <%= photo.alt %></p>
+              </div>
+            <% end %>
 
-                  <% @post.photos.each do |photo| %>
-                    <div class="box p-2">
-                      <figure class="image">
-                        <%= image_tag photo.file_url, alt: photo.alt, class: 'image' %>
-                      </figure>
-                      <p><strong>Alt:</strong> <%= photo.alt %></p>
-                    </div>
-                  <% end %>
-
-                  <div class="content">
-                    <div class="level">
-                      <div class="level-left">
-                        <div class="level-item">
-                          <small>
-                            <i class="fas fa-calendar"></i>
-                            &nbsp;
-                            <%= @post.published_at ? time_tag(@post.published_at, @post.created_at.strftime('%e %b %Y')) : 'Unpublished' %>
-                          </small>
-                        </div>
-                      </div>
-                      <div class="level-right">
-                        <% if Array(@post.categories).any? %>
-                          <div class="tags">
-                            <% @post.categories.each do |c| %><span class="tag">#<%= c %></span><% end %>
-                          </div>
-                        <% end %>
-                      </div>
-                    </div>
+            <div class="content">
+              <div class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <small>
+                      <i class="fas fa-calendar"></i>
+                      &nbsp;
+                      <%= @post.published_at ? time_tag(@post.published_at, @post.created_at.strftime('%e %b %Y')) : 'Unpublished' %>
+                    </small>
                   </div>
-
-                  <nav class="level">
-                    <div class="level-left">
-                      <div class="level-item">
-                        <%= link_to 'Edit', edit_dashboard_post_path(@post), class: 'button is-info' %>
-                      </div>
-
-                      <div class="level-item">
-                        <%= button_to 'Delete', dashboard_post_path(@post), class: 'button is-danger', method: :delete %>
-                      </div>
-                    </div>
-                  </nav>
                 </div>
-              </article>
+                <div class="level-right">
+                  <% if Array(@post.categories).any? %>
+                    <div class="tags">
+                      <% @post.categories.each do |c| %><span class="tag">#<%= c %></span><% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div class="column"></div>
+            <nav class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <%= link_to 'Edit', edit_dashboard_post_path(@post), class: 'button is-info' %>
+                </div>
+
+                <div class="level-item">
+                  <%= button_to 'Delete', dashboard_post_path(@post), class: 'button is-danger', method: :delete %>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </article>
       </div>
     </div>
   </div>
-</main>
+</div>

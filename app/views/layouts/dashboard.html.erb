@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title><%= site_name %></title>
-  <meta name="description" content="" />
-
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-
-  <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-</head>
-
-<body class="<%= body_class %>">
-  <%= render partial: 'partials/site_header'%>
-  <%= yield %>
-
-  <%= javascript_pack_tag 'dashboard', 'data-turbolinks-track': 'reload' %>
-</body>
-
-</html>
+<% content_for :main do %>
+  <main>
+    <header>
+      <%= render 'navbar' %>
+    </header>
+    <section>
+      <div class="container pt-6 pb-6">
+        <%= yield %>
+      </div>
+    </section>
+    <footer class="footer">
+      <%= render 'footer' %>
+    </footer>
+  <main>
+<% end %>
+<%= render template: 'layouts/application' %>

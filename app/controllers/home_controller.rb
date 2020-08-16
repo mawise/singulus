@@ -3,6 +3,10 @@
 # The homepage controller.
 class HomeController < ApplicationController
   def index
-    redirect_to dashboard_root_path if user_signed_in?
+    if user_signed_in?
+      redirect_to dashboard_root_path
+    else
+      redirect_to new_user_session_path
+    end
   end
 end

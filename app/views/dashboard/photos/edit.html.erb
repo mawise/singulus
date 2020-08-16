@@ -1,36 +1,26 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <%= render partial: 'partials/notifications' %>
-      <div class="columns mt-4">
-        <div class="column"></div>
-
-        <div class="column is-three-fifths">
-          <div class="card">
-            <div class="card-content">
-              <div class="container has-text-centered pb-4">
-                <h1 class="title has-text-dark">Edit Photo</h1>
-              </div>
-
-              <%= form_for(@photo, url: dashboard_photo_path(@photo)) do |f| %>
-                <figure class="image">
-                  <%= image_tag @photo.file_url, alt: @photo.alt, class: 'image' %>
-                </figure>
-
-                <%= render partial: 'photo_fields', locals: { f: f } %>
-
-                <div class="field is-grouped">
-                  <div class="control">
-                    <%= f.submit "Update photo", class: 'button is-link' %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
+<div class="columns mt-4">
+  <div class="column is-centered is-three-fifths">
+    <%= render 'notifications' %>
+    <div class="card">
+      <div class="card-content">
+        <div class="container has-text-centered pb-4">
+          <h1 class="title has-text-dark">Edit Photo</h1>
         </div>
 
-        <div class="column"></div>
+        <%= form_for(@photo, url: dashboard_photo_path(@photo)) do |f| %>
+          <figure class="image">
+            <%= image_tag @photo.file_url, alt: @photo.alt, class: 'image' %>
+          </figure>
+
+          <%= render partial: 'photo_fields', locals: { f: f } %>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <%= f.submit "Update photo", class: 'button is-link' %>
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
-  </section>
-</main>
+  </div>
+</div>

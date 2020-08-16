@@ -1,38 +1,28 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <%= render partial: 'partials/notifications' %>
-      <div class="columns mt-4">
-        <div class="column"></div>
-
-        <div class="column is-three-fifths">
-          <div class="card">
-            <header class="card-header">
-              <h1 class="card-header-title"><%= @photo.file.metadata['filename'] %></h1>
-              <div class="card-header-icon">
-                <span class="icon">
-                  <%= link_to @photo.file_url, class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
-                </span>
-                <span class="icon ml-3">
-                  <%= link_to edit_dashboard_photo_path(@photo), class: 'has-text-dark' do %><i class="fas fa-edit"></i><% end %>
-                </span>
-                <span class="icon ml-3">
-                  <%= link_to dashboard_photo_url(@photo), method: :delete, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-trash"></i><% end %>
-                </span>
-              </div>
-            </header>
-            <div class="card-content">
-              <figure class="image">
-                <%= image_tag @photo.file_url, alt: @photo.alt, class: 'image' %>
-              </figure>
-
-              <% if @photo.alt.present? %><p><%= @photo.alt %></p><% end %>
-            </div>
-          </div>
+<div class="columns is-centered mt-4">
+  <div class="column is-three-fifths">
+    <%= render 'notifications' %>
+    <div class="card">
+      <header class="card-header">
+        <h1 class="card-header-title"><%= @photo.file.metadata['filename'] %></h1>
+        <div class="card-header-icon">
+          <span class="icon">
+            <%= link_to @photo.file_url, class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
+          </span>
+          <span class="icon ml-3">
+            <%= link_to edit_dashboard_photo_path(@photo), class: 'has-text-dark' do %><i class="fas fa-edit"></i><% end %>
+          </span>
+          <span class="icon ml-3">
+            <%= link_to dashboard_photo_url(@photo), method: :delete, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-trash"></i><% end %>
+          </span>
         </div>
+      </header>
+      <div class="card-content">
+        <figure class="image">
+          <%= image_tag @photo.file_url, alt: @photo.alt, class: 'image' %>
+        </figure>
 
-        <div class="column"></div>
+        <% if @photo.alt.present? %><p><%= @photo.alt %></p><% end %>
       </div>
     </div>
   </div>
-</main>
+</div>

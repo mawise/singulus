@@ -1,49 +1,39 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <%= render partial: 'partials/notifications' %>
-      <div class="columns mt-4">
-        <div class="column"></div>
-
-        <div class="column is-three-fifths">
-          <div class="card">
-            <div class="card-content">
-              <div class="container has-text-centered pb-4">
-                <h1 class="title has-text-dark">New Post</h1>
-              </div>
-
-              <%= form_for(@post, url: dashboard_posts_path) do |f| %>
-                <%= render partial: 'post_fields', locals: { f: f } %>
-
-                <div class="box">
-                  <%= f.fields_for :photos, @post.photos.first do |ff| %>
-                    <div class="field">
-                      <div class="file is-boxed is-fullwidth">
-                        <%= ff.label :file, class: 'file-label' do %>
-                          <%= ff.file_field :file, class: 'file-input' %>
-                          <span class="file-cta">
-                            <span class="file-icon"><i class="fas fa-upload"></i></span>
-                            <span class="file-label has-text-centered">Add photo</span>
-                          </span>
-                        <% end %>
-                      </div>
-                    </div>
-
-                    <div class="field">
-                      <%= ff.label :alt, 'Alt Text', class: 'label' %>
-                      <div class="control"><%= ff.text_field :alt, class: 'input' %></div>
-                    </div>
-                  <% end %>
-                </div>
-
-                <%= f.submit "Create post", class: 'button is-primary is-large is-fullwidth' %>
-              <% end %>
-            </div>
-          </div>
+<div class="columns is-centered mt-4">
+  <div class="column is-three-fifths">
+    <%= render 'notifications' %>
+    <div class="card">
+      <div class="card-content">
+        <div class="container has-text-centered pb-4">
+          <h1 class="title has-text-dark">New Post</h1>
         </div>
 
-        <div class="column"></div>
+        <%= form_for(@post, url: dashboard_posts_path) do |f| %>
+          <%= render partial: 'post_fields', locals: { f: f } %>
+
+          <div class="box">
+            <%= f.fields_for :photos, @post.photos.first do |ff| %>
+              <div class="field">
+                <div class="file is-boxed is-fullwidth">
+                  <%= ff.label :file, class: 'file-label' do %>
+                    <%= ff.file_field :file, class: 'file-input' %>
+                    <span class="file-cta">
+                      <span class="file-icon"><i class="fas fa-upload"></i></span>
+                      <span class="file-label has-text-centered">Add photo</span>
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="field">
+                <%= ff.label :alt, 'Alt Text', class: 'label' %>
+                <div class="control"><%= ff.text_field :alt, class: 'input' %></div>
+              </div>
+            <% end %>
+          </div>
+
+          <%= f.submit "Create post", class: 'button is-primary is-large is-fullwidth' %>
+        <% end %>
       </div>
     </div>
-  </section>
-</main>
+  </div>
+</div>

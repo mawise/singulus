@@ -1,59 +1,49 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <%= render partial: 'partials/notifications' %>
-      <div class="columns mt-4">
-        <div class="column"></div>
+<div class="columns is-centered mt-4">
+  <div class="column is-three-fifths">
+    <%= render 'notifications' %>
+    <div class="card">
+      <header class="card-header">
+        <h1 class="card-header-title"><%= shortlinks_host %>/<%= @shortlink.link %></h1>
+        <div class="card-header-icon">
+          <span class="icon">
+            <%= link_to shortlink_url(@shortlink.link), class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
+          </span>
+          <span class="icon ml-3">
+            <%= link_to edit_dashboard_shortlink_path(@shortlink), class: 'has-text-dark' do %><i class="fas fa-edit"></i><% end %>
+          </span>
+          <span class="icon ml-3">
+            <%= link_to dashboard_shortlink_url(@shortlink), method: :delete, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-trash"></i><% end %>
+          </span>
+        </div>
+      </header>
+      <div class="card-content">
+        <p>
+          <i class="fas fa-link has-text-dark"></i>
+          &nbsp;
+          <%= link_to @shortlink.target_url, @shortlink.target_url, target: '_blank', class: 'has-text-dark' %>
+        </p>
 
-        <div class="column is-three-fifths">
-          <div class="card">
-            <header class="card-header">
-              <h1 class="card-header-title"><%= shortlinks_host %>/<%= @shortlink.link %></h1>
-              <div class="card-header-icon">
-                <span class="icon">
-                  <%= link_to shortlink_url(@shortlink.link), class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
-                </span>
-                <span class="icon ml-3">
-                  <%= link_to edit_dashboard_shortlink_path(@shortlink), class: 'has-text-dark' do %><i class="fas fa-edit"></i><% end %>
-                </span>
-                <span class="icon ml-3">
-                  <%= link_to dashboard_shortlink_url(@shortlink), method: :delete, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-trash"></i><% end %>
-                </span>
-              </div>
-            </header>
-            <div class="card-content">
-              <p>
-                <i class="fas fa-link has-text-dark"></i>
+        <div class="level mt-3">
+          <div class="level-left">
+            <div class="level-item">
+              <small>
+                <i class="fas fa-calendar"></i>
                 &nbsp;
-                <%= link_to @shortlink.target_url, @shortlink.target_url, target: '_blank', class: 'has-text-dark' %>
-              </p>
-
-              <div class="level mt-3">
-                <div class="level-left">
-                  <div class="level-item">
-                    <small>
-                      <i class="fas fa-calendar"></i>
-                      &nbsp;
-                      <%= time_tag @shortlink.created_at, @shortlink.created_at.strftime('%e %b %Y') %>
-                    </small>
-                  </div>
+                <%= time_tag @shortlink.created_at, @shortlink.created_at.strftime('%e %b %Y') %>
+              </small>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <% if Array(@shortlink.tags).any? %>
+                <div class="tags">
+                  <% @shortlink.tags.each do |t| %><span class="tag">#<%= t %></span><% end %>
                 </div>
-                <div class="level-right">
-                  <div class="level-item">
-                    <% if Array(@shortlink.tags).any? %>
-                      <div class="tags">
-                        <% @shortlink.tags.each do |t| %><span class="tag">#<%= t %></span><% end %>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>
-
-        <div class="column"></div>
       </div>
     </div>
   </div>
-</main>
+</div>

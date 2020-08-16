@@ -1,34 +1,24 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <%= render partial: 'partials/notifications' %>
-      <div class="columns mt-4">
-        <div class="column"></div>
-
-        <div class="column is-three-fifths">
-          <div class="card">
-            <div class="card-content">
-              <div class="container has-text-centered pb-4">
-                <h1 class="title has-text-dark">Edit Post</h1>
-              </div>
-
-              <%= form_for(@post, url: dashboard_post_path(@post)) do |f| %>
-                <%= render partial: 'post_fields', locals: { f: f } %>
-
-                <div class="field is-grouped">
-                  <div class="control">
-                    <%= f.submit "Update post", class: 'button is-link' %>
-                  </div>
-
-                  <div class="control"><%= link_to 'Delete post', dashboard_post_path(@post), method: :delete, class: 'button is-danger' %></div>
-                </div>
-              <% end %>
-            </div>
-          </div>
+<div class="columns is-centered mt-4">
+  <div class="column is-three-fifths">
+    <%= render 'notifications' %>
+    <div class="card">
+      <div class="card-content">
+        <div class="container has-text-centered pb-4">
+          <h1 class="title has-text-dark">Edit Post</h1>
         </div>
 
-        <div class="column"></div>
+        <%= form_for(@post, url: dashboard_post_path(@post)) do |f| %>
+          <%= render partial: 'post_fields', locals: { f: f } %>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <%= f.submit "Update post", class: 'button is-link' %>
+            </div>
+
+            <div class="control"><%= link_to 'Delete post', dashboard_post_path(@post), method: :delete, class: 'button is-danger' %></div>
+          </div>
+        <% end %>
       </div>
     </div>
-  </section>
-</main>
+  </div>
+</div>

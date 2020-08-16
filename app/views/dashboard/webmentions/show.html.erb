@@ -1,51 +1,41 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <div class="columns mt-4">
-        <div class="column"></div>
+<div class="columns is-centered mt-4">
+  <div class="column is-one-third">
+    <%= render 'notifications' %>
+    <div class="card">
 
-          <div class="column is-one-third">
-            <%= render partial: 'partials/notifications' %>
-            <div class="card">
+      <header class="card-header">
+        <h1 class="card-header-title"><%= @webmention.short_uid %></h1>
+        <div class="card-header-icon">
+          <span class="icon ml-3">
+            <%= link_to approve_dashboard_webmention_path(@webmention), method: :put, class: 'has-text-dark' do %><i class="fas fa-thumbs-up"></i><% end %>
+          </span>
+          <span class="icon ml-3">
+            <%= link_to deny_dashboard_webmention_path(@webmention), method: :put, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-times"></i><% end %>
+          </span>
+          <span class="icon ml-3">
+            <%= link_to dashboard_webmention_url(@webmention), method: :delete, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-trash"></i><% end %>
+          </span>
+        </div>
+      </header>
 
-              <header class="card-header">
-                <h1 class="card-header-title"><%= @webmention.short_uid %></h1>
-                <div class="card-header-icon">
-                  <span class="icon ml-3">
-                    <%= link_to approve_dashboard_webmention_path(@webmention), method: :put, class: 'has-text-dark' do %><i class="fas fa-thumbs-up"></i><% end %>
-                  </span>
-                  <span class="icon ml-3">
-                    <%= link_to deny_dashboard_webmention_path(@webmention), method: :put, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-times"></i><% end %>
-                  </span>
-                  <span class="icon ml-3">
-                    <%= link_to dashboard_webmention_url(@webmention), method: :delete, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-trash"></i><% end %>
-                  </span>
-                </div>
-              </header>
+      <div class="card-content">
+        <p><i class="fas fa-link"></i>&nbsp;<strong>Source:</strong> <%= link_to @webmention.source_url, @webmention.source_url %></p>
+        <p><i class="fas fa-link"></i>&nbsp;<strong>Target:</strong> <%= link_to @webmention.target_url, @webmention.target_url %></p>
 
-              <div class="card-content">
-                <p><i class="fas fa-link"></i>&nbsp;<strong>Source:</strong> <%= link_to @webmention.source_url, @webmention.source_url %></p>
-                <p><i class="fas fa-link"></i>&nbsp;<strong>Target:</strong> <%= link_to @webmention.target_url, @webmention.target_url %></p>
-
-                <div class="level mt-3">
-                  <div class="level-left">
-                    <div class="level-item">
-                      <small>
-                        <i class="fas fa-calendar"></i>
-                        &nbsp;
-                        <%= time_tag @webmention.created_at, @webmention.created_at.strftime('%e %b %Y') %>
-                      </small>
-                    </div>
-                  </div>
-                  <div class="level-right">
-                  </div>
-                </div>
-              </div>
+        <div class="level mt-3">
+          <div class="level-left">
+            <div class="level-item">
+              <small>
+                <i class="fas fa-calendar"></i>
+                &nbsp;
+                <%= time_tag @webmention.created_at, @webmention.created_at.strftime('%e %b %Y') %>
+              </small>
             </div>
           </div>
-
-        <div class="column"></div>
+          <div class="level-right">
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</main>
+</div>

@@ -1,0 +1,36 @@
+<nav class="navbar has-background-dark">
+  <div class="container">
+    <div class="navbar-brand">
+      <%= link_to root_path, class: 'navbar-item' do %><%= image_tag '/logo.png' %><% end %>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <span class="navbar-item">
+          <%= link_to 'Dashboard', dashboard_root_path, class: 'has-text-white' %>
+        </span>
+        <span class="navbar-item">
+          <%= link_to 'Posts', dashboard_posts_path, class: 'has-text-white' %>
+        </span>
+        <span class="navbar-item">
+          <%= link_to 'Photos', dashboard_photos_path, class: 'has-text-white' %>
+        </span>
+        <span class="navbar-item">
+          <%= link_to 'Shortlinks', dashboard_shortlinks_path, class: 'has-text-white' %>
+        </span>
+        <span class="navbar-item">
+          <%= link_to 'Webmentions', dashboard_webmentions_path, class: 'has-text-white' %>
+        </span>
+      </div>
+      <div class="navbar-end">
+        <span class="navbar-item">
+          <%= link_to destroy_user_session_path, method: :delete, class: 'button is-dark' do %>
+            <span class="icon is-small">
+              <i class="fas fa-sign-out-alt"></i>
+            </span>
+            <span>Log out</span>
+          <% end %>
+        </span>
+      </div>
+    </div>
+  </div>
+</nav>

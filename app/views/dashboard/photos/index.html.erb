@@ -1,54 +1,39 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <%= render partial: 'partials/notifications' %>
-        <nav class="level">
-          <div class="level-item">
-            <%= link_to 'New Photo', new_dashboard_photo_path, class: 'button is-primary' %>
-          </div>
-        </nav>
-        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-          <thead>
-            <tr>
-              <th>Preview</th>
-              <th>Alt Text</th>
-              <th>Post</th>
-              <th>Created</th>
-              <th>Updated</th>
-            </tr>
-          </thead>
+<%= render 'notifications' %>
+<nav class="level">
+  <div class="level-item">
+    <%= link_to 'New Photo', new_dashboard_photo_path, class: 'button is-primary' %>
+  </div>
+</nav>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Preview</th>
+      <th>Alt Text</th>
+      <th>Post</th>
+      <th>Created</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
 
-          <tbody>
-            <% @photos.each do |photo| %>
-              <tr>
-                <td>
-                  <figure class="image">
-                    <%= link_to dashboard_photo_path(photo) do %><%= image_tag photo.file_url, alt: photo.alt, class: 'image' %><% end %>
-                  </figure>
-                </td>
-                <td><%= photo.alt %></td>
-                <td>
-                  <% if photo.post %>
-                    <%= photo.post.name.present? ? photo.post.name : (photo.post.summary.present? ? photo.post.summary : photo.post.content) %>
-                  <% end %>
-                </td>
-                <td><%= time_tag(photo.created_at) %></td>
-                <td><%= time_tag(photo.updated_at) %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <tbody>
+    <% @photos.each do |photo| %>
+      <tr>
+        <td>
+          <figure class="image">
+            <%= link_to dashboard_photo_path(photo) do %><%= image_tag photo.file_url, alt: photo.alt, class: 'image' %><% end %>
+          </figure>
+        </td>
+        <td><%= photo.alt %></td>
+        <td>
+          <% if photo.post %>
+            <%= photo.post.name.present? ? photo.post.name : (photo.post.summary.present? ? photo.post.summary : photo.post.content) %>
+          <% end %>
+        </td>
+        <td><%= time_tag(photo.created_at) %></td>
+        <td><%= time_tag(photo.updated_at) %></td>
+      </tr>
+    <% end %>
+  </tbody>
 
-    <div class="container">
-      <div class="columns">
-        <div class="column"></div>
-
-        <div class="column is-one-third"><%= paginate @photos %></div>
-
-        <div class="column"></div>
-      </div>
-    </div>
-  </section>
-</main>
+  <tfoot><%= paginate @photos %></div></tfoot>
+</table>

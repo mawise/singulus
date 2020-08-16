@@ -1,2 +1,46 @@
-<% content_for :extra_body_classes, 'landing' %>
-<%= render partial: 'partials/login' %>
+<main id="main" aria-role="main">
+  <section class="hero is-medium is-dark is-fullheight">
+    <div class="hero-head"></div>
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title has-text-centered">Singulus</h1>
+        <div class="columns mt-4">
+          <div class="column"></div>
+
+          <div class="column is-one-third">
+            <%= render 'notifications' %>
+            <div class="card">
+              <div class="card-content">
+                <%= form_for(:user, url: user_session_path) do |f| %>
+                  <div class="field">
+                    <%= f.label :email, class: 'label' %>
+                    <div class="control"><%= f.email_field :email, autofocus: true, required: true, autocomplete: "email", class: 'input' %></div>
+                  </div>
+
+                  <div class="field">
+                    <%= f.label :password, class: 'label', required: true %>
+                    <div class="control"><%= f.password_field :password, autocomplete: "current-password", class: 'input' %></div>
+                  </div>
+
+                  <div class="field">
+                    <div class="control">
+                      <%= f.label :remember_me, class: 'checkbox' do %>
+                        <%= f.check_box :remember_me, class: 'checkbox' %>
+                        Remember me
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <%= f.submit "Log in", class: 'button is-primary is-large is-fullwidth' %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <div class="column"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-foot has-text-dark"><%= render 'footer' %></div>
+  </section>
+</main>

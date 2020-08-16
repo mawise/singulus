@@ -9,14 +9,17 @@
   <title><%= site_name %></title>
   <meta name="description" content="" />
 
+  <%= favicon_link_tag '/favicon.png' %>
+
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
   <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'dashboard', 'data-turbolinks-track': 'reload' %>
 </head>
 
 <body class="<%= body_class %>">
-  <%= yield %>
+    <%= content_for?(:main) ? yield(:main) : yield %>
 </body>
 
 </html>

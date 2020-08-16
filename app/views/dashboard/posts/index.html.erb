@@ -1,56 +1,41 @@
-<main id="main" aria-role="main">
-  <section class="section">
-    <div class="container pb-6">
-      <%= render partial: 'partials/notifications' %>
-        <nav class="level">
-          <div class="level-item">
-            <%= link_to 'New Post', new_dashboard_post_path, class: 'button is-primary' %>
+<%= render 'notifications' %>
+<nav class="level">
+  <div class="level-item">
+    <%= link_to 'New Post', new_dashboard_post_path, class: 'button is-primary' %>
+  </div>
+</nav>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Short UID</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Categories</th>
+      <th>Published</th>
+      <th>Created</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= link_to post.short_uid, dashboard_post_path(post) %></td>
+        <td><%= post.post_type.titleize %></td>
+        <td><%= to_html_from_markdown(post.name.present? ? post.name : (post.summary.present? ? post.summary : post.content)) %></td>
+        <td>
+          <% if Array(post.categories).any? %>
+          <div class="tags">
+            <% post.categories.each do |c| %><span class="tag">#<%= c %></span><% end %>
           </div>
-        </nav>
-        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-          <thead>
-            <tr>
-              <th>Short UID</th>
-              <th>Type</th>
-              <th>Description</th>
-              <th>Categories</th>
-              <th>Published</th>
-              <th>Created</th>
-              <th>Updated</th>
-            </tr>
-          </thead>
+          <% end %>
+        </td>
+        <td><%= post.published_at.present? ? time_tag(post.published_at) : 'Unpublished' %></td>
+        <td><%= time_tag(post.created_at) %></td>
+        <td><%= time_tag(post.updated_at) %></td>
+      </tr>
+    <% end %>
+  </tbody>
 
-          <tbody>
-            <% @posts.each do |post| %>
-              <tr>
-                <td><%= link_to post.short_uid, dashboard_post_path(post) %></td>
-                <td><%= post.post_type.titleize %></td>
-                <td><%= to_html_from_markdown(post.name.present? ? post.name : (post.summary.present? ? post.summary : post.content)) %></td>
-                <td>
-                  <% if Array(post.categories).any? %>
-                  <div class="tags">
-                    <% post.categories.each do |c| %><span class="tag">#<%= c %></span><% end %>
-                  </div>
-                  <% end %>
-                </td>
-                <td><%= post.published_at.present? ? time_tag(post.published_at) : 'Unpublished' %></td>
-                <td><%= time_tag(post.created_at) %></td>
-                <td><%= time_tag(post.updated_at) %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="columns">
-        <div class="column"></div>
-
-        <div class="column is-one-third"><%= paginate @posts %></div>
-
-        <div class="column"></div>
-      </div>
-    </div>
-  </section>
-</main>
+  <tfoot><%= paginate @posts %></tfoot>
+</table>
