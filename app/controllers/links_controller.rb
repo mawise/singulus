@@ -3,7 +3,7 @@
 # Serves and manages links.
 class LinksController < ApplicationController
   def show
-    @link = Link.find_by(link: params[:id])
+    @link = Link.find_by(name: params[:id])
     if @link.present?
       redirect_to @link.target_url
     else

@@ -46,7 +46,7 @@ module Dashboard
     end
 
     def link_params
-      params.require(:link).permit(:link, :target_url, :title, :tag_names, :expires_in)
+      params.require(:name).permit(:name, :target_url, :title, :tag_names, :expires_in)
     end
   end
 end

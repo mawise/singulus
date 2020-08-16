@@ -3,10 +3,10 @@
     <%= render 'notifications' %>
     <div class="card">
       <header class="card-header">
-        <h1 class="card-header-title"><%= links_host %>/<%= @link.link %></h1>
+        <h1 class="card-header-title"><%= links_host %>/<%= @link.name %></h1>
         <div class="card-header-icon">
           <span class="icon">
-            <%= link_to link_url(@link.link), class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
+            <%= link_to link_url(@link.name), class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
           </span>
           <span class="icon ml-3">
             <%= link_to edit_dashboard_link_path(@link), class: 'has-text-dark' do %><i class="fas fa-edit"></i><% end %>

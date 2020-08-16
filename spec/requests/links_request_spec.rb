@@ -24,7 +24,7 @@ RSpec.describe '/', type: :request, host: :links do
 
     describe 'GET /:id' do
       it 'redirects to the target URL of the link' do
-        get "/#{link.link}"
+        get "/#{link.name}"
         expect(response).to redirect_to(link.target_url)
       end
     end

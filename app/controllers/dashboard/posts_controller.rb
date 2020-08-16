@@ -55,7 +55,7 @@ module Dashboard
     end
 
     def create_link(post)
-      post.links.create(link: post.short_uid, target_url: post.permalink_url, tags: %w[auto])
+      post.links.create(name: post.short_uid, target_url: post.permalink_url, tags: %w[auto])
     end
 
     def find_post

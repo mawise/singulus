@@ -10,7 +10,7 @@
 # -------------------- | ------------------ | ---------------------------
 # **`id`**             | `uuid`             | `not null, primary key`
 # **`expires_in`**     | `integer`          |
-# **`link`**           | `text`             | `not null`
+# **`name`**           | `text`             | `not null`
 # **`resource_type`**  | `string`           |
 # **`tags`**           | `text`             | `default([]), not null, is an Array`
 # **`target_url`**     | `text`             | `not null`
@@ -21,8 +21,8 @@
 #
 # ### Indexes
 #
-# * `index_links_on_link` (_unique_):
-#     * **`link`**
+# * `index_links_on_name` (_unique_):
+#     * **`name`**
 # * `index_links_on_resource_id_and_resource_type`:
 #     * **`resource_id`**
 #     * **`resource_type`**
@@ -39,12 +39,12 @@ require 'rails_helper'
 RSpec.describe Link, type: :model do
   it 'generates a unique link upon creation when none is present' do
     link = FactoryBot.create(:link)
-    expect(link.link).not_to be_nil
+    expect(link.name).not_to be_nil
   end
 
   it 'uses the provided link when present' do
-    link = FactoryBot.create(:link, link: 'mylink')
-    expect(link.link).to eq('mylink')
+    link = FactoryBot.create(:link, name: 'mylink')
+    expect(link.name).to eq('mylink')
   end
 
   it 'converts tag names to tags on create' do

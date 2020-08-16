@@ -12,7 +12,7 @@
 # -------------------- | ------------------ | ---------------------------
 # **`id`**             | `uuid`             | `not null, primary key`
 # **`expires_in`**     | `integer`          |
-# **`link`**           | `text`             | `not null`
+# **`name`**           | `text`             | `not null`
 # **`resource_type`**  | `string`           |
 # **`tags`**           | `text`             | `default([]), not null, is an Array`
 # **`target_url`**     | `text`             | `not null`
@@ -23,8 +23,8 @@
 #
 # ### Indexes
 #
-# * `index_links_on_link` (_unique_):
-#     * **`link`**
+# * `index_links_on_name` (_unique_):
+#     * **`name`**
 # * `index_links_on_resource_id_and_resource_type`:
 #     * **`resource_id`**
 #     * **`resource_type`**
@@ -43,7 +43,7 @@ class Link < ApplicationRecord
 
   belongs_to :resource, polymorphic: true, optional: true
 
-  validates :link, presence: true, uniqueness: { case_sensitive: true }, format: { with: LINK_REGEX }
+  validates :name, presence: true, uniqueness: { case_sensitive: true }, format: { with: LINK_REGEX }
   validates :target_url, presence: true, url: true
 
   before_validation :generate_short_uid, on: :create
@@ -68,6 +68,6 @@ class Link < ApplicationRecord
   private
 
   def generate_short_uid
-    self.link = SecureRandom.uuid[0..5] if link.blank?
+    self.name = SecureRandom.uuid[0..5] if name.blank?
   end
 end

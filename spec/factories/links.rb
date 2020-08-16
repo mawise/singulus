@@ -10,7 +10,7 @@
 # -------------------- | ------------------ | ---------------------------
 # **`id`**             | `uuid`             | `not null, primary key`
 # **`expires_in`**     | `integer`          |
-# **`link`**           | `text`             | `not null`
+# **`name`**           | `text`             | `not null`
 # **`resource_type`**  | `string`           |
 # **`tags`**           | `text`             | `default([]), not null, is an Array`
 # **`target_url`**     | `text`             | `not null`
@@ -21,8 +21,8 @@
 #
 # ### Indexes
 #
-# * `index_links_on_link` (_unique_):
-#     * **`link`**
+# * `index_links_on_name` (_unique_):
+#     * **`name`**
 # * `index_links_on_resource_id_and_resource_type`:
 #     * **`resource_id`**
 #     * **`resource_type`**

@@ -19,7 +19,7 @@
   <tbody>
     <% @links.each do |link| %>
       <tr>
-        <td><%= link_to link.link, dashboard_link_path(link) %></td>
+        <td><%= link_to link.name, dashboard_link_path(link) %></td>
         <td><%= link_to link.target_url, link.target_url, target: '_blank' %></td>
         <td><%= time_tag(link.expired_at) if link.expires_in %></td>
         <td>

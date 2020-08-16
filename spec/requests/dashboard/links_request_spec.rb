@@ -18,7 +18,7 @@ RSpec.describe '/dashboard/links', type: :request do
 
   describe 'POST /dashboard/links' do
     let(:target_url) { Faker::Internet.url }
-    let(:params) { { link: { target_url: target_url } } }
+    let(:params) { { name: { target_url: target_url } } }
 
     it 'redirects to the new link' do
       post '/dashboard/links', params: params
@@ -38,7 +38,7 @@ RSpec.describe '/dashboard/links', type: :request do
     end
 
     describe 'PATCH /dashboard/links/:id' do
-      let(:params) { { link: { alt: 'new alt text' } } }
+      let(:params) { { name: { alt: 'new alt text' } } }
 
       it 'redirects to the link' do
         patch "/dashboard/links/#{link.id}", params: params

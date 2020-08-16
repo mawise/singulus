@@ -37,7 +37,7 @@ RSpec.describe '/dashboard/posts', type: :request do
 
     it 'sets the link to the short ID of the post' do
       post '/dashboard/posts', params: params
-      expect(new_post.links.first.link).to eq(new_post.short_uid)
+      expect(new_post.links.first.name).to eq(new_post.short_uid)
     end
 
     it 'sets the link target to the permalink URL of the post' do
