@@ -1,0 +1,18 @@
+<div class="columns is-centered mt-4">
+  <div class="column is-three-fifths">
+    <%= render 'notifications' %>
+    <div class="card">
+      <div class="card-content">
+        <div class="container has-text-centered pb-4">
+          <h1 class="title has-text-dark">New Link</h1>
+        </div>
+
+        <%= form_for(@link, url: dashboard_links_path) do |f| %>
+          <%= render partial: 'link_fields', locals: { f: f } %>
+
+          <%= f.submit "Create link", class: 'button is-primary is-large is-fullwidth' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

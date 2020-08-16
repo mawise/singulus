@@ -79,7 +79,7 @@ RSpec.configure do |config|
     self.host = Rails.configuration.x.hub.host
   end
 
-  config.before type: :request, host: :shortlinks do
-    self.host = Rails.configuration.x.shortlinks.host
+  config.before type: :request, host: :links do
+    self.host = Rails.configuration.x.links.host
   end
 end

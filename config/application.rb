@@ -35,11 +35,11 @@ module Singulus
     # Hub configuration
     config.x.hub.host = ENV.fetch('HUB_HOST', 'singulus.dev')
 
-    # Shortlink configuration
-    config.x.shortlinks.host = ENV.fetch('SHORTLINKS_HOST', 'sngls.dev')
+    # Link configuration
+    config.x.links.host = ENV.fetch('LINKS_HOST', 'sngls.dev')
 
     # Hosts
     config.hosts << config.x.hub.host
-    config.hosts << config.x.shortlinks.host
+    config.hosts << config.x.links.host
   end
 end

@@ -4,7 +4,7 @@
 #
 # ## Schema Information
 #
-# Table name: `shortlinks`
+# Table name: `links`
 #
 # ### Columns
 #
@@ -23,20 +23,20 @@
 #
 # ### Indexes
 #
-# * `index_shortlinks_on_link` (_unique_):
+# * `index_links_on_link` (_unique_):
 #     * **`link`**
-# * `index_shortlinks_on_resource_id_and_resource_type`:
+# * `index_links_on_resource_id_and_resource_type`:
 #     * **`resource_id`**
 #     * **`resource_type`**
-# * `index_shortlinks_on_resource_type_and_resource_id`:
+# * `index_links_on_resource_type_and_resource_id`:
 #     * **`resource_type`**
 #     * **`resource_id`**
-# * `index_shortlinks_on_tags` (_using_ gin):
+# * `index_links_on_tags` (_using_ gin):
 #     * **`tags`**
-# * `index_shortlinks_on_target_url`:
+# * `index_links_on_target_url`:
 #     * **`target_url`**
 #
-class Shortlink < ApplicationRecord
+class Link < ApplicationRecord
   include Doorkeeper::Models::Expirable
 
   LINK_REGEX = /\A[a-zA-Z0-9_\-]+\z/.freeze

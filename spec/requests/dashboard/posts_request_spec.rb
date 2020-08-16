@@ -30,19 +30,19 @@ RSpec.describe '/dashboard/posts', type: :request do
       expect { post '/dashboard/posts', params: params }.to change(PublishWorker.jobs, :size).by(1)
     end
 
-    it 'creates a shortlink for the post' do
+    it 'creates a link for the post' do
       post '/dashboard/posts', params: params
-      expect(new_post.shortlinks.count).to eq(1)
+      expect(new_post.links.count).to eq(1)
     end
 
-    it 'sets the shortlink to the short ID of the post' do
+    it 'sets the link to the short ID of the post' do
       post '/dashboard/posts', params: params
-      expect(new_post.shortlinks.first.link).to eq(new_post.short_uid)
+      expect(new_post.links.first.link).to eq(new_post.short_uid)
     end
 
-    it 'sets the shortlink target to the permalink URL of the post' do
+    it 'sets the link target to the permalink URL of the post' do
       post '/dashboard/posts', params: params
-      expect(new_post.shortlinks.first.target_url).to eq(new_post.permalink_url)
+      expect(new_post.links.first.target_url).to eq(new_post.permalink_url)
     end
   end
 

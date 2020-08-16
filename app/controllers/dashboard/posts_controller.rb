@@ -20,7 +20,7 @@ module Dashboard
       @post.published_at = Time.now.utc
       if @post.save_unique
         queue_publish('create', @post)
-        create_shortlink(@post)
+        create_link(@post)
         redirect_to dashboard_post_path(@post), notice: 'Post was successfully created'
       else
         render :new
@@ -54,8 +54,8 @@ module Dashboard
       PublishWorker.perform_async(action, post.id)
     end
 
-    def create_shortlink(post)
-      post.shortlinks.create(link: post.short_uid, target_url: post.permalink_url, tags: %w[auto])
+    def create_link(post)
+      post.links.create(link: post.short_uid, target_url: post.permalink_url, tags: %w[auto])
     end
 
     def find_post

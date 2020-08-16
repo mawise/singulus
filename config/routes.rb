@@ -43,7 +43,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     namespace :dashboard, format: false do
       resources :photos
       resources :posts
-      resources :shortlinks
+      resources :links
       resources :webmentions, only: %i[index show destroy] do
         put 'approve', on: :member
         put 'deny', on: :member
@@ -56,9 +56,9 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     root to: 'home#index'
   end
 
-  constraints host: Rails.configuration.x.shortlinks.host do
+  constraints host: Rails.configuration.x.links.host do
     scope format: false do
-      resources :shortlinks, path: '/', only: %i[index create show update destroy]
+      resources :links, path: '/', only: %i[index create show update destroy]
     end
   end
 end

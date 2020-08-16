@@ -14,7 +14,7 @@ module ApplicationHelper
     Rails.configuration.x.hub.host
   end
 
-  def shortlinks_host
-    Rails.configuration.x.shortlinks.host
+  def links_host
+    Rails.configuration.x.links.host
   end
 end

@@ -3,16 +3,16 @@
     <%= render 'notifications' %>
     <div class="card">
       <header class="card-header">
-        <h1 class="card-header-title"><%= shortlinks_host %>/<%= @shortlink.link %></h1>
+        <h1 class="card-header-title"><%= links_host %>/<%= @link.link %></h1>
         <div class="card-header-icon">
           <span class="icon">
-            <%= link_to shortlink_url(@shortlink.link), class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
+            <%= link_to link_url(@link.link), class: 'has-text-dark' do %><i class="fas fa-external-link-alt"></i><% end %>
           </span>
           <span class="icon ml-3">
-            <%= link_to edit_dashboard_shortlink_path(@shortlink), class: 'has-text-dark' do %><i class="fas fa-edit"></i><% end %>
+            <%= link_to edit_dashboard_link_path(@link), class: 'has-text-dark' do %><i class="fas fa-edit"></i><% end %>
           </span>
           <span class="icon ml-3">
-            <%= link_to dashboard_shortlink_url(@shortlink), method: :delete, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-trash"></i><% end %>
+            <%= link_to dashboard_link_url(@link), method: :delete, data: { confirm: 'Are you sure?' }, class: 'has-text-dark' do %><i class="fas fa-trash"></i><% end %>
           </span>
         </div>
       </header>
@@ -20,7 +20,7 @@
         <p>
           <i class="fas fa-link has-text-dark"></i>
           &nbsp;
-          <%= link_to @shortlink.target_url, @shortlink.target_url, target: '_blank', class: 'has-text-dark' %>
+          <%= link_to @link.target_url, @link.target_url, target: '_blank', class: 'has-text-dark' %>
         </p>
 
         <div class="level mt-3">
@@ -29,15 +29,15 @@
               <small>
                 <i class="fas fa-calendar"></i>
                 &nbsp;
-                <%= time_tag @shortlink.created_at, @shortlink.created_at.strftime('%e %b %Y') %>
+                <%= time_tag @link.created_at, @link.created_at.strftime('%e %b %Y') %>
               </small>
             </div>
           </div>
           <div class="level-right">
             <div class="level-item">
-              <% if Array(@shortlink.tags).any? %>
+              <% if Array(@link.tags).any? %>
                 <div class="tags">
-                  <% @shortlink.tags.each do |t| %><span class="tag">#<%= t %></span><% end %>
+                  <% @link.tags.each do |t| %><span class="tag">#<%= t %></span><% end %>
                 </div>
               <% end %>
             </div>

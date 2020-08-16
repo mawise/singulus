@@ -167,7 +167,7 @@ jobs:
           MINIO_SECRET_KEY: 48ed5cac333b028bdb8a2ad9fdacd867
           RAILS_ENV: test
           HUB_HOST: hub.tonyburns.test
-          SHORTLINKS_HOST: links.tonyburns.test
+          LINKS_HOST: links.tonyburns.test
           SITE_NAME: "Tony Burns"
           SITE_URL: "https://craftyphotons.github.io/singulus-hugo-test"
         run: |

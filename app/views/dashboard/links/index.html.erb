@@ -1,0 +1,39 @@
+<%= render 'notifications' %>
+<nav class="level">
+  <div class="level-item">
+    <%= link_to 'New Link', new_dashboard_link_path, class: 'button is-primary' %>
+  </div>
+</nav>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Link</th>
+      <th>Target URL</th>
+      <th>Expires At</th>
+      <th>Tags</th>
+      <th>Created</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @links.each do |link| %>
+      <tr>
+        <td><%= link_to link.link, dashboard_link_path(link) %></td>
+        <td><%= link_to link.target_url, link.target_url, target: '_blank' %></td>
+        <td><%= time_tag(link.expired_at) if link.expires_in %></td>
+        <td>
+          <% if Array(link.tags).any? %>
+          <div class="tags">
+            <% link.tags.each do |t| %><span class="tag">#<%= t %></span><% end %>
+          </div>
+          <% end %>
+        </td>
+        <td><%= time_tag(link.created_at) %></td>
+        <td><%= time_tag(link.updated_at) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+  <tfoot><%= paginate @links %></tfoot>
+</table>
