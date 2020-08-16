@@ -29,7 +29,7 @@
 class Photo < ApplicationRecord
   belongs_to :post, optional: true
 
-  has_many :shortlinks, as: :resource, dependent: :nullify
+  has_many :shortlinks, as: :resource, inverse_of: :resource, dependent: :nullify
 
   include PhotoUploader::Attachment(:file)
 

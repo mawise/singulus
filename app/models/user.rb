@@ -53,7 +53,7 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :delete_all
 
-  has_many :posts, as: :author, dependent: :destroy
+  has_many :posts, as: :author, inverse_of: :author, dependent: :destroy
 
   def to_indieauth_json
     as_indieauth_json.to_json

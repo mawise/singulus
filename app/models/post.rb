@@ -54,7 +54,7 @@ class Post < ApplicationRecord
 
   belongs_to :author, class_name: 'User'
 
-  has_many :shortlinks, as: :resource, dependent: :nullify
+  has_many :shortlinks, as: :resource, inverse_of: :resource, dependent: :nullify
 
   has_many :webmentions_as_source, foreign_key: :source_id,
                                    class_name: 'Webmention', inverse_of: :source, dependent: :nullify
