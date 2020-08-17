@@ -35,6 +35,18 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
 
+  if ENV['MAILTRAP_SMTP_USERNAME'] && ENV['MAILTRAP_SMTP_PASSWORD']
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      user_name: ENV['MAILTRAP_SMTP_USERNAME'],
+      password: ENV['MAILTRAP_SMTP_PASSWORD'],
+      address: 'smtp.mailtrap.io',
+      domain: 'smtp.mailtrap.io',
+      port: '2525',
+      authentication: :cram_md5
+    }
+  end
+
   # ActiveSupport configuration
   config.active_support.deprecation = :log
 
