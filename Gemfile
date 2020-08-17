@@ -19,6 +19,8 @@ gem 'tzinfo-data', '~> 1.2020.1'
 
 # Instrumentation, logging, and monitoring
 gem 'honeybadger', '~> 4.7'
+gem 'lograge', '~> 0.11'
+gem 'lograge-sql', '~> 1.2'
 gem 'newrelic_rpm', '~> 6.12'
 
 # Frontend assets
