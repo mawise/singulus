@@ -32,14 +32,14 @@ module Singulus
     config.x.site.name = ENV.fetch('SITE_NAME', 'Singulus')
     config.x.site.url = ENV.fetch('SITE_URL', 'https://example.com')
 
-    # Hub configuration
-    config.x.hub.host = ENV.fetch('SINGULUS_HOST', 'singulus.dev')
+    # Singulus configuration
+    config.x.singulus.host = ENV.fetch('SINGULUS_HOST', 'singulus.dev')
 
     # Link configuration
     config.x.links.host = ENV.fetch('LINKS_HOST', 'sngls.dev')
 
     # Hosts
-    config.hosts << config.x.hub.host
+    config.hosts << config.x.singulus.host
     config.hosts << config.x.links.host
   end
 end

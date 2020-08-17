@@ -76,7 +76,7 @@ RSpec.configure do |config|
   end
 
   config.before type: :request do
-    self.host = Rails.configuration.x.hub.host
+    self.host = Rails.configuration.x.singulus.host
   end
 
   config.before type: :request, host: :links do

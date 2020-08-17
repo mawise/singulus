@@ -4,7 +4,7 @@ require 'sidekiq/web'
 require 'sidekiq_unique_jobs/web'
 
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
-  constraints host: Rails.configuration.x.hub.host do # rubocop:disable Metrics/BlockLength
+  constraints host: Rails.configuration.x.singulus.host do # rubocop:disable Metrics/BlockLength
     devise_for :users, only: %i[sessions], path: '',
                        path_names: { sign_in: 'login', sign_out: 'logout' }
     get '/unlock', to: 'devise/unlocks#show', as: :user_unlock

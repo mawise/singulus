@@ -31,7 +31,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.x.assets.url = "#{ENV.fetch('ASSETS_URL')}/singulus-development/"
 
   # ActionMailer configuration
-  config.action_mailer.default_url_options = { host: 'localhost', port: ENV.fetch('PORT', 5000) }
+  config.action_mailer.default_url_options = { host: Rails.configuration.x.singulus.host }
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
 
