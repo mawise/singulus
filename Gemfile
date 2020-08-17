@@ -55,6 +55,7 @@ gem 'searchkick', '~> 4.4'
 
 # Miscellaneous
 gem 'flutie', '~> 2.2'
+gem 'hashids', '~> 1.0'
 gem 'kaminari', '~> 1.2'
 gem 'kramdown', '~> 2.3'
 gem 'kramdown-parser-gfm', '~> 1.1.0'

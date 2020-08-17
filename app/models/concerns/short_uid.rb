@@ -22,6 +22,6 @@ module ShortUID
   protected
 
   def generate_short_uid
-    self.short_uid = SecureRandom.uuid[0..5]
+    self.short_uid = ShortNameGenerator.new.call
   end
 end
