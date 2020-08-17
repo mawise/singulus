@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe '/', type: :request, host: :links do
   describe 'GET /' do
-    it 'returns HTTP success' do
+    it 'redirects to the main site' do
       get '/'
-      expect(response).to have_http_status(:success)
+      expect(response).to redirect_to(Rails.configuration.x.site.url)
     end
   end
 

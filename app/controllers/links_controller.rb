@@ -2,6 +2,10 @@
 
 # Serves and manages links.
 class LinksController < ApplicationController
+  def index
+    redirect_to URI(Rails.configuration.x.site.url).to_s
+  end
+
   def show
     @link = Link.find_by(name: params[:id])
     if @link.present?
