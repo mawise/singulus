@@ -31,7 +31,7 @@ module Micropub
     end
 
     def file_id(url)
-      URI(url).path.delete_prefix(URI(assets_url).path)
+      Pathname.new(URI(url).path.delete_prefix(URI(assets_url).path)).basename.to_s
     end
 
     def find_photo_by_filename(filename)
