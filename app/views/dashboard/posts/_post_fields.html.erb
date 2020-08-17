@@ -8,9 +8,10 @@
   <div class="control"><%= f.text_field :slug, class: 'input' %></div>
 </div>
 
-<div class="field">
+<div class="field" data-controller="counter" data-counter-warn="265" data-counter-danger="280">
   <%= f.label :content, class: 'label' %>
-  <div class="control"><%= f.text_area :content, class: 'textarea', autofocus: true %></div>
+  <div class="control"><%= f.text_area :content, class: 'textarea', autofocus: true, data: { target: 'counter.input', action: 'keydown->counter#recount keyup->counter#recount' } %></div>
+  <p class="help"><span data-target="counter.count"></span> character(s)</p>
 </div>
 
 <div class="field">
