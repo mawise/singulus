@@ -29,7 +29,11 @@ Shrine.logger.level = Logger::WARN if Rails.env.test?
 
 Shrine.storages = {
   cache: Shrine::Storage::S3.new(prefix: 'cache', **s3_options),
-  store: Shrine::Storage::S3.new(**s3_options)
+  store: Shrine::Storage::S3.new(**s3_options),
+
+  photo: Shrine::Storage::S3.new(prefix: 'photo', **s3_options),
+  video: Shrine::Storage::S3.new(prefix: 'video', **s3_options),
+  audio: Shrine::Storage::S3.new(prefix: 'sound', **s3_options)
 }
 
 Shrine.plugin(:instrumentation, notifications: ActiveSupport::Notifications)

@@ -31,7 +31,7 @@ class Photo < ApplicationRecord
 
   has_many :links, as: :resource, inverse_of: :resource, dependent: :nullify
 
-  include PhotoUploader::Attachment(:file)
+  include PhotoUploader::Attachment(:file, store: :photo)
 
   delegate :size, :metadata, :mime_type, to: :file
 end
