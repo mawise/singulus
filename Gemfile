@@ -93,7 +93,6 @@ group :development do
   gem 'spring-commands-rspec', '~> 1.0'
   gem 'spring-commands-rubocop', '~> 0.2'
   gem 'spring-watcher-listen', '~> 2.0', require: false
-  gem 'web-console', '~> 4.0'
 end
 
 group :test do
