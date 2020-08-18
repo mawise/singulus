@@ -1,22 +1,12 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative '../../support/contexts/micropub'
 
 RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Encoded)', type: :request do
-  let(:site_url) { 'https://example.com' }
-  let(:user) { FactoryBot.create(:user) }
-  let(:application) { FactoryBot.create(:oauth_application) }
-  let(:access_token) { FactoryBot.create(:oauth_access_token, application: application, resource_owner_id: user.id) }
-
-  let(:headers) do
-    {
-      'Authorization' => "Bearer #{access_token.token}",
-      'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8'
-    }
-  end
+  include_context 'when authenticated as a valid Micropub client'
 
   before do
-    allow(Rails.configuration.x.site).to receive(:url) { site_url }
     post '/micropub', params: params, headers: headers
   end
 

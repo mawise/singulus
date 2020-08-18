@@ -30,7 +30,7 @@ RSpec.describe PublishWorker, type: :worker do
     end
   end
 
-  describe 'with action of update' do
+  describe 'with action of update' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     let(:sha) { SecureRandom.hex }
     let(:contents) { double(sha: sha) } # rubocop:disable RSpec/VerifiedDoubles
 
@@ -67,7 +67,7 @@ RSpec.describe PublishWorker, type: :worker do
     end
   end
 
-  context 'when post has photos' do
+  context 'when post has photos' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     let(:fixtures_path) { Rails.root.join('spec/fixtures') }
     let(:file) { File.open(File.join(fixtures_path, 'photos/4.1.01.jpeg'), 'rb') }
     let(:alt) { 'Alternative text for the photo' }

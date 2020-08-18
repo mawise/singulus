@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe IndieAuth::PreAuthorization, type: :model do
+RSpec.describe IndieAuth::PreAuthorization, type: :model do # rubocop:disable RSpec/MultipleMemoizedHelpers
   subject(:pre_auth) do
     described_class.new(
       Doorkeeper.configuration,
@@ -35,7 +35,7 @@ RSpec.describe IndieAuth::PreAuthorization, type: :model do
     expect(pre_auth).to be_authorizable
   end
 
-  context 'when redirect_uri is on a different domain than client_id' do
+  context 'when redirect_uri is on a different domain than client_id' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     let(:redirect_uri) { 'https://different-domain.com/auth/callback' }
 
     it 'is not authorizable' do

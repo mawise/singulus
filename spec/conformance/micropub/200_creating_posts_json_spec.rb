@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative '../../support/contexts/micropub'
 
 RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', type: :request do
-  let(:user) { FactoryBot.create(:user) }
-  let(:application) { FactoryBot.create(:oauth_application) }
-  let(:access_token) { FactoryBot.create(:oauth_access_token, application: application, resource_owner_id: user.id) }
+  include_context 'when authenticated as a valid Micropub client'
 
-  let(:headers) do
-    {
-      'Authorization' => "Bearer #{access_token.token}",
-      'Content-Type' => 'application/json'
-    }
-  end
+  let(:content_type) { 'application/json' }
 
   before { post '/micropub', params: params, headers: headers }
 
@@ -154,7 +148,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
 
   # https://micropub.rocks/server-tests/205?endpoint=501
   describe '205 - Create an h-entry post with a photo with alt text (JSON)' do
-    context 'with an existing photo URL' do
+    context 'with an existing photo URL' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
       let(:content) { 'Micropub test of creating a photo referenced by URL with alt text. This post should include a photo of a person.' } # rubocop:disable Layout/LineLength
       let(:alt) { 'Photo of a person' }
@@ -240,7 +234,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
 
   # https://micropub.rocks/server-tests/206?endpoint=501
   describe '206 - Create an h-entry with multiple photos referenced by URL (JSON)' do
-    context 'with a existing photo URLs' do
+    context 'with a existing photo URLs' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:first_photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
       let(:second_photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.02.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
       let(:content) { 'Micropub test of creating a photo referenced by URL. This post should include a photo of a person.' } # rubocop:disable Layout/LineLength

@@ -88,7 +88,7 @@ group :development do
   gem 'rubocop-faker', '~> 1.1', require: false
   gem 'rubocop-performance', '~> 1.7', require: false
   gem 'rubocop-rails', '~> 2.7', require: false
-  gem 'rubocop-rspec', '~> 1.42', require: false
+  gem 'rubocop-rspec', '~> 1.43', require: false
   gem 'spring', '~> 2.1', require: false
   gem 'spring-commands-rspec', '~> 1.0'
   gem 'spring-commands-rubocop', '~> 0.2'

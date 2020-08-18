@@ -1,18 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative '../../support/contexts/micropub'
 
 RSpec.describe 'Micropub Server Implementation Report - Media Endpoint', type: :request do
-  let(:user) { FactoryBot.create(:user) }
-  let(:application) { FactoryBot.create(:oauth_application) }
-  let(:access_token) { FactoryBot.create(:oauth_access_token, application: application, resource_owner_id: user.id) }
-
-  let(:headers) do
-    {
-      'Authorization' => "Bearer #{access_token.token}",
-      'Content-Type' => 'multipart/form-data'
-    }
-  end
+  include_context 'when authenticated as a valid Micropub client'
 
   before { post '/micropub/media', params: params, headers: headers }
 

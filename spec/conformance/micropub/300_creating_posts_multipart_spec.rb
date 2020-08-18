@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative '../../support/contexts/micropub'
 
 RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Multipart)', type: :request do
-  let(:user) { FactoryBot.create(:user) }
-  let(:application) { FactoryBot.create(:oauth_application) }
-  let(:access_token) { FactoryBot.create(:oauth_access_token, application: application, resource_owner_id: user.id) }
+  include_context 'when authenticated as a valid Micropub client'
 
-  let(:headers) do
-    {
-      'Authorization' => "Bearer #{access_token.token}",
-      'Content-Type' => 'multipart/form-data'
-    }
-  end
+  let(:content_type) { 'multipart/form-data' }
 
   before { post '/micropub', params: params, headers: headers }
 
@@ -41,7 +35,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Multipar
   end
 
   # https://micropub.rocks/server-tests/301?endpoint=501
-  describe '301 - Create an h-entry with two photos (multipart)' do
+  describe '301 - Create an h-entry with two photos (multipart)' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     let(:content) { 'Nice sunset tonight' }
     let(:first_photo) { fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg') }
     let(:second_photo) { fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.02.jpeg'), 'image/jpeg') }
