@@ -11,6 +11,8 @@
 # **`id`**                 | `uuid`             | `not null, primary key`
 # **`approved_at`**        | `datetime`         |
 # **`deleted_at`**         | `datetime`         |
+# **`received_at`**        | `datetime`         |
+# **`sent_at`**            | `datetime`         |
 # **`short_uid`**          | `text`             | `not null`
 # **`source_properties`**  | `jsonb`            | `not null`
 # **`source_url`**         | `text`             | `not null`
@@ -25,6 +27,10 @@
 #
 # ### Indexes
 #
+# * `index_webmentions_on_received_at`:
+#     * **`received_at`**
+# * `index_webmentions_on_sent_at`:
+#     * **`sent_at`**
 # * `index_webmentions_on_source_id`:
 #     * **`source_id`**
 # * `index_webmentions_on_source_id_and_target_id` (_unique_):
@@ -52,5 +58,12 @@
 #
 FactoryBot.define do
   factory :webmention do
+    trait :incoming do
+      received_at { Time.now.utc }
+    end
+
+    trait :outgoing do
+      sent_at { Time.now.utc }
+    end
   end
 end

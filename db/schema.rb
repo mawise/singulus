@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_16_232509) do
+ActiveRecord::Schema.define(version: 2020_08_18_210719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -151,6 +151,10 @@ ActiveRecord::Schema.define(version: 2020_08_16_232509) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "status", default: "pending", null: false
     t.jsonb "status_info", default: {}, null: false
+    t.datetime "received_at"
+    t.datetime "sent_at"
+    t.index ["received_at"], name: "index_webmentions_on_received_at"
+    t.index ["sent_at"], name: "index_webmentions_on_sent_at"
     t.index ["source_id", "target_id"], name: "index_webmentions_on_source_id_and_target_id", unique: true
     t.index ["source_id"], name: "index_webmentions_on_source_id"
     t.index ["source_properties"], name: "index_webmentions_on_source_properties", using: :gin

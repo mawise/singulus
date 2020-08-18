@@ -6,6 +6,7 @@ class WebmentionsController < ApplicationController
 
   def create
     @webmention = Webmention.new(webmention_params)
+    @webmention.received_at = Time.now.utc
     if @webmention.save
       VerifyWebmentionWorker.perform_async(@webmention.id)
       head :created, location: webmention_url(@webmention.short_uid)

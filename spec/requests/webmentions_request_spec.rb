@@ -19,6 +19,11 @@ RSpec.describe '/webmentions', type: :request do
         expect(response).to have_http_status(:created)
       end
 
+      it 'set received_at on the new webmention' do
+        create_webmention
+        expect(new_webmention.received_at).not_to be_nil
+      end
+
       it 'set the Location header to the URL of the webmention status' do
         create_webmention
         expect(response.headers['Location']).to eq(webmention_url(new_webmention.short_uid))

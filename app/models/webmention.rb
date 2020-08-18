@@ -13,6 +13,8 @@
 # **`id`**                 | `uuid`             | `not null, primary key`
 # **`approved_at`**        | `datetime`         |
 # **`deleted_at`**         | `datetime`         |
+# **`received_at`**        | `datetime`         |
+# **`sent_at`**            | `datetime`         |
 # **`short_uid`**          | `text`             | `not null`
 # **`source_properties`**  | `jsonb`            | `not null`
 # **`source_url`**         | `text`             | `not null`
@@ -27,6 +29,10 @@
 #
 # ### Indexes
 #
+# * `index_webmentions_on_received_at`:
+#     * **`received_at`**
+# * `index_webmentions_on_sent_at`:
+#     * **`sent_at`**
 # * `index_webmentions_on_source_id`:
 #     * **`source_id`**
 # * `index_webmentions_on_source_id_and_target_id` (_unique_):
@@ -69,12 +75,16 @@ class Webmention < ApplicationRecord
   scope :verified, -> { where(status: 'verified') }
   scope :pending, -> { where(status: 'pending') }
 
+  scope :incoming, -> { where.not(target_id: nil) }
+  scope :outgoing, -> { where.not(source_id: nil) }
+  scope :local, -> { where.not(target_id: nil, source_id: nil) }
+
   def source_uri
-    URI(source_url)
+    URI(source_url) if source_url.present?
   end
 
   def target_uri
-    URI(target_url)
+    URI(target_url) if target_url.present?
   end
 
   def as_front_matter_json
@@ -89,6 +99,8 @@ class Webmention < ApplicationRecord
   private
 
   def target_exists
+    return if target_uri.blank?
+
     # TODO: Current permalink URL of each post should be stored on a table and be compared directly to target_url
     post_id = target_uri.path.split('/').last
     return if Post.exists?(short_uid: post_id)
