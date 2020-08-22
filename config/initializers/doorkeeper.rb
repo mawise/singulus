@@ -7,6 +7,7 @@ ALL_SCOPES = %w[
   draft
   media
   profile
+  read
   update
 ].freeze
 DEFAULT_SCOPES = %w[
@@ -238,7 +239,7 @@ Doorkeeper.configure do
   # not in configuration, i.e. +default_scopes+ or +optional_scopes+.
   # (disabled by default)
   #
-  enforce_configured_scopes
+  # enforce_configured_scopes
 
   # Change the way client credentials are retrieved from the request object.
   # By default it retrieves first from the `HTTP_AUTHORIZATION` header, then

@@ -5,6 +5,8 @@ module Micropub
   class MediaController < MicropubController
     before_action :handle_unsupported_media_type!
 
+    before_action -> { doorkeeper_authorize!(:media) }
+
     def create
       @photo = Photo.new(asset_params)
       if @photo.save

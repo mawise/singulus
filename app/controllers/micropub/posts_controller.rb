@@ -7,6 +7,8 @@ module Micropub
   class PostsController < MicropubController
     before_action :handle_unsupported_media_type!
 
+    before_action -> { doorkeeper_authorize!(:create) }
+
     def create
       case request.media_type
       when 'application/x-www-form-urlencoded', 'multipart/form-data'

@@ -4,7 +4,14 @@ RSpec.shared_context 'when authenticated as a valid Micropub client' do # ruboco
   let(:site_url) { 'https://example.com' }
   let(:user) { FactoryBot.create(:user) }
   let(:application) { FactoryBot.create(:oauth_application) }
-  let(:access_token) { FactoryBot.create(:oauth_access_token, application: application, resource_owner_id: user.id) }
+  let(:access_token) do
+    FactoryBot.create(
+      :oauth_access_token,
+      application: application,
+      resource_owner_id: user.id,
+      scopes: %i[create media profile]
+    )
+  end
   let(:content_type) { 'application/x-www-form-urlencoded; charset=utf-8' }
 
   let(:headers) do

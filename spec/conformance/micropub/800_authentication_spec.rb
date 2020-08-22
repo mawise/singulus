@@ -5,7 +5,14 @@ require 'rails_helper'
 RSpec.describe 'Micropub Server Implementation Report - Authentication', type: :request do
   let(:user) { FactoryBot.create(:user) }
   let(:application) { FactoryBot.create(:oauth_application) }
-  let(:access_token) { FactoryBot.create(:oauth_access_token, application: application, resource_owner_id: user.id) }
+  let(:access_token) do
+    FactoryBot.create(
+      :oauth_access_token,
+      application: application,
+      resource_owner_id: user.id,
+      scopes: %i[create]
+    )
+  end
 
   before { post '/micropub', params: params, headers: headers }
 

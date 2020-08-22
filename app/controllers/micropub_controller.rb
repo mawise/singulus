@@ -4,8 +4,6 @@
 class MicropubController < ActionController::API
   include Doorkeeper::Helpers::Controller
 
-  before_action :doorkeeper_authorize!
-
   protected
 
   def handle_unsupported_media_type!
