@@ -36,5 +36,5 @@ Rails.application.configure do
   config.i18n.fallbacks = true
 
   # Uploads configuration
-  config.x.uploads.url = ENV('UPLOADS_URL')
+  config.x.uploads.url = ENV['UPLOADS_URL']
 end
