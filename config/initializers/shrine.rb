@@ -14,7 +14,7 @@ when 'development', 'test'
     bucket: "singulus-#{Rails.env}"
   }
 when 'production'
-  s3_options = { bucket: ENV['ASSETS_BUCKET'] }
+  s3_options = { bucket: ENV['UPLOADS_BUCKET'] }
 end
 
 url_options = {
