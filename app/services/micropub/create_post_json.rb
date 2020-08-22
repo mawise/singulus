@@ -8,6 +8,7 @@ module Micropub
 
       params = params.dup.deep_symbolize_keys
       attrs = transform_json_properties(params[:properties].to_h)
+      attrs.select! { |k, _| Micropub::CreatePost::ALLOWED_PROPERTIES.include?(k) }
       attrs[:categories] = attrs.delete(:category)
 
       photos = attrs.delete(:photo) || []

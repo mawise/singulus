@@ -3,6 +3,14 @@
 module Micropub
   # Base class for post creation.
   class CreatePost
+    ALLOWED_PROPERTIES = %i[
+      category
+      content
+      name
+      photo
+      summary
+    ].freeze
+
     def call(params)
       @author_id = params.delete(:author_id)
     end
