@@ -30,7 +30,7 @@ gem 'webpacker', '~> 5.2'
 # Data stores
 gem 'pg', '~> 1.2'
 gem 'redis', '~> 4.2'
-gem 'redis-namespace', '~> 1.7'
+gem 'redis-namespace', '~> 1.8'
 
 # Background processing
 gem 'sidekiq', '~> 6.1'
