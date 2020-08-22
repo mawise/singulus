@@ -28,7 +28,7 @@ module Micropub
     end
 
     def existing_asset?(url)
-      url.start_with?(assets_url)
+      url.start_with?(uploads_url)
     end
 
     def associate_existing_photo(url, alt, attrs)
@@ -39,15 +39,15 @@ module Micropub
     end
 
     def file_id(url)
-      Pathname.new(URI(url).path.delete_prefix(URI(assets_url).path)).basename.to_s
+      Pathname.new(URI(url).path.delete_prefix(URI(uploads_url).path)).basename.to_s
     end
 
     def find_photo_by_filename(filename)
       Photo.where('file_data @> ?', { id: filename }.to_json).first
     end
 
-    def assets_url
-      @assets_url ||= Rails.configuration.x.assets.url
+    def uploads_url
+      @uploads_url ||= Rails.configuration.x.uploads.url
     end
   end
 end

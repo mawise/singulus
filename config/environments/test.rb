@@ -14,7 +14,7 @@ Rails.application.configure do
   }
 
   # Assets configuration
-  config.x.assets.url = 'http://localhost:9000/singulus-test/'
+  config.x.uploads.url = 'http://localhost:9000/singulus-test/'
 
   # ActionController configuration
   config.action_controller.allow_forgery_protection = false

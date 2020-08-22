@@ -20,9 +20,6 @@ Rails.application.configure do
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  # Assets configuration
-  config.x.assets.url = ENV.fetch('ASSETS_URL')
-
   # ActionController configuration
   config.action_controller.perform_caching = true
 
@@ -37,4 +34,7 @@ Rails.application.configure do
 
   # I18n configuration
   config.i18n.fallbacks = true
+
+  # Uploads configuration
+  config.x.uploads.url = ENV('UPLOADS_URL')
 end

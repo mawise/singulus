@@ -27,9 +27,6 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
     config.cache_store = :null_store
   end
 
-  # Assets configuration
-  config.x.assets.url = "#{ENV.fetch('ASSETS_URL')}/singulus-development/"
-
   # ActionMailer configuration
   config.action_mailer.default_url_options = { host: Rails.configuration.x.singulus.host }
   config.action_mailer.raise_delivery_errors = false
@@ -56,6 +53,9 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # File watcher configuration
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Uploads configuration
+  config.x.uploads.url = "#{ENV.fetch('UPLOADS_URL')}/singulus-development/"
 
   # Additional configuration
   config.after_initialize do

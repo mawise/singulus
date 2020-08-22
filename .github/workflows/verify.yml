@@ -155,7 +155,7 @@ jobs:
         env:
           ASSETS_BUCKET: singulus-test
           ASSETS_HOST: localhost
-          ASSETS_URL: http://localhost:9000/singulus-test
+          UPLOADS_URL: http://localhost:9000/singulus-test
           # AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
           # AWS_REGION: us-east-1
           # AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
