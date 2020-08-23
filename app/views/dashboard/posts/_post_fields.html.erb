@@ -21,5 +21,25 @@
 
 <div class="field">
   <%= f.label :category_names, 'Categories', class: 'label' %>
-  <div class="control"><%= f.text_area :category_names, class: 'textarea' %></div>
+  <div class="control"><%= f.text_field :category_names, class: 'input' %></div>
+</div>
+
+<div class="field">
+  <%= f.label :bookmark_of_url, 'Bookmark of URL', class: 'label' %>
+  <div class="control"><%= f.text_field :bookmark_of_url, class: 'input' %></div>
+</div>
+
+<div class="field">
+  <%= f.label :in_reply_to_url, 'In Reply to URL', class: 'label' %>
+  <div class="control"><%= f.text_field :in_reply_to_url, class: 'input' %></div>
+</div>
+
+<div class="field">
+  <%= f.label :like_of_url, 'Like of URL', class: 'label' %>
+  <div class="control"><%= f.text_field :like_of_url, class: 'input' %></div>
+</div>
+
+<div class="field">
+  <%= f.label :repost_of_url, 'Repost of URL', class: 'label' %>
+  <div class="control"><%= f.text_field :repost_of_url, class: 'input' %></div>
 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_18_210719) do
+ActiveRecord::Schema.define(version: 2020_08_23_023252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -106,12 +106,30 @@ ActiveRecord::Schema.define(version: 2020_08_18_210719) do
     t.text "categories", default: [], array: true
     t.text "slug"
     t.jsonb "properties", default: "{}", null: false
+    t.jsonb "location"
+    t.integer "rsvp"
+    t.jsonb "in_reply_to"
+    t.jsonb "like_of"
+    t.jsonb "repost_of"
+    t.jsonb "bookmark_of"
+    t.text "syndications", array: true
+    t.text "featured"
+    t.text "content_html"
+    t.text "type"
     t.index ["author_id"], name: "index_posts_on_author_id"
+    t.index ["bookmark_of"], name: "index_posts_on_bookmark_of", using: :gin
     t.index ["categories"], name: "index_posts_on_categories", using: :gin
+    t.index ["in_reply_to"], name: "index_posts_on_in_reply_to", using: :gin
+    t.index ["like_of"], name: "index_posts_on_like_of", using: :gin
+    t.index ["location"], name: "index_posts_on_location", using: :gin
     t.index ["properties"], name: "index_posts_on_properties", using: :gin
     t.index ["published_at"], name: "index_posts_on_published_at"
+    t.index ["repost_of"], name: "index_posts_on_repost_of", using: :gin
+    t.index ["rsvp"], name: "index_posts_on_rsvp"
     t.index ["short_uid"], name: "index_posts_on_short_uid", unique: true
     t.index ["slug"], name: "index_posts_on_slug", unique: true
+    t.index ["syndications"], name: "index_posts_on_syndications", using: :gin
+    t.index ["type"], name: "index_posts_on_type"
     t.index ["url"], name: "index_posts_on_url"
   end
 

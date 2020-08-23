@@ -21,7 +21,7 @@
     <% @posts.each do |post| %>
       <tr>
         <td><%= link_to post.short_uid, dashboard_post_path(post) %></td>
-        <td><%= post.post_type.titleize %></td>
+        <td><%= post.type.titleize %></td>
         <td><%= to_html_from_markdown(post.name.present? ? post.name : (post.summary.present? ? post.summary : post.content)) %></td>
         <td>
           <% if Array(post.categories).any? %>

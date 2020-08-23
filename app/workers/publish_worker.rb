@@ -37,6 +37,10 @@ class PublishWorker < ApplicationWorker
     h[:categories] = post.categories if Array(post.categories).any?
     h[:photos] = photos if post.photos.any?
     h[:webmentions] = webmentions if post.webmentions_as_target.any?
+    h[:bookmark_of] = post.bookmark_of if post.type == 'bookmark'
+    h[:in_reply_to] = post.in_reply_to if post.type == 'reply'
+    h[:like_of] = post.like_of if post.type == 'like'
+    h[:repost_of] = post.repost_of if post.type == 'repost'
     h
   end
 
@@ -44,7 +48,8 @@ class PublishWorker < ApplicationWorker
     {
       id: post.id,
       slug: post.slug,
-      date: post.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z')
+      date: post.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z'),
+      type: post.type
     }
   end
 

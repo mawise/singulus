@@ -65,6 +65,7 @@ module Dashboard
     def post_params
       params.require(:post).permit(
         :name, :content, :slug, :summary, :category_names,
+        :bookmark_of_url, :in_reply_to_url, :like_of_url, :repost_of_url,
         photos_attributes: %i[alt file]
       )
     end
