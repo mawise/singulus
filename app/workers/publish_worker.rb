@@ -32,7 +32,7 @@ class PublishWorker < ApplicationWorker
     post.hugo_source_path
   end
 
-  def front_matter # rubocop:disable Metrics/AbcSize
+  def front_matter # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
     h = default_front_matter
     h[:categories] = post.categories if Array(post.categories).any?
     h[:photos] = photos if post.photos.any?
