@@ -105,7 +105,7 @@ class Post < ApplicationRecord
   before_validation :generate_slug, on: :create
 
   def category_names
-    categories.join(', ')
+    Array(categories).join(', ')
   end
 
   def category_names=(val)
