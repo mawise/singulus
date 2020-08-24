@@ -67,7 +67,7 @@ RSpec.describe PublishWorker, type: :worker do
     end
   end
 
-  context 'when post type is photo' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+  context 'when post type is photo' do
     let(:post) { FactoryBot.create(:post_with_photos) }
 
     it 'adds the photo URL to the front matter' do # rubocop:disable RSpec/ExampleLength
