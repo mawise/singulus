@@ -27,7 +27,7 @@ RSpec.describe '/dashboard/posts', type: :request do
     end
 
     it 'queues the post for publication' do
-      expect { post '/dashboard/posts', params: params }.to change(PublishWorker.jobs, :size).by(1)
+      expect { post '/dashboard/posts', params: params }.to change(HugoPublishWorker.jobs, :size).by(1)
     end
 
     it 'creates a link for the post' do
@@ -65,7 +65,7 @@ RSpec.describe '/dashboard/posts', type: :request do
       end
 
       it 'queues the post for re-publication' do
-        expect { patch "/dashboard/posts/#{post.id}", params: params }.to change(PublishWorker.jobs, :size).by(1)
+        expect { patch "/dashboard/posts/#{post.id}", params: params }.to change(HugoPublishWorker.jobs, :size).by(1)
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe '/dashboard/posts', type: :request do
       end
 
       it 'queues the post for deletion' do
-        expect { delete "/dashboard/posts/#{post.id}" }.to change(DeleteWorker.jobs, :size).by(1)
+        expect { delete "/dashboard/posts/#{post.id}" }.to change(HugoDeleteWorker.jobs, :size).by(1)
       end
     end
   end

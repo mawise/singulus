@@ -115,7 +115,7 @@ class Post < ApplicationRecord
   end
 
   def republish!(action: 'update')
-    PublishWorker.perform_async(action, id)
+    HugoPublishWorker.perform_async(action, id)
   end
 
   def category_names

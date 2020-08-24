@@ -26,7 +26,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Multipar
     end
 
     it 'queues the post for publication' do
-      expect(PublishWorker.jobs.size).to eq(1)
+      expect(HugoPublishWorker.jobs.size).to eq(1)
     end
 
     it 'creates an Photo for the photo' do
@@ -51,7 +51,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Multipar
     end
 
     it 'queues the post for publication' do
-      expect(PublishWorker.jobs.size).to eq(1)
+      expect(HugoPublishWorker.jobs.size).to eq(1)
     end
 
     it 'creates each photo' do

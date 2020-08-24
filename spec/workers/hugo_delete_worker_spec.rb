@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DeleteWorker, type: :worker do # rubocop:disable RSpec/MultipleMemoizedHelpers
+RSpec.describe HugoDeleteWorker, type: :worker do # rubocop:disable RSpec/MultipleMemoizedHelpers
   let(:github) { instance_spy('Octokit::Client') }
   let(:github_repo) { 'some/repo' }
   let(:github_branch) { 'some-branch' }

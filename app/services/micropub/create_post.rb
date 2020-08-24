@@ -30,7 +30,7 @@ module Micropub
       post = Post.new(attrs)
       post.author_id = author_id
       post.published_at = Time.now.utc
-      PublishWorker.perform_async('create', post.id) if post.save_unique
+      HugoPublishWorker.perform_async('create', post.id) if post.save_unique
       post
     end
 

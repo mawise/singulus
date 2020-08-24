@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Publishes content to Hugo.
-class DeleteWorker < ApplicationWorker
+class HugoDeleteWorker < ApplicationWorker
   include GitHubManipulator
 
   sidekiq_options retries: 10, lock: :while_executing, on_conflict: :reschedule, queue: 'hugo'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Publishes content to Hugo.
-class PublishWorker < ApplicationWorker
+class HugoPublishWorker < ApplicationWorker
   include Rails.application.routes.url_helpers
   include GitHubManipulator
 

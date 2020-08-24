@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe PublishWorker, type: :worker do
+RSpec.describe HugoPublishWorker, type: :worker do
   let(:github) { instance_spy('Octokit::Client') }
   let(:github_repo) { 'some/repo' }
   let(:github_branch) { 'some-branch' }

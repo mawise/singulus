@@ -35,7 +35,7 @@ module Dashboard
 
     def update
       if @post.update(post_params)
-        PublishWorker.perform_async('update', @post.id)
+        HugoPublishWorker.perform_async('update', @post.id)
         redirect_to dashboard_post_path(@post), notice: 'Post was successfully updated'
       else
         render :edit
@@ -44,14 +44,14 @@ module Dashboard
 
     def destroy
       @post.destroy
-      DeleteWorker.perform_async(@post.id, @post.hugo_source_path)
+      HugoDeleteWorker.perform_async(@post.id, @post.hugo_source_path)
       redirect_to dashboard_posts_path
     end
 
     private
 
     def queue_publish(action, post)
-      PublishWorker.perform_async(action, post.id)
+      HugoPublishWorker.perform_async(action, post.id)
     end
 
     def create_link(post)

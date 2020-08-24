@@ -25,7 +25,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
     end
 
     it 'queues the post for publication' do
-      expect(PublishWorker.jobs.size).to eq(1)
+      expect(HugoPublishWorker.jobs.size).to eq(1)
     end
   end
 
@@ -45,7 +45,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
     end
 
     it 'queues the post for publication' do
-      expect(PublishWorker.jobs.size).to eq(1)
+      expect(HugoPublishWorker.jobs.size).to eq(1)
     end
 
     it 'sets categories on the post' do
@@ -82,7 +82,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
       end
 
       it 'queues the post for publication' do
-        expect(PublishWorker.jobs.size).to eq(1)
+        expect(HugoPublishWorker.jobs.size).to eq(1)
       end
 
       it 'links the existing photo to the post' do
@@ -116,7 +116,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
       end
 
       it 'queues the post for publication' do
-        expect(PublishWorker.jobs.size).to eq(1)
+        expect(HugoPublishWorker.jobs.size).to eq(1)
       end
 
       it 'creates a new photo with the post' do
@@ -140,7 +140,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
     end
 
     it 'queues the post for publication' do
-      expect(PublishWorker.jobs.size).to eq(1)
+      expect(HugoPublishWorker.jobs.size).to eq(1)
     end
 
     it 'sets categories on the post' do
