@@ -130,6 +130,10 @@ class Post < ApplicationRecord
     published_at.present?
   end
 
+  def draft?
+    published_at.blank?
+  end
+
   private
 
   def generate_slug

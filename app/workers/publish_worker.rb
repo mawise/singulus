@@ -53,7 +53,7 @@ class PublishWorker < ApplicationWorker
       id: post.id,
       slug: post.slug,
       date: post.published_at&.iso8601 || post.created_at&.iso8601,
-      draft: post.published?
+      draft: post.draft?
     }
   end
 
