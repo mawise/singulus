@@ -7,6 +7,7 @@ class PostTypeDiscovery
     return 'reply' if post.in_reply_to_url.present?
     return 'repost' if post.repost_of_url.present?
     return 'like' if post.like_of_url.present?
+    return 'bookmark' if post.bookmark_of_url.present?
 
     # return 'audio' if audio.any?
     # return 'video' if videos.any?

@@ -15,7 +15,6 @@
 # **`categories`**    | `text`             | `default([]), is an Array`
 # **`content`**       | `text`             |
 # **`content_html`**  | `text`             |
-# **`featured`**      | `text`             |
 # **`in_reply_to`**   | `jsonb`            |
 # **`like_of`**       | `jsonb`            |
 # **`location`**      | `jsonb`            |
@@ -33,6 +32,7 @@
 # **`created_at`**    | `datetime`         | `not null`
 # **`updated_at`**    | `datetime`         | `not null`
 # **`author_id`**     | `uuid`             | `not null`
+# **`featured_id`**   | `uuid`             |
 #
 # ### Indexes
 #
@@ -42,6 +42,8 @@
 #     * **`bookmark_of`**
 # * `index_posts_on_categories` (_using_ gin):
 #     * **`categories`**
+# * `index_posts_on_featured_id`:
+#     * **`featured_id`**
 # * `index_posts_on_in_reply_to` (_using_ gin):
 #     * **`in_reply_to`**
 # * `index_posts_on_like_of` (_using_ gin):
@@ -71,6 +73,8 @@
 #
 # * `fk_rails_...`:
 #     * **`author_id => users.id`**
+# * `fk_rails_...`:
+#     * **`featured_id => photos.id`**
 #
 class Post < ApplicationRecord
   include PostType
@@ -87,7 +91,9 @@ class Post < ApplicationRecord
 
   searchkick
 
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: 'User', inverse_of: :posts
+
+  belongs_to :featured, class_name: 'Photo', inverse_of: :posts_as_featured, optional: true
 
   has_many :links, as: :resource, inverse_of: :resource, dependent: :nullify
 
@@ -103,6 +109,14 @@ class Post < ApplicationRecord
   validates :slug, presence: true, uniqueness: { case_sensitive: true }
 
   before_validation :generate_slug, on: :create
+
+  def self.republish_all!
+    all.find_each(&:republish!)
+  end
+
+  def republish!(action: 'update')
+    PublishWorker.perform_async(action, id)
+  end
 
   def category_names
     Array(categories).join(', ')

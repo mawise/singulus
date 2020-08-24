@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_023252) do
+ActiveRecord::Schema.define(version: 2020_08_23_165046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -113,12 +113,13 @@ ActiveRecord::Schema.define(version: 2020_08_23_023252) do
     t.jsonb "repost_of"
     t.jsonb "bookmark_of"
     t.text "syndications", array: true
-    t.text "featured"
     t.text "content_html"
     t.text "type"
+    t.uuid "featured_id"
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["bookmark_of"], name: "index_posts_on_bookmark_of", using: :gin
     t.index ["categories"], name: "index_posts_on_categories", using: :gin
+    t.index ["featured_id"], name: "index_posts_on_featured_id"
     t.index ["in_reply_to"], name: "index_posts_on_in_reply_to", using: :gin
     t.index ["like_of"], name: "index_posts_on_like_of", using: :gin
     t.index ["location"], name: "index_posts_on_location", using: :gin
@@ -186,6 +187,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_023252) do
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
+  add_foreign_key "posts", "photos", column: "featured_id"
   add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "webmentions", "posts", column: "source_id"
   add_foreign_key "webmentions", "posts", column: "target_id"

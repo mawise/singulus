@@ -9,6 +9,13 @@ module Micropub
       name
       photo
       summary
+      bookmark_of
+      in_reply_to
+      like_of
+      location
+      repost_of
+      rsvp
+      syndications
     ].freeze
 
     def call(params)

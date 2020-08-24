@@ -13,7 +13,6 @@
 # **`categories`**    | `text`             | `default([]), is an Array`
 # **`content`**       | `text`             |
 # **`content_html`**  | `text`             |
-# **`featured`**      | `text`             |
 # **`in_reply_to`**   | `jsonb`            |
 # **`like_of`**       | `jsonb`            |
 # **`location`**      | `jsonb`            |
@@ -31,6 +30,7 @@
 # **`created_at`**    | `datetime`         | `not null`
 # **`updated_at`**    | `datetime`         | `not null`
 # **`author_id`**     | `uuid`             | `not null`
+# **`featured_id`**   | `uuid`             |
 #
 # ### Indexes
 #
@@ -40,6 +40,8 @@
 #     * **`bookmark_of`**
 # * `index_posts_on_categories` (_using_ gin):
 #     * **`categories`**
+# * `index_posts_on_featured_id`:
+#     * **`featured_id`**
 # * `index_posts_on_in_reply_to` (_using_ gin):
 #     * **`in_reply_to`**
 # * `index_posts_on_like_of` (_using_ gin):
@@ -69,6 +71,8 @@
 #
 # * `fk_rails_...`:
 #     * **`author_id => users.id`**
+# * `fk_rails_...`:
+#     * **`featured_id => photos.id`**
 #
 require 'rails_helper'
 

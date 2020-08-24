@@ -19,7 +19,11 @@ module Micropub
 
     private
 
-    FIRST_VALUE_ONLY = %i[content].freeze
+    FIRST_VALUE_ONLY = %i[
+      content name summary
+      featured
+      bookmark_of in_reply_to like_of repost_of
+    ].freeze
 
     def transform_json_properties(props)
       props.deep_symbolize_keys.each_with_object({}) do |(k, v), h|

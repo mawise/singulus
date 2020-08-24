@@ -67,14 +67,8 @@ RSpec.describe PublishWorker, type: :worker do
     end
   end
 
-  context 'when post has photos' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-    let(:fixtures_path) { Rails.root.join('spec/fixtures') }
-    let(:file) { File.open(File.join(fixtures_path, 'photos/4.1.01.jpeg'), 'rb') }
-    let(:alt) { 'Alternative text for the photo' }
-
-    before do
-      post.photos.create(file: file, alt: alt)
-    end
+  context 'when post type is photo' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+    let(:post) { FactoryBot.create(:post_with_photos) }
 
     it 'adds the photo URL to the front matter' do # rubocop:disable RSpec/ExampleLength
       described_class.new.perform('create', post.id)

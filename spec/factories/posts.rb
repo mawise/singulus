@@ -13,7 +13,6 @@
 # **`categories`**    | `text`             | `default([]), is an Array`
 # **`content`**       | `text`             |
 # **`content_html`**  | `text`             |
-# **`featured`**      | `text`             |
 # **`in_reply_to`**   | `jsonb`            |
 # **`like_of`**       | `jsonb`            |
 # **`location`**      | `jsonb`            |
@@ -31,6 +30,7 @@
 # **`created_at`**    | `datetime`         | `not null`
 # **`updated_at`**    | `datetime`         | `not null`
 # **`author_id`**     | `uuid`             | `not null`
+# **`featured_id`**   | `uuid`             |
 #
 # ### Indexes
 #
@@ -40,6 +40,8 @@
 #     * **`bookmark_of`**
 # * `index_posts_on_categories` (_using_ gin):
 #     * **`categories`**
+# * `index_posts_on_featured_id`:
+#     * **`featured_id`**
 # * `index_posts_on_in_reply_to` (_using_ gin):
 #     * **`in_reply_to`**
 # * `index_posts_on_like_of` (_using_ gin):
@@ -69,13 +71,29 @@
 #
 # * `fk_rails_...`:
 #     * **`author_id => users.id`**
+# * `fk_rails_...`:
+#     * **`featured_id => photos.id`**
 #
 FactoryBot.define do
   factory :post do
     association :author, factory: :user
 
     trait :published do
-      published_at { Faker::Date.backward(days: 365) }
+      transient do
+        timestamp { Faker::Date.between(from: 1.year.ago, to: Time.zone.today) }
+      end
+
+      created_at { timestamp }
+      updated_at { timestamp }
+      published_at { timestamp }
+    end
+
+    trait :categorized do
+      categories { Array.new(rand(10)) { Faker::Hacker.adjective } }
+    end
+
+    trait :with_featured do
+      association :featured, factory: :photo
     end
 
     factory :post_with_photos do
@@ -86,7 +104,9 @@ FactoryBot.define do
       after(:build) do |post, evaluator|
         post.photos_attributes = Array.new(evaluator.photos_count) do
           {
-            file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/photos/sunset.jpg'), 'image/jpeg'),
+            file: Rack::Test::UploadedFile.new(
+              Dir.glob(Rails.root.join('spec/fixtures/photos/*.jpeg')).sample, 'image/jpeg'
+            ),
             alt: Faker::Lorem.sentence
           }
         end
@@ -99,22 +119,56 @@ FactoryBot.define do
       name { Faker::Lorem.sentence }
     end
 
+    factory :bookmark do
+      transient do
+        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.today) }
+      end
+
+      created_at { timestamp }
+      updated_at { timestamp }
+      published_at { timestamp }
+      bookmark_of do
+        url = Faker::Internet.url
+        email = Faker::Internet.email
+        {
+          name: Faker::Lorem.sentence,
+          author: {
+            name: Faker::Name.name,
+            email: email,
+            url: Faker::Internet.url,
+            photo: "https://api.adorable.io/avatars/64/#{email}.png"
+          },
+          url: url,
+          uid: url,
+          accessed: timestamp.iso8601,
+          published: Faker::Time.between(from: 2.years.ago, to: timestamp).iso8601
+        }
+      end
+    end
+
     factory :like do
+      transient do
+        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.today) }
+      end
+
+      created_at { timestamp }
+      updated_at { timestamp }
+      published_at { timestamp }
       like_of do
         url = Faker::Internet.url
+        email = Faker::Internet.email
         {
           name: Faker::Lorem.sentence,
           author: {
             name: Faker::Name.name,
             email: Faker::Internet.email,
             url: Faker::Internet.url,
-            photo: 'https://via.placeholder.com/150'
+            photo: "https://api.adorable.io/avatars/64/#{email}.png"
           },
           url: url,
           uid: url,
-          accessed: Time.now.utc.iso8601,
-          content: Faker::Lorem.paragraph_by_chars(number: 250),
-          publishe: Faker::Date.backward(days: 30)
+          accessed: timestamp.iso8601,
+          published: Faker::Time.between(from: 2.years.ago, to: timestamp).iso8601
         }
       end
     end
@@ -124,42 +178,57 @@ FactoryBot.define do
     end
 
     factory :reply do
-      content { Faker::Lorem.paragraph }
+      transient do
+        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.today) }
+      end
+
+      content { Faker::Lorem.paragraph_by_chars(number: 250) }
+      created_at { timestamp }
+      updated_at { timestamp }
+      published_at { timestamp }
       in_reply_to do
         url = Faker::Internet.url
+        email = Faker::Internet.email
         {
           name: Faker::Lorem.sentence,
           author: {
             name: Faker::Name.name,
             email: Faker::Internet.email,
             url: Faker::Internet.url,
-            photo: 'https://via.placeholder.com/150'
+            photo: "https://api.adorable.io/avatars/64/#{email}.png"
           },
           url: url,
           uid: url,
-          accessed: Time.now.utc.iso8601,
+          accessed: timestamp.iso8601,
           content: Faker::Lorem.paragraph_by_chars(number: 250),
-          publishe: Faker::Date.backward(days: 30)
+          published: Faker::Time.between(from: 2.years.ago, to: timestamp).iso8601
         }
       end
     end
 
     factory :repost do
+      transient do
+        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.today) }
+      end
+
+      created_at { timestamp }
+      updated_at { timestamp }
+      published_at { timestamp }
       repost_of do
         url = Faker::Internet.url
+        email = Faker::Internet.email
         {
           name: Faker::Lorem.sentence,
           author: {
             name: Faker::Name.name,
             email: Faker::Internet.email,
             url: Faker::Internet.url,
-            photo: 'https://via.placeholder.com/150'
+            photo: "https://api.adorable.io/avatars/64/#{email}.png"
           },
           url: url,
           uid: url,
-          accessed: Time.now.utc.iso8601,
-          content: Faker::Lorem.paragraph_by_chars(number: 250),
-          publishe: Faker::Date.backward(days: 30)
+          accessed: timestamp.iso8601,
+          published: Faker::Time.between(from: 2.years.ago, to: timestamp).iso8601
         }
       end
     end

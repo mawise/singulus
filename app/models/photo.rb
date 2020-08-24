@@ -31,7 +31,16 @@ class Photo < ApplicationRecord
 
   has_many :links, as: :resource, inverse_of: :resource, dependent: :nullify
 
+  has_many :posts_as_featured, class_name: 'Post', foreign_key: :featured_id, inverse_of: :featured, dependent: :nullify
+
   include PhotoUploader::Attachment(:file, store: :photo)
 
   delegate :size, :metadata, :mime_type, to: :file
+
+  def as_front_matter_json
+    {
+      url: file_url,
+      alt: alt
+    }
+  end
 end

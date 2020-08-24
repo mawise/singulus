@@ -10,11 +10,9 @@ class PublishWorker < ApplicationWorker
   def perform(action, id)
     find_post(id)
 
-    case action
-    when 'create'
-      perform_create
-    when 'update'
-      perform_update
+    Retriable.retriable on: [Octokit::Conflict], on_retry: method(:log_retry), tries: 15, base_interval: 1.0 do
+      perform_create if action == 'create'
+      perform_update if action == 'update'
     end
   rescue Octokit::NotFound
     Rails.logger.info("Tried to update the post but it was not found: #{id}")
@@ -32,15 +30,21 @@ class PublishWorker < ApplicationWorker
     post.hugo_source_path
   end
 
-  def front_matter # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+  def front_matter # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
     h = default_front_matter
     h[:categories] = post.categories if Array(post.categories).any?
-    h[:photos] = photos if post.photos.any?
+    h[:featured] = post.featured.as_front_matter_json if post.featured.present?
+    h[:name] = post.name if post.name.present?
+    h[:summary] = post.summary if post.summary.present?
     h[:webmentions] = webmentions if post.webmentions_as_target.any?
-    h[:bookmark_of] = post.bookmark_of if post.type == 'bookmark'
-    h[:in_reply_to] = post.in_reply_to if post.type == 'reply'
-    h[:like_of] = post.like_of if post.type == 'like'
-    h[:repost_of] = post.repost_of if post.type == 'repost'
+
+    h[:photos] = photos if post.type == 'photo'
+    h[:cite] = h[:bookmark_of] = bookmark if post.type == 'bookmark'
+    h[:cite] = h[:in_reply_to] = in_reply_to if %w[reply rsvp].include?(post.type)
+    h[:cite] = h[:like_of] = like_of if post.type == 'like'
+    h[:cite] = h[:repost_of] = repost_of if post.type == 'repost'
+    h[:rsvp] = post.rsvp if post.rsvp.present?
+
     h
   end
 
@@ -48,18 +52,29 @@ class PublishWorker < ApplicationWorker
     {
       id: post.id,
       slug: post.slug,
-      date: post.published_at.strftime('%Y-%m-%dT%H:%M:%S%:z'),
-      type: post.type
+      date: post.published_at&.iso8601 || post.created_at&.iso8601,
+      draft: post.published?
     }
   end
 
   def photos
-    post.photos.map do |a|
-      {
-        url: a.file_url,
-        alt: a.alt
-      }
-    end
+    post.photos.map(&:as_front_matter_json)
+  end
+
+  def bookmark_of
+    post.bookmark_of
+  end
+
+  def in_reply_to
+    post.in_reply_to
+  end
+
+  def like_of
+    post.like_of
+  end
+
+  def repost_of
+    post.repost_of
   end
 
   def webmentions
@@ -87,5 +102,12 @@ class PublishWorker < ApplicationWorker
   def perform_update
     message = "Updating post #{post.id}"
     github.update_contents(github_repo, path, message, sha, content, branch: github_branch)
+  end
+
+  def log_retry(exception, try, elapsed_time, next_interval)
+    Rails.logger.warn(
+      'Encountered Git conflict when publishing post (probably due to a bulk update) - ' \
+      "#{exception.class}: '#{exception.message}' - #{try} tries in #{elapsed_time} seconds and #{next_interval} seconds until the next try." # rubocop:disable Metrics/LineLength
+    )
   end
 end
