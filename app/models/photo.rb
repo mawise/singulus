@@ -40,6 +40,8 @@ class Photo < ApplicationRecord
   def as_front_matter_json
     {
       url: file_url,
+      post_jpeg_url: file_url(:jpeg_post),
+      post_webp_url: file_url(:webp_post),
       alt: alt
     }
   end
