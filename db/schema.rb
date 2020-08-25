@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_165046) do
+ActiveRecord::Schema.define(version: 2020_08_25_191147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -116,6 +116,26 @@ ActiveRecord::Schema.define(version: 2020_08_23_165046) do
     t.text "content_html"
     t.text "type"
     t.uuid "featured_id"
+    t.text "og_title"
+    t.text "og_url"
+    t.text "og_image"
+    t.text "og_type"
+    t.text "og_description"
+    t.text "og_locale"
+    t.text "twitter_card"
+    t.text "twitter_creator"
+    t.text "twitter_creator_id"
+    t.text "twitter_site"
+    t.text "twitter_site_id"
+    t.text "twitter_title"
+    t.text "twitter_description"
+    t.text "twitter_image"
+    t.text "twitter_image_alt"
+    t.text "twitter_player"
+    t.integer "twitter_player_width"
+    t.integer "twitter_player_height"
+    t.text "twitter_player_stream"
+    t.text "meta_description"
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["bookmark_of"], name: "index_posts_on_bookmark_of", using: :gin
     t.index ["categories"], name: "index_posts_on_categories", using: :gin
@@ -150,8 +170,11 @@ ActiveRecord::Schema.define(version: 2020_08_23_165046) do
     t.string "unlock_token"
     t.datetime "locked_at"
     t.text "profile_url"
-    t.text "photo_url"
+    t.text "twitter_user_id"
+    t.text "twitter_username"
+    t.uuid "photo_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["photo_id"], name: "index_users_on_photo_id"
     t.index ["profile_url"], name: "index_users_on_profile_url"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
@@ -189,6 +212,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_165046) do
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "posts", "photos", column: "featured_id"
   add_foreign_key "posts", "users", column: "author_id"
+  add_foreign_key "users", "photos"
   add_foreign_key "webmentions", "posts", column: "source_id"
   add_foreign_key "webmentions", "posts", column: "target_id"
 end

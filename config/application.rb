@@ -31,6 +31,8 @@ module Singulus
     # Site configuration
     config.x.site.name = ENV.fetch('SITE_NAME', 'Singulus')
     config.x.site.url = ENV.fetch('SITE_URL', 'https://example.com')
+    config.x.site.twitter_username = ENV.fetch('TWITTER_USERNAME', '')
+    config.x.site.twitter_user_id = ENV.fetch('TWITTER_USER_ID', '')
 
     # Singulus configuration
     config.x.singulus.host = ENV.fetch('SINGULUS_HOST', 'singulus.dev')

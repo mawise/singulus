@@ -8,31 +8,51 @@
 #
 # ### Columns
 #
-# Name                | Type               | Attributes
-# ------------------- | ------------------ | ---------------------------
-# **`id`**            | `uuid`             | `not null, primary key`
-# **`bookmark_of`**   | `jsonb`            |
-# **`categories`**    | `text`             | `default([]), is an Array`
-# **`content`**       | `text`             |
-# **`content_html`**  | `text`             |
-# **`in_reply_to`**   | `jsonb`            |
-# **`like_of`**       | `jsonb`            |
-# **`location`**      | `jsonb`            |
-# **`name`**          | `text`             |
-# **`properties`**    | `jsonb`            | `not null`
-# **`published_at`**  | `datetime`         |
-# **`repost_of`**     | `jsonb`            |
-# **`rsvp`**          | `integer`          |
-# **`short_uid`**     | `text`             |
-# **`slug`**          | `text`             |
-# **`summary`**       | `text`             |
-# **`syndications`**  | `text`             | `is an Array`
-# **`type`**          | `text`             |
-# **`url`**           | `text`             |
-# **`created_at`**    | `datetime`         | `not null`
-# **`updated_at`**    | `datetime`         | `not null`
-# **`author_id`**     | `uuid`             | `not null`
-# **`featured_id`**   | `uuid`             |
+# Name                         | Type               | Attributes
+# ---------------------------- | ------------------ | ---------------------------
+# **`id`**                     | `uuid`             | `not null, primary key`
+# **`bookmark_of`**            | `jsonb`            |
+# **`categories`**             | `text`             | `default([]), is an Array`
+# **`content`**                | `text`             |
+# **`content_html`**           | `text`             |
+# **`in_reply_to`**            | `jsonb`            |
+# **`like_of`**                | `jsonb`            |
+# **`location`**               | `jsonb`            |
+# **`meta_description`**       | `text`             |
+# **`name`**                   | `text`             |
+# **`og_description`**         | `text`             |
+# **`og_image`**               | `text`             |
+# **`og_locale`**              | `text`             |
+# **`og_title`**               | `text`             |
+# **`og_type`**                | `text`             |
+# **`og_url`**                 | `text`             |
+# **`properties`**             | `jsonb`            | `not null`
+# **`published_at`**           | `datetime`         |
+# **`repost_of`**              | `jsonb`            |
+# **`rsvp`**                   | `integer`          |
+# **`short_uid`**              | `text`             |
+# **`slug`**                   | `text`             |
+# **`summary`**                | `text`             |
+# **`syndications`**           | `text`             | `is an Array`
+# **`twitter_card`**           | `text`             |
+# **`twitter_creator`**        | `text`             |
+# **`twitter_description`**    | `text`             |
+# **`twitter_image`**          | `text`             |
+# **`twitter_image_alt`**      | `text`             |
+# **`twitter_player`**         | `text`             |
+# **`twitter_player_height`**  | `integer`          |
+# **`twitter_player_stream`**  | `text`             |
+# **`twitter_player_width`**   | `integer`          |
+# **`twitter_site`**           | `text`             |
+# **`twitter_title`**          | `text`             |
+# **`type`**                   | `text`             |
+# **`url`**                    | `text`             |
+# **`created_at`**             | `datetime`         | `not null`
+# **`updated_at`**             | `datetime`         | `not null`
+# **`author_id`**              | `uuid`             | `not null`
+# **`featured_id`**            | `uuid`             |
+# **`twitter_creator_id`**     | `text`             |
+# **`twitter_site_id`**        | `text`             |
 #
 # ### Indexes
 #
@@ -77,6 +97,10 @@
 #     * **`featured_id => photos.id`**
 #
 class Post < ApplicationRecord
+  include PostFrontMatter
+  include PostMetadata
+  include PostOpenGraphMetadata
+  include PostTwitterMetadata
   include PostType
   include ShortUID
 

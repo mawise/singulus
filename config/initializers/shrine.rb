@@ -18,11 +18,15 @@ unless ENV['WEBPACK_COMPILE_ONLY']
     s3_options = { bucket: ENV['UPLOADS_BUCKET'] }
   end
 
+  default_url_options = {
+    host: Rails.configuration.x.uploads.url,
+    public: true
+  }
   url_options = {
-    store: {
-      host: Rails.configuration.x.uploads.url,
-      public: true
-    }
+    store: default_url_options,
+    photo: default_url_options,
+    video: default_url_options,
+    audio: default_url_options
   }
 
   Shrine.logger = Rails.logger

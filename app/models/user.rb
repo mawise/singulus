@@ -20,26 +20,37 @@
 # **`last_sign_in_ip`**      | `inet`             |
 # **`locked_at`**            | `datetime`         |
 # **`name`**                 | `string`           | `default(""), not null`
-# **`photo_url`**            | `text`             |
 # **`profile_url`**          | `text`             |
 # **`remember_created_at`**  | `datetime`         |
 # **`sign_in_count`**        | `integer`          | `default(0), not null`
+# **`twitter_username`**     | `text`             |
 # **`unlock_token`**         | `string`           |
 # **`created_at`**           | `datetime`         | `not null`
 # **`updated_at`**           | `datetime`         | `not null`
+# **`photo_id`**             | `uuid`             |
+# **`twitter_user_id`**      | `text`             |
 #
 # ### Indexes
 #
 # * `index_users_on_email` (_unique_):
 #     * **`email`**
+# * `index_users_on_photo_id`:
+#     * **`photo_id`**
 # * `index_users_on_profile_url`:
 #     * **`profile_url`**
 # * `index_users_on_unlock_token` (_unique_):
 #     * **`unlock_token`**
 #
+# ### Foreign Keys
+#
+# * `fk_rails_...`:
+#     * **`photo_id => photos.id`**
+#
 class User < ApplicationRecord
   devise :database_authenticatable, :lockable,
          :rememberable, :trackable, :validatable
+
+  belongs_to :photo, class_name: 'Photo', inverse_of: :user_as_photo, optional: true
 
   has_many :access_grants,
            inverse_of: :user,
@@ -53,7 +64,19 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :delete_all
 
-  has_many :posts, as: :author, inverse_of: :author, dependent: :destroy
+  has_many :posts, foreign_key: :author_id, inverse_of: :author, dependent: :destroy
+
+  def photo_url
+    photo&.file_url
+  end
+
+  def opengraph_photo_url
+    photo&.opengraph_url
+  end
+
+  def twitter_card_photo_url
+    photo&.twitter_card_url
+  end
 
   def to_indieauth_json
     as_indieauth_json.to_json
