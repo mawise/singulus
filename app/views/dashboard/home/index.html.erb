@@ -5,4 +5,35 @@
       <h1 class="title has-text-centered">Welcome back, <%= current_user.name.split(' ').first %>!</h1>
     </div>
   </section>
+  <section>
+    <div class="container">
+      <nav class="level">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Posts</p>
+            <p class="title"><%= Post.count %></p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Webmentions</p>
+            <p class="title"><%= Webmention.count %></p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Links</p>
+            <p class="title"><%= Link.count %></p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Categories</p>
+            <p class="title"><%= Post.select(:categories).map(&:categories).flatten.uniq.count %></p>
+          </div>
+        </div>
+      </nav>
+    </nav>
+  </div>
+  </section>
 </main>
