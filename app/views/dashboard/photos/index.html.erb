@@ -9,7 +9,7 @@
     <tr>
       <th>Preview</th>
       <th>Alt Text</th>
-      <th>Post</th>
+      <th>Associations</th>
       <th>Created</th>
       <th>Updated</th>
     </tr>
@@ -19,18 +19,22 @@
     <% @photos.each do |photo| %>
       <tr>
         <td>
-          <figure class="image">
-            <%= link_to dashboard_photo_path(photo) do %><%= image_tag photo.file_url, alt: photo.alt, class: 'image' %><% end %>
-          </figure>
+          <%= link_to dashboard_photo_path(photo) do %><%= image_tag photo.file_url(:thumbnail), alt: photo.alt %><% end %>
         </td>
         <td><%= photo.alt %></td>
         <td>
-          <% if photo.post %>
-            <%= photo.post.name.present? ? photo.post.name : (photo.post.summary.present? ? photo.post.summary : photo.post.content) %>
-          <% end %>
+          <ul>
+            <% if photo.post %>
+              <li><span class="icon"><i class="fas fa-camera"></i></span> <%= link_to (photo.post.name.presence || photo.post.summary.presence || photo.post.content), dashboard_post_path(photo.post) %></li>
+            <% end %>
+
+            <% if photo.user %>
+              <li><span class="icon"><i class="fas fa-user"></i></span> <%= photo.user.name %></li>
+            <% end %>
+          </ul>
         </td>
-        <td><%= time_tag(photo.created_at) %></td>
-        <td><%= time_tag(photo.updated_at) %></td>
+        <td><%= time_tag(photo.created_at, photo.created_at.strftime('%Y-%m-%d')) %></td>
+        <td><%= time_tag(photo.updated_at, photo.updated_at.strftime('%Y-%m-%d')) %></td>
       </tr>
     <% end %>
   </tbody>

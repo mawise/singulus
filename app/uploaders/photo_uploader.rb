@@ -17,6 +17,13 @@ class PhotoUploader < Shrine
     calculate_signature(io, :sha256)
   end
 
+  Attacher.derivatives(:thumbnails) do |original|
+    magick = ImageProcessing::MiniMagick.source(original).loader(page: 0)
+    {
+      thumbnail: magick.quality(85).resize_to_limit(200, nil).convert('jpeg').call
+    }
+  end
+
   Attacher.derivatives(:downloads) do |original|
     magick = ImageProcessing::MiniMagick.source(original).loader(page: 0)
     {

@@ -50,7 +50,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :lockable,
          :rememberable, :trackable, :validatable
 
-  belongs_to :photo, class_name: 'Photo', inverse_of: :user_as_photo, optional: true
+  belongs_to :photo, class_name: 'Photo', inverse_of: :user, optional: true
 
   has_many :access_grants,
            inverse_of: :user,

@@ -33,7 +33,7 @@ class Photo < ApplicationRecord
 
   has_many :posts_as_featured, class_name: 'Post', foreign_key: :featured_id, inverse_of: :featured, dependent: :nullify
 
-  has_one :user_as_photo, class_name: 'User', inverse_of: :photo, dependent: :nullify
+  has_one :user, class_name: 'User', inverse_of: :photo, dependent: :nullify
 
   include PhotoUploader::Attachment(:file, store: :photo)
 
@@ -42,6 +42,7 @@ class Photo < ApplicationRecord
   after_create :create_derivatives!
 
   def create_derivatives!
+    file_attacher.create_derivatives(:thumbnails)
     file_attacher.create_derivatives(:wilson)
     file_attacher.create_derivatives(:meta)
     save

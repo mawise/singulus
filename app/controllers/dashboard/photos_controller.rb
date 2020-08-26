@@ -6,7 +6,7 @@ module Dashboard
     before_action :find_photo, only: %i[show edit update destroy]
 
     def index
-      @photos = Photo.includes(%i[post]).order(created_at: :desc).page(params[:page])
+      @photos = Photo.includes(%i[post user]).order(created_at: :desc).page(params[:page])
     end
 
     def new
