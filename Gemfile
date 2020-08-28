@@ -43,7 +43,7 @@ gem 'doorkeeper', '~> 5.4'
 gem 'rack-attack', '~> 6.3'
 
 # Cloud
-gem 'aws-sdk-s3', '~> 1.78'
+gem 'aws-sdk-s3', '~> 1.79'
 
 # File uploads
 gem 'fastimage', '~> 2.2'
