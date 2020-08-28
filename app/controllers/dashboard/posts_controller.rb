@@ -11,7 +11,8 @@ module Dashboard
 
     def new
       @post = Post.new
-      @post.photos.build
+      @post.photo_attachments.build
+      @post.featured_photo_attachments.build
     end
 
     def create
@@ -30,7 +31,8 @@ module Dashboard
     def show; end
 
     def edit
-      @post.photos.build if @post.photos.empty?
+      @post.photo_attachments.build if @post.photos.empty?
+      @post.featured_photo_attachments.build if @post.featured_photos.empty?
     end
 
     def update
@@ -66,7 +68,8 @@ module Dashboard
       params.require(:post).permit(
         :name, :content, :slug, :summary, :category_names,
         :bookmark_of_url, :in_reply_to_url, :like_of_url, :repost_of_url,
-        photos_attributes: %i[alt file]
+        featured_photo_attachments_attributes: [{ attachable_attributes: %i[alt file] }],
+        photo_attachments_attributes: [{ attachable_attributes: %i[alt file] }]
       )
     end
   end

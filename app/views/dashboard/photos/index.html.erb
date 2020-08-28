@@ -24,12 +24,12 @@
         <td><%= photo.alt %></td>
         <td>
           <ul>
-            <% if photo.post %>
-              <li><span class="icon"><i class="fas fa-camera"></i></span> <%= link_to (photo.post.name.presence || photo.post.summary.presence || photo.post.content), dashboard_post_path(photo.post) %></li>
+            <% photo.posts.each do |post| %>
+              <li><span class="icon"><i class="fas fa-camera"></i></span> <%= link_to (post.name.presence || post.summary.presence || post.content), dashboard_post_path(post) %></li>
             <% end %>
 
-            <% if photo.user %>
-              <li><span class="icon"><i class="fas fa-user"></i></span> <%= photo.user.name %></li>
+            <% photo.users.each do |user| %>
+              <li><span class="icon"><i class="fas fa-user"></i></span> <%= user.name %></li>
             <% end %>
           </ul>
         </td>

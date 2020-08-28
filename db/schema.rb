@@ -10,13 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_28_164253) do
+ActiveRecord::Schema.define(version: 2020_08_28_170328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "hstore"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "attachable_type", null: false
+    t.uuid "attachable_id", null: false
+    t.string "attacher_type", null: false
+    t.uuid "attacher_id", null: false
+    t.text "rel", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["attachable_id", "attachable_type", "rel"], name: "attachable_with_rel"
+    t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
+    t.index ["attacher_id", "attacher_type", "rel"], name: "attacher_with_rel"
+    t.index ["attacher_type", "attacher_id"], name: "index_attachments_on_attacher_type_and_attacher_id"
+  end
 
   create_table "citations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "post_id", null: false

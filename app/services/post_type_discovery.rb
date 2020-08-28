@@ -11,7 +11,7 @@ class PostTypeDiscovery
 
     # return 'audio' if audio.any?
     # return 'video' if videos.any?
-    return 'photo' if post.photos.any?
+    return 'photo' if post.photos.any? || post.photo_attachments.any?
 
     if post.content.present?
       normalized_content = post.content.strip.squeeze

@@ -18,13 +18,13 @@ module Micropub
     private
 
     def transform_photos_form_encoded(photos, attrs)
-      attrs[:photos_attributes] = photos.each_with_object([]) do |upload, a|
+      attrs[:photo_attachments_attributes] = photos.each_with_object([]) do |upload, a|
         if upload.is_a?(String) && existing_asset?(upload)
-          associate_existing_photo(upload, nil, attrs)
+          a << associate_existing_photo(upload, nil)
         elsif upload.is_a?(String)
-          a.append({ file_remote_url: upload })
+          a.append(attachable_attributes: { file_remote_url: upload })
         else
-          a.append({ file: upload })
+          a.append(attachable_attributes: { file: upload })
         end
       end
     end

@@ -38,11 +38,12 @@ module Micropub
       url.start_with?(uploads_url)
     end
 
-    def associate_existing_photo(url, alt, attrs)
+    def associate_existing_photo(url, alt)
       photo = find_photo_by_filename(file_id(url))
-      attrs[:photo_ids] ||= []
-      attrs[:photo_ids] << photo.id if photo
+      return unless photo
+
       Photo.update(alt: alt) if alt
+      { attachable_id: photo.id }
     end
 
     def file_id(url)

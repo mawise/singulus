@@ -43,7 +43,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :lockable,
          :rememberable, :trackable, :validatable
 
-  belongs_to :photo, class_name: 'Photo', inverse_of: :user, optional: true
+  has_many :photo_attachments, -> { where(rel: 'photo') },
+           class_name: 'Attachment', as: :attacher, inverse_of: :attacher, dependent: :destroy
+  has_many :photos, through: :photo_attachments, source: :attachable, source_type: 'Photo'
+  accepts_nested_attributes_for :photo_attachments, allow_destroy: true
 
   has_many :access_grants,
            inverse_of: :user,
@@ -58,6 +61,10 @@ class User < ApplicationRecord
            dependent: :delete_all
 
   has_many :posts, foreign_key: :author_id, inverse_of: :author, dependent: :destroy
+
+  def photo
+    photos.first
+  end
 
   def photo_url
     photo&.file_url

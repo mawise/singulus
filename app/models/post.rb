@@ -103,13 +103,19 @@ class Post < ApplicationRecord
 
   belongs_to :author, class_name: 'User', inverse_of: :posts
 
-  belongs_to :featured, class_name: 'Photo', inverse_of: :posts_as_featured, optional: true
+  has_many :photo_attachments, -> { where(rel: 'photo') },
+           class_name: 'Attachment', as: :attacher, inverse_of: :attacher, dependent: :destroy
+  has_many :photos, through: :photo_attachments, source: :attachable, source_type: 'Photo'
+  accepts_nested_attributes_for :photo_attachments, allow_destroy: true,
+                                                    reject_if: :invalid_attachment_attributes?
+
+  has_many :featured_photo_attachments, -> { where(rel: 'featured') },
+           class_name: 'Attachment', as: :attacher, inverse_of: :attacher, dependent: :destroy
+  has_many :featured_photos, through: :featured_photo_attachments, source: :attachable, source_type: 'Photo'
+  accepts_nested_attributes_for :featured_photo_attachments, allow_destroy: true,
+                                                             reject_if: :invalid_attachment_attributes?
 
   has_many :links, as: :resource, inverse_of: :resource, dependent: :nullify
-
-  has_many :photos, dependent: :nullify
-  accepts_nested_attributes_for :photos, allow_destroy: true,
-                                         reject_if: proc { |a| a['file'].blank? && a['file_remote_url'].blank? }
 
   validates :slug, presence: true, uniqueness: { case_sensitive: true }
 
@@ -117,6 +123,10 @@ class Post < ApplicationRecord
 
   def self.republish_all!
     all.find_each(&:republish!)
+  end
+
+  def featured
+    featured_photos.first
   end
 
   def republish!(action: 'update')
@@ -131,6 +141,24 @@ class Post < ApplicationRecord
     self.categories = val.strip.gsub(/\s+/, ' ').split(',').map(&:strip)
   end
 
+  def photo_attachments_attributes=(attrs)
+    if attrs.respond_to?(:permitted)
+      attrs.transform_values! { |v| v.merge(attachable_type: 'Photo', rel: 'photo') }
+    elsif attrs.is_a?(Array)
+      attrs.map! { |v| v.merge(attachable_type: 'Photo', rel: 'photo') }
+    end
+    super
+  end
+
+  def featured_photo_attachments_attributes=(attrs)
+    if attrs.respond_to?(:permitted)
+      attrs.transform_values! { |v| v.merge(attachable_type: 'Photo', rel: 'featured') }
+    elsif attrs.is_a?(Array)
+      attrs.map { |v| v.merge(attachable_type: 'Photo', rel: 'featured') }
+    end
+    super
+  end
+
   def published?
     published_at.present?
   end
@@ -140,6 +168,12 @@ class Post < ApplicationRecord
   end
 
   private
+
+  def invalid_attachment_attributes?(attrs)
+    attrs[:attachable_id].blank? &&
+      attrs.dig(:attachable_attributes, :file).blank? &&
+      attrs.dig(:attachable_attributes, :file_remote_url).blank?
+  end
 
   def generate_slug
     return if slug.present?

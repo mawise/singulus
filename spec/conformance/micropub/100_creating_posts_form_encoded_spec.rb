@@ -86,7 +86,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
       end
 
       it 'links the existing photo to the post' do
-        expect(photo.reload.post_id).to eq(new_post.id)
+        expect(photo.reload.post_ids).to include(new_post.id)
       end
     end
 

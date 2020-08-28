@@ -12,7 +12,7 @@ module Micropub
       attrs[:categories] = attrs.delete(:category)
 
       photos = attrs.delete(:photo) || []
-      attrs[:photos_attributes] = transform_json_photos(photos, attrs)
+      attrs[:photo_attachments_attributes] = transform_json_photos(photos)
 
       create_post(attrs)
     end
@@ -35,7 +35,7 @@ module Micropub
       end
     end
 
-    def transform_json_photos(photos, attrs) # rubocop:disable Metrics/MethodLength
+    def transform_json_photos(photos) # rubocop:disable Metrics/MethodLength
       photos.each_with_object([]) do |item, a|
         if item.respond_to?(:key?)
           url = item[:value]
@@ -45,11 +45,11 @@ module Micropub
           alt = nil
         end
 
-        if existing_asset?(url)
-          associate_existing_photo(url, alt, attrs)
-        else
-          a << { file_remote_url: url, alt: alt }
-        end
+        a << if existing_asset?(url)
+               associate_existing_photo(url, alt)
+             else
+               { attachable_attributes: { file_remote_url: url, alt: alt } }
+             end
       end
     end
   end

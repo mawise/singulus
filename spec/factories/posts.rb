@@ -100,22 +100,39 @@ FactoryBot.define do
       categories { Array.new(rand(10)) { Faker::Hacker.adjective } }
     end
 
-    trait :with_featured do
-      association :featured, factory: :photo
+    trait :with_featured_photos do
+      transient do
+        featured_photo_count { 1 }
+      end
+
+      featured_photo_attachments_attributes do
+        Array.new(featured_photo_count) do
+          {
+            rel: 'featured',
+            attachable_type: 'Photo',
+            attachable_attributes: {
+              file: File.new(Dir[Rails.root.join('spec/fixtures/photos/*')].sample),
+              alt: Faker::Lorem.sentence
+            }
+          }
+        end
+      end
     end
 
     factory :photo_post do
       transient do
-        photos_count { 1 }
+        photo_count { 1 }
       end
 
-      after(:build) do |post, evaluator|
-        post.photos_attributes = Array.new(evaluator.photos_count) do
+      photo_attachments_attributes do
+        Array.new(photo_count) do
           {
-            file: Rack::Test::UploadedFile.new(
-              Dir.glob(Rails.root.join('spec/fixtures/photos/*.jpeg')).sample, 'image/jpeg'
-            ),
-            alt: Faker::Lorem.sentence
+            rel: 'photo',
+            attachable_type: 'Photo',
+            attachable_attributes: {
+              file: File.new(Dir[Rails.root.join('spec/fixtures/photos/*')].sample),
+              alt: Faker::Lorem.sentence
+            }
           }
         end
       end

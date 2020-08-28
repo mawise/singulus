@@ -24,22 +24,50 @@
   <div class="control"><%= f.text_field :category_names, class: 'input' %></div>
 </div>
 
-<div class="field">
-  <%= f.label :bookmark_of_url, 'Bookmark of URL', class: 'label' %>
-  <div class="control"><%= f.text_field :bookmark_of_url, class: 'input' %></div>
+<div class="box">
+  <h3 class="is-size-4">Featured Photos</h3>
+  <%= f.fields_for :featured_photo_attachments do |attachment_fields| %>
+    <%= attachment_fields.fields_for :attachable_attributes do |photo_fields| %>
+      <div class="field">
+        <div class="file is-boxed is-fullwidth">
+          <%= photo_fields.label :file, class: 'file-label' do %>
+            <%= photo_fields.file_field :file, class: 'file-input' %>
+            <span class="file-cta">
+              <span class="file-icon"><i class="fas fa-upload"></i></span>
+              <span class="file-label has-text-centered">Add photo</span>
+            </span>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= photo_fields.label :alt, 'Alt Text', class: 'label' %>
+        <div class="control"><%= photo_fields.text_field :alt, class: 'input' %></div>
+      </div>
+    <% end %>
+  <% end %>
 </div>
 
-<div class="field">
-  <%= f.label :in_reply_to_url, 'In Reply to URL', class: 'label' %>
-  <div class="control"><%= f.text_field :in_reply_to_url, class: 'input' %></div>
-</div>
+<div class="box">
+  <h3 class="is-size-4">Photos</h3>
+  <%= f.fields_for :photo_attachments do |attachment_fields| %>
+    <%= attachment_fields.fields_for :attachable_attributes do |photo_fields| %>
+      <div class="field">
+        <div class="file is-boxed is-fullwidth">
+          <%= photo_fields.label :file, class: 'file-label' do %>
+            <%= photo_fields.file_field :file, class: 'file-input' %>
+            <span class="file-cta">
+              <span class="file-icon"><i class="fas fa-upload"></i></span>
+              <span class="file-label has-text-centered">Add photo</span>
+            </span>
+          <% end %>
+        </div>
+      </div>
 
-<div class="field">
-  <%= f.label :like_of_url, 'Like of URL', class: 'label' %>
-  <div class="control"><%= f.text_field :like_of_url, class: 'input' %></div>
-</div>
-
-<div class="field">
-  <%= f.label :repost_of_url, 'Repost of URL', class: 'label' %>
-  <div class="control"><%= f.text_field :repost_of_url, class: 'input' %></div>
+      <div class="field">
+        <%= photo_fields.label :alt, 'Alt Text', class: 'label' %>
+        <div class="control"><%= photo_fields.text_field :alt, class: 'input' %></div>
+      </div>
+    <% end %>
+  <% end %>
 </div>

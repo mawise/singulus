@@ -102,7 +102,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
       end
 
       it 'links the existing photo to the post' do
-        expect(photo.reload.post_id).to eq(new_post.id)
+        expect(photo.reload.post_ids).to include(new_post.id)
       end
     end
 
@@ -181,7 +181,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
       end
 
       it 'links the photo to the post' do
-        expect(photo.reload.post_id).to eq(new_post.id)
+        expect(photo.reload.post_ids).to include(new_post.id)
       end
 
       it 'updates the alt text on the photo' do
@@ -262,11 +262,11 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (JSON)', 
       end
 
       it 'links the first existing photo to the post' do
-        expect(first_photo.reload.post_id).to eq(new_post.id)
+        expect(first_photo.reload.post_ids).to include(new_post.id)
       end
 
       it 'links the second existing photo to the post' do
-        expect(second_photo.reload.post_id).to eq(new_post.id)
+        expect(second_photo.reload.post_ids).to include(new_post.id)
       end
     end
 

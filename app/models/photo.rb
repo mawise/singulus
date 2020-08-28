@@ -39,13 +39,11 @@
 class Photo < ApplicationRecord
   belongs_to :attachable, polymorphic: true, optional: true, touch: true
 
-  belongs_to :post, optional: true
+  has_many :attachments, as: :attachable, inverse_of: :attachable, dependent: :destroy
+  has_many :posts, through: :attachments, source: :attacher, source_type: 'Post'
+  has_many :users, through: :attachments, source: :attacher, source_type: 'User'
 
   has_many :links, as: :resource, inverse_of: :resource, dependent: :nullify
-
-  has_many :posts_as_featured, class_name: 'Post', foreign_key: :featured_id, inverse_of: :featured, dependent: :nullify
-
-  has_one :user, class_name: 'User', inverse_of: :photo, dependent: :nullify
 
   include PhotoUploader::Attachment(:file, store: :photo)
 
