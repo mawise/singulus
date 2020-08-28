@@ -20,7 +20,7 @@ module Dashboard
       @post.author = current_user
       @post.published_at = Time.now.utc
       if @post.save_unique
-        queue_publish('create', @post)
+        queue_publish(@post)
         create_link(@post)
         redirect_to dashboard_post_path(@post), notice: 'Post was successfully created'
       else
@@ -37,7 +37,7 @@ module Dashboard
 
     def update
       if @post.update(post_params)
-        HugoPublishWorker.perform_async('update', @post.id)
+        queue_publish(@post)
         redirect_to dashboard_post_path(@post), notice: 'Post was successfully updated'
       else
         render :edit
@@ -52,8 +52,8 @@ module Dashboard
 
     private
 
-    def queue_publish(action, post)
-      HugoPublishWorker.perform_async(action, post.id)
+    def queue_publish(post)
+      HugoPublishWorker.perform_async(post.id)
     end
 
     def create_link(post)

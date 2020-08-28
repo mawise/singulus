@@ -7,12 +7,11 @@ class HugoPublishWorker < ApplicationWorker
 
   sidekiq_options retries: 10, lock: :while_executing, on_conflict: :reschedule, queue: 'hugo'
 
-  def perform(action, id)
+  def perform(id)
     find_post(id)
 
     Retriable.retriable on: [Octokit::Conflict], on_retry: method(:log_retry), tries: 15, base_interval: 1.0 do
-      perform_create if action == 'create'
-      perform_update if action == 'update'
+      sha ? perform_update : perform_create
     end
   rescue Octokit::NotFound
     Rails.logger.info("Tried to update the post but it was not found: #{id}")
@@ -40,7 +39,12 @@ class HugoPublishWorker < ApplicationWorker
   end
 
   def sha
-    github.contents(github_repo, path: path, ref: github_branch).sha
+    @sha ||=
+      begin
+        github.contents(github_repo, path: path, ref: github_branch).sha
+      rescue Octokit::NotFound
+        nil
+      end
   end
 
   def perform_create

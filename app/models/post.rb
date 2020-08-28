@@ -129,8 +129,8 @@ class Post < ApplicationRecord
     featured_photos.first
   end
 
-  def republish!(action: 'update')
-    HugoPublishWorker.perform_async(action, id)
+  def republish!
+    HugoPublishWorker.perform_async(id)
   end
 
   def category_names
