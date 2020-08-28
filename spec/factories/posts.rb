@@ -9,12 +9,9 @@
 # Name                         | Type               | Attributes
 # ---------------------------- | ------------------ | ---------------------------
 # **`id`**                     | `uuid`             | `not null, primary key`
-# **`bookmark_of`**            | `jsonb`            |
 # **`categories`**             | `text`             | `default([]), is an Array`
 # **`content`**                | `text`             |
 # **`content_html`**           | `text`             |
-# **`in_reply_to`**            | `jsonb`            |
-# **`like_of`**                | `jsonb`            |
 # **`location`**               | `jsonb`            |
 # **`meta_description`**       | `text`             |
 # **`name`**                   | `text`             |
@@ -26,7 +23,6 @@
 # **`og_url`**                 | `text`             |
 # **`properties`**             | `jsonb`            | `not null`
 # **`published_at`**           | `datetime`         |
-# **`repost_of`**              | `jsonb`            |
 # **`rsvp`**                   | `integer`          |
 # **`short_uid`**              | `text`             |
 # **`slug`**                   | `text`             |
@@ -56,24 +52,16 @@
 #
 # * `index_posts_on_author_id`:
 #     * **`author_id`**
-# * `index_posts_on_bookmark_of` (_using_ gin):
-#     * **`bookmark_of`**
 # * `index_posts_on_categories` (_using_ gin):
 #     * **`categories`**
 # * `index_posts_on_featured_id`:
 #     * **`featured_id`**
-# * `index_posts_on_in_reply_to` (_using_ gin):
-#     * **`in_reply_to`**
-# * `index_posts_on_like_of` (_using_ gin):
-#     * **`like_of`**
 # * `index_posts_on_location` (_using_ gin):
 #     * **`location`**
 # * `index_posts_on_properties` (_using_ gin):
 #     * **`properties`**
 # * `index_posts_on_published_at`:
 #     * **`published_at`**
-# * `index_posts_on_repost_of` (_using_ gin):
-#     * **`repost_of`**
 # * `index_posts_on_rsvp`:
 #     * **`rsvp`**
 # * `index_posts_on_short_uid` (_unique_):
@@ -116,7 +104,7 @@ FactoryBot.define do
       association :featured, factory: :photo
     end
 
-    factory :post_with_photos do
+    factory :photo_post do
       transient do
         photos_count { 1 }
       end
@@ -133,123 +121,81 @@ FactoryBot.define do
       end
     end
 
-    factory :article do
+    factory :note_post do
+      content { Faker::Lorem.paragraph_by_chars(number: 250) }
+    end
+
+    factory :article_post do
       content { Faker::Lorem.paragraphs.join("\n\n") }
       summary { Faker::Lorem.paragraph }
       name { Faker::Lorem.sentence }
     end
 
-    factory :bookmark do
+    factory :bookmark_post do
       transient do
-        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.today) }
+        citation_count { 1 }
+        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.now) }
       end
 
       created_at { timestamp }
       updated_at { timestamp }
       published_at { timestamp }
-      bookmark_of do
-        url = Faker::Internet.url
-        email = Faker::Internet.email
-        {
-          name: Faker::Lorem.sentence,
-          author: {
-            name: Faker::Name.name,
-            email: email,
-            url: Faker::Internet.url,
-            photo: "https://api.adorable.io/avatars/64/#{email}.png"
-          },
-          url: url,
-          uid: url,
-          accessed: timestamp.iso8601,
-          published: Faker::Time.between(from: 2.years.ago, to: timestamp).iso8601
-        }
+
+      bookmarks_attributes do
+        Array.new(citation_count) do
+          attributes_for(:citation, :bookmark, timestamp: timestamp)
+        end
       end
     end
 
-    factory :like do
+    factory :like_post do
       transient do
-        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.today) }
+        citation_count { 1 }
+        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.now) }
       end
 
       created_at { timestamp }
       updated_at { timestamp }
       published_at { timestamp }
-      like_of do
-        url = Faker::Internet.url
-        email = Faker::Internet.email
-        {
-          name: Faker::Lorem.sentence,
-          author: {
-            name: Faker::Name.name,
-            email: Faker::Internet.email,
-            url: Faker::Internet.url,
-            photo: "https://api.adorable.io/avatars/64/#{email}.png"
-          },
-          url: url,
-          uid: url,
-          accessed: timestamp.iso8601,
-          published: Faker::Time.between(from: 2.years.ago, to: timestamp).iso8601
-        }
+
+      likes_attributes do
+        Array.new(citation_count) do
+          attributes_for(:citation, :like, timestamp: timestamp)
+        end
       end
     end
 
-    factory :note do
-      content { Faker::Lorem.paragraph_by_chars(number: 250) }
-    end
-
-    factory :reply do
+    factory :reply_post do
       transient do
-        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.today) }
-      end
-
-      content { Faker::Lorem.paragraph_by_chars(number: 250) }
-      created_at { timestamp }
-      updated_at { timestamp }
-      published_at { timestamp }
-      in_reply_to do
-        url = Faker::Internet.url
-        email = Faker::Internet.email
-        {
-          name: Faker::Lorem.sentence,
-          author: {
-            name: Faker::Name.name,
-            email: Faker::Internet.email,
-            url: Faker::Internet.url,
-            photo: "https://api.adorable.io/avatars/64/#{email}.png"
-          },
-          url: url,
-          uid: url,
-          accessed: timestamp.iso8601,
-          content: Faker::Lorem.paragraph_by_chars(number: 250),
-          published: Faker::Time.between(from: 2.years.ago, to: timestamp).iso8601
-        }
-      end
-    end
-
-    factory :repost do
-      transient do
-        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.today) }
+        citation_count { 1 }
+        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.now) }
       end
 
       created_at { timestamp }
       updated_at { timestamp }
       published_at { timestamp }
-      repost_of do
-        url = Faker::Internet.url
-        email = Faker::Internet.email
-        {
-          name: Faker::Lorem.sentence,
-          author: {
-            name: Faker::Name.name,
-            email: Faker::Internet.email,
-            url: Faker::Internet.url,
-            photo: "https://api.adorable.io/avatars/64/#{email}.png"
-          },
-          url: url,
-          uid: url,
-          accessed: timestamp.iso8601,
-          published: Faker::Time.between(from: 2.years.ago, to: timestamp).iso8601
-        }
+
+      recipients_attributes do
+        Array.new(citation_count) do
+          attributes_for(:citation, :reply, timestamp: timestamp)
+        end
+      end
+    end
+
+    factory :repost_post do
+      transient do
+        citation_count { 1 }
+        timestamp { Faker::Time.between(from: 1.year.ago, to: Time.zone.now) }
+      end
+
+      created_at { timestamp }
+      updated_at { timestamp }
+      published_at { timestamp }
+
+      reposts_attributes do
+        Array.new(citation_count) do
+          attributes_for(:citation, :repost, timestamp: timestamp)
+        end
       end
     end
   end

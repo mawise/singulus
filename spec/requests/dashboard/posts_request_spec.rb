@@ -47,7 +47,7 @@ RSpec.describe '/dashboard/posts', type: :request do
   end
 
   context 'with existing post' do
-    let(:post) { FactoryBot.create(:note, author: user) }
+    let(:post) { FactoryBot.create(:note_post, author: user) }
 
     describe 'GET /dashboard/posts/:id' do
       it 'returns HTTP success' do

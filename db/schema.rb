@@ -10,13 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_191147) do
+ActiveRecord::Schema.define(version: 2020_08_26_163050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "hstore"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "citations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "post_id", null: false
+    t.text "post_rel", null: false
+    t.text "uid", null: false
+    t.datetime "accessed_at"
+    t.jsonb "author"
+    t.text "content"
+    t.text "name"
+    t.text "publication"
+    t.text "urls", array: true
+    t.datetime "published_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_citations_on_name"
+    t.index ["post_id", "post_rel"], name: "index_citations_on_post_id_and_post_rel"
+    t.index ["post_id"], name: "index_citations_on_post_id"
+    t.index ["publication"], name: "index_citations_on_publication"
+    t.index ["uid"], name: "index_citations_on_uid", unique: true
+    t.index ["urls"], name: "index_citations_on_urls", using: :gin
+  end
 
   create_table "links", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "resource_type"
@@ -108,10 +129,6 @@ ActiveRecord::Schema.define(version: 2020_08_25_191147) do
     t.jsonb "properties", default: "{}", null: false
     t.jsonb "location"
     t.integer "rsvp"
-    t.jsonb "in_reply_to"
-    t.jsonb "like_of"
-    t.jsonb "repost_of"
-    t.jsonb "bookmark_of"
     t.text "syndications", array: true
     t.text "content_html"
     t.text "type"
@@ -137,15 +154,11 @@ ActiveRecord::Schema.define(version: 2020_08_25_191147) do
     t.text "twitter_player_stream"
     t.text "meta_description"
     t.index ["author_id"], name: "index_posts_on_author_id"
-    t.index ["bookmark_of"], name: "index_posts_on_bookmark_of", using: :gin
     t.index ["categories"], name: "index_posts_on_categories", using: :gin
     t.index ["featured_id"], name: "index_posts_on_featured_id"
-    t.index ["in_reply_to"], name: "index_posts_on_in_reply_to", using: :gin
-    t.index ["like_of"], name: "index_posts_on_like_of", using: :gin
     t.index ["location"], name: "index_posts_on_location", using: :gin
     t.index ["properties"], name: "index_posts_on_properties", using: :gin
     t.index ["published_at"], name: "index_posts_on_published_at"
-    t.index ["repost_of"], name: "index_posts_on_repost_of", using: :gin
     t.index ["rsvp"], name: "index_posts_on_rsvp"
     t.index ["short_uid"], name: "index_posts_on_short_uid", unique: true
     t.index ["slug"], name: "index_posts_on_slug", unique: true
@@ -174,7 +187,6 @@ ActiveRecord::Schema.define(version: 2020_08_25_191147) do
     t.text "twitter_username"
     t.uuid "photo_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["photo_id"], name: "index_users_on_photo_id"
     t.index ["profile_url"], name: "index_users_on_profile_url"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
@@ -206,13 +218,13 @@ ActiveRecord::Schema.define(version: 2020_08_25_191147) do
     t.index ["target_id"], name: "index_webmentions_on_target_id"
   end
 
+  add_foreign_key "citations", "posts"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "posts", "photos", column: "featured_id"
   add_foreign_key "posts", "users", column: "author_id"
-  add_foreign_key "users", "photos"
   add_foreign_key "webmentions", "posts", column: "source_id"
   add_foreign_key "webmentions", "posts", column: "target_id"
 end

@@ -8,7 +8,7 @@ RSpec.describe HugoDeleteWorker, type: :worker do # rubocop:disable RSpec/Multip
   let(:github_branch) { 'some-branch' }
 
   let(:user) { FactoryBot.create(:user) }
-  let(:post) { FactoryBot.create(:note, author: user) }
+  let(:post) { FactoryBot.create(:note_post, author: user) }
 
   let(:sha) { SecureRandom.hex }
   let(:contents) { double(sha: sha) } # rubocop:disable RSpec/VerifiedDoubles

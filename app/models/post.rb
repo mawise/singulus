@@ -11,12 +11,9 @@
 # Name                         | Type               | Attributes
 # ---------------------------- | ------------------ | ---------------------------
 # **`id`**                     | `uuid`             | `not null, primary key`
-# **`bookmark_of`**            | `jsonb`            |
 # **`categories`**             | `text`             | `default([]), is an Array`
 # **`content`**                | `text`             |
 # **`content_html`**           | `text`             |
-# **`in_reply_to`**            | `jsonb`            |
-# **`like_of`**                | `jsonb`            |
 # **`location`**               | `jsonb`            |
 # **`meta_description`**       | `text`             |
 # **`name`**                   | `text`             |
@@ -28,7 +25,6 @@
 # **`og_url`**                 | `text`             |
 # **`properties`**             | `jsonb`            | `not null`
 # **`published_at`**           | `datetime`         |
-# **`repost_of`**              | `jsonb`            |
 # **`rsvp`**                   | `integer`          |
 # **`short_uid`**              | `text`             |
 # **`slug`**                   | `text`             |
@@ -58,24 +54,16 @@
 #
 # * `index_posts_on_author_id`:
 #     * **`author_id`**
-# * `index_posts_on_bookmark_of` (_using_ gin):
-#     * **`bookmark_of`**
 # * `index_posts_on_categories` (_using_ gin):
 #     * **`categories`**
 # * `index_posts_on_featured_id`:
 #     * **`featured_id`**
-# * `index_posts_on_in_reply_to` (_using_ gin):
-#     * **`in_reply_to`**
-# * `index_posts_on_like_of` (_using_ gin):
-#     * **`like_of`**
 # * `index_posts_on_location` (_using_ gin):
 #     * **`location`**
 # * `index_posts_on_properties` (_using_ gin):
 #     * **`properties`**
 # * `index_posts_on_published_at`:
 #     * **`published_at`**
-# * `index_posts_on_repost_of` (_using_ gin):
-#     * **`repost_of`**
 # * `index_posts_on_rsvp`:
 #     * **`rsvp`**
 # * `index_posts_on_short_uid` (_unique_):
@@ -97,21 +85,19 @@
 #     * **`featured_id => photos.id`**
 #
 class Post < ApplicationRecord
-  include PostFrontMatter
-  include PostMetadata
-  include PostOpenGraphMetadata
-  include PostTwitterMetadata
-  include PostType
+  include Citations
+  include FrontMatter
+  include Metadata
+  include OpenGraphMetadata
+  include TwitterMetadata
+  include Type
+  include Webmentions
+
   include ShortUID
 
   self.inheritance_column = nil
 
   enum rsvp: { yes: 0, no: 1, maybe: 2, interested: 3 }, _prefix: :rsvp
-
-  store :bookmark_of, accessors: %i[url], coder: JSON, prefix: true
-  store :in_reply_to, accessors: %i[url], coder: JSON, prefix: true
-  store :like_of, accessors: %i[url], coder: JSON, prefix: true
-  store :repost_of, accessors: %i[url], coder: JSON, prefix: true
 
   searchkick
 
@@ -120,11 +106,6 @@ class Post < ApplicationRecord
   belongs_to :featured, class_name: 'Photo', inverse_of: :posts_as_featured, optional: true
 
   has_many :links, as: :resource, inverse_of: :resource, dependent: :nullify
-
-  has_many :webmentions_as_source, foreign_key: :source_id,
-                                   class_name: 'Webmention', inverse_of: :source, dependent: :nullify
-  has_many :webmentions_as_target, foreign_key: :target_id,
-                                   class_name: 'Webmention', inverse_of: :target, dependent: :nullify
 
   has_many :photos, dependent: :nullify
   accepts_nested_attributes_for :photos, allow_destroy: true,

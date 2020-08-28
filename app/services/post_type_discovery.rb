@@ -4,10 +4,10 @@
 class PostTypeDiscovery
   def call(post) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
     return 'rsvp' if post.rsvp.present?
-    return 'reply' if post.in_reply_to_url.present?
-    return 'repost' if post.repost_of_url.present?
-    return 'like' if post.like_of_url.present?
-    return 'bookmark' if post.bookmark_of_url.present?
+    return 'reply' if post.recipients.any?
+    return 'repost' if post.reposts.any?
+    return 'like' if post.likes.any?
+    return 'bookmark' if post.bookmarks.any?
 
     # return 'audio' if audio.any?
     # return 'video' if videos.any?

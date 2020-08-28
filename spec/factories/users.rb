@@ -32,17 +32,10 @@
 #
 # * `index_users_on_email` (_unique_):
 #     * **`email`**
-# * `index_users_on_photo_id`:
-#     * **`photo_id`**
 # * `index_users_on_profile_url`:
 #     * **`profile_url`**
 # * `index_users_on_unlock_token` (_unique_):
 #     * **`unlock_token`**
-#
-# ### Foreign Keys
-#
-# * `fk_rails_...`:
-#     * **`photo_id => photos.id`**
 #
 FactoryBot.define do
   factory :user do

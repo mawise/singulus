@@ -8,7 +8,7 @@ RSpec.describe HugoPublishWorker, type: :worker do
   let(:github_branch) { 'some-branch' }
 
   let(:user) { FactoryBot.create(:user) }
-  let(:post) { FactoryBot.create(:note, :published, author: user) }
+  let(:post) { FactoryBot.create(:note_post, :published, author: user) }
 
   before do
     allow(Octokit::Client).to receive(:new) { github }
@@ -68,7 +68,7 @@ RSpec.describe HugoPublishWorker, type: :worker do
   end
 
   context 'when post type is photo' do
-    let(:post) { FactoryBot.create(:post_with_photos) }
+    let(:post) { FactoryBot.create(:photo_post) }
 
     it 'adds the photo URL to the front matter' do # rubocop:disable RSpec/ExampleLength
       described_class.new.perform('create', post.id)
