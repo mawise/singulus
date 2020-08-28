@@ -23,13 +23,11 @@
 # **`og_title`**               | `text`             |
 # **`og_type`**                | `text`             |
 # **`og_url`**                 | `text`             |
-# **`properties`**             | `jsonb`            | `not null`
 # **`published_at`**           | `datetime`         |
 # **`rsvp`**                   | `integer`          |
 # **`short_uid`**              | `text`             |
 # **`slug`**                   | `text`             |
 # **`summary`**                | `text`             |
-# **`syndications`**           | `text`             | `is an Array`
 # **`twitter_card`**           | `text`             |
 # **`twitter_creator`**        | `text`             |
 # **`twitter_description`**    | `text`             |
@@ -46,7 +44,6 @@
 # **`created_at`**             | `datetime`         | `not null`
 # **`updated_at`**             | `datetime`         | `not null`
 # **`author_id`**              | `uuid`             | `not null`
-# **`featured_id`**            | `uuid`             |
 # **`twitter_creator_id`**     | `text`             |
 # **`twitter_site_id`**        | `text`             |
 #
@@ -56,12 +53,8 @@
 #     * **`author_id`**
 # * `index_posts_on_categories` (_using_ gin):
 #     * **`categories`**
-# * `index_posts_on_featured_id`:
-#     * **`featured_id`**
 # * `index_posts_on_location` (_using_ gin):
 #     * **`location`**
-# * `index_posts_on_properties` (_using_ gin):
-#     * **`properties`**
 # * `index_posts_on_published_at`:
 #     * **`published_at`**
 # * `index_posts_on_rsvp`:
@@ -70,8 +63,6 @@
 #     * **`short_uid`**
 # * `index_posts_on_slug` (_unique_):
 #     * **`slug`**
-# * `index_posts_on_syndications` (_using_ gin):
-#     * **`syndications`**
 # * `index_posts_on_type`:
 #     * **`type`**
 # * `index_posts_on_url`:
@@ -81,8 +72,6 @@
 #
 # * `fk_rails_...`:
 #     * **`author_id => users.id`**
-# * `fk_rails_...`:
-#     * **`featured_id => photos.id`**
 #
 class Post < ApplicationRecord
   include Citations

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_28_170328) do
+ActiveRecord::Schema.define(version: 2020_08_28_212255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -117,20 +117,10 @@ ActiveRecord::Schema.define(version: 2020_08_28_170328) do
   end
 
   create_table "photos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "post_id"
     t.text "alt"
-    t.interval "duration"
-    t.hstore "metadata", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "file_data"
-    t.string "attachable_type"
-    t.uuid "attachable_id"
-    t.text "attachable_rel"
-    t.index ["attachable_id", "attachable_type", "attachable_rel"], name: "attachable"
-    t.index ["attachable_type", "attachable_id"], name: "index_photos_on_attachable_type_and_attachable_id"
-    t.index ["metadata"], name: "index_photos_on_metadata", using: :gin
-    t.index ["post_id"], name: "index_photos_on_post_id"
   end
 
   create_table "posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -145,13 +135,10 @@ ActiveRecord::Schema.define(version: 2020_08_28_170328) do
     t.text "url"
     t.text "categories", default: [], array: true
     t.text "slug"
-    t.jsonb "properties", default: "{}", null: false
     t.jsonb "location"
     t.integer "rsvp"
-    t.text "syndications", array: true
     t.text "content_html"
     t.text "type"
-    t.uuid "featured_id"
     t.text "og_title"
     t.text "og_url"
     t.text "og_image"
@@ -174,14 +161,11 @@ ActiveRecord::Schema.define(version: 2020_08_28_170328) do
     t.text "meta_description"
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["categories"], name: "index_posts_on_categories", using: :gin
-    t.index ["featured_id"], name: "index_posts_on_featured_id"
     t.index ["location"], name: "index_posts_on_location", using: :gin
-    t.index ["properties"], name: "index_posts_on_properties", using: :gin
     t.index ["published_at"], name: "index_posts_on_published_at"
     t.index ["rsvp"], name: "index_posts_on_rsvp"
     t.index ["short_uid"], name: "index_posts_on_short_uid", unique: true
     t.index ["slug"], name: "index_posts_on_slug", unique: true
-    t.index ["syndications"], name: "index_posts_on_syndications", using: :gin
     t.index ["type"], name: "index_posts_on_type"
     t.index ["url"], name: "index_posts_on_url"
   end
@@ -204,7 +188,6 @@ ActiveRecord::Schema.define(version: 2020_08_28_170328) do
     t.text "profile_url"
     t.text "twitter_user_id"
     t.text "twitter_username"
-    t.uuid "photo_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["profile_url"], name: "index_users_on_profile_url"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
@@ -242,7 +225,6 @@ ActiveRecord::Schema.define(version: 2020_08_28_170328) do
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
-  add_foreign_key "posts", "photos", column: "featured_id"
   add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "webmentions", "posts", column: "source_id"
   add_foreign_key "webmentions", "posts", column: "target_id"

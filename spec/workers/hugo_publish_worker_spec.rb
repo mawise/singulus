@@ -17,8 +17,12 @@ RSpec.describe HugoPublishWorker, type: :worker do
   end
 
   describe 'with action of create' do
+    before do
+      allow(github).to receive(:contents).and_raise(Octokit::NotFound)
+    end
+
     it 'creates the post content' do # rubocop:disable RSpec/ExampleLength
-      described_class.new.perform('create', post.id)
+      described_class.new.perform(post.id)
 
       expect(github).to have_received(:create_contents).with(
         github_repo,
@@ -39,7 +43,7 @@ RSpec.describe HugoPublishWorker, type: :worker do
     end
 
     it 'updates the post content' do # rubocop:disable RSpec/ExampleLength
-      described_class.new.perform('update', post.id)
+      described_class.new.perform(post.id)
 
       expect(github).to have_received(:update_contents).with(
         github_repo,
@@ -53,9 +57,13 @@ RSpec.describe HugoPublishWorker, type: :worker do
   end
 
   context 'when post has categories' do
+    before do
+      allow(github).to receive(:contents).and_raise(Octokit::NotFound)
+    end
+
     it 'adds the categories to the front matter' do # rubocop:disable RSpec/ExampleLength
       post.update(categories: %w[foo bar])
-      described_class.new.perform('create', post.id)
+      described_class.new.perform(post.id)
 
       expect(github).to have_received(:create_contents).with(
         anything,
@@ -70,8 +78,12 @@ RSpec.describe HugoPublishWorker, type: :worker do
   context 'when post type is photo' do
     let(:post) { FactoryBot.create(:photo_post) }
 
+    before do
+      allow(github).to receive(:contents).and_raise(Octokit::NotFound)
+    end
+
     it 'adds the photo URL to the front matter' do # rubocop:disable RSpec/ExampleLength
-      described_class.new.perform('create', post.id)
+      described_class.new.perform(post.id)
 
       expect(github).to have_received(:create_contents).with(
         anything,
@@ -83,7 +95,7 @@ RSpec.describe HugoPublishWorker, type: :worker do
     end
 
     it 'adds the photo alt text to the front matter' do # rubocop:disable RSpec/ExampleLength
-      described_class.new.perform('create', post.id)
+      described_class.new.perform(post.id)
 
       expect(github).to have_received(:create_contents).with(
         anything,

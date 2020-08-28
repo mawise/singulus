@@ -25,7 +25,6 @@
 # **`unlock_token`**         | `string`           |
 # **`created_at`**           | `datetime`         | `not null`
 # **`updated_at`**           | `datetime`         | `not null`
-# **`photo_id`**             | `uuid`             |
 # **`twitter_user_id`**      | `text`             |
 #
 # ### Indexes
