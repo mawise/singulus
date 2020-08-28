@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_26_163050) do
+ActiveRecord::Schema.define(version: 2020_08_28_164253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -110,6 +110,11 @@ ActiveRecord::Schema.define(version: 2020_08_26_163050) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "file_data"
+    t.string "attachable_type"
+    t.uuid "attachable_id"
+    t.text "attachable_rel"
+    t.index ["attachable_id", "attachable_type", "attachable_rel"], name: "attachable"
+    t.index ["attachable_type", "attachable_id"], name: "index_photos_on_attachable_type_and_attachable_id"
     t.index ["metadata"], name: "index_photos_on_metadata", using: :gin
     t.index ["post_id"], name: "index_photos_on_post_id"
   end
