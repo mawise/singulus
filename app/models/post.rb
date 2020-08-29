@@ -88,8 +88,6 @@ class Post < ApplicationRecord
 
   enum rsvp: { yes: 0, no: 1, maybe: 2, interested: 3 }, _prefix: :rsvp
 
-  searchkick
-
   belongs_to :author, class_name: 'User', inverse_of: :posts
 
   has_many :photo_attachments, -> { where(rel: 'photo') },

@@ -29,6 +29,7 @@ gem 'webpacker', '~> 5.2'
 
 # Data stores
 gem 'pg', '~> 1.2'
+gem 'pg_search'
 gem 'redis', '~> 4.2'
 gem 'redis-namespace', '~> 1.8'
 
@@ -52,9 +53,6 @@ gem 'shrine', '~> 3.2'
 
 # Git/GitHub
 gem 'octokit', '~> 4.18'
-
-# Search
-gem 'searchkick', '~> 4.4'
 
 # Miscellaneous
 gem 'flutie', '~> 2.2'
