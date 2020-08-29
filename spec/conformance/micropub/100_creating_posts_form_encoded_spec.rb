@@ -6,14 +6,12 @@ require_relative '../../support/contexts/micropub'
 RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Encoded)', type: :request do
   include_context 'when authenticated as a valid Micropub client'
 
-  before do
-    post '/micropub', params: params, headers: headers
-  end
-
   # https://micropub.rocks/server-tests/100?endpoint=501
   describe '100 - Create an h-entry post (form-encoded)' do
     let(:content) { 'Micropub test of creating a basic h-entry' }
     let(:params) { { h: 'entry', content: content } }
+
+    before { post '/micropub', params: params, headers: headers }
 
     it 'returns HTTP accepted' do
       expect(response).to have_http_status(:accepted)
@@ -36,6 +34,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
     let(:params) { { h: 'entry', content: content, category: categories } }
     let(:new_post) { Post.find_by(content: content) }
 
+    before { post '/micropub', params: params, headers: headers }
+
     it 'returns HTTP accepted' do
       expect(response).to have_http_status(:accepted)
     end
@@ -56,7 +56,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
   # https://micropub.rocks/server-tests/104?endpoint=501
   describe '104 - Create an h-entry with a photo referenced by URL (form-encoded)' do
     context 'with an existing photo URL' do
-      let(:photo) { Photo.create(file: fixture_file_upload(Rails.root.join('spec/fixtures/photos/4.1.01.jpeg'), 'image/jpeg')) } # rubocop:disable Layout/LineLength
+      let(:photo) { FactoryBot.create(:photo) }
       let(:content) { 'Micropub test of creating a photo referenced by URL' }
       let(:params) do
         {
@@ -67,11 +67,7 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
       end
       let(:new_post) { Post.find_by(content: content) }
 
-      around do |example|
-        WebMock.allow_net_connect!(net_http_connect_on_start: true)
-        example.run
-        WebMock.disable_net_connect!(allow_localhost: true)
-      end
+      before { post '/micropub', params: params, headers: headers }
 
       it 'returns HTTP accepted' do
         expect(response).to have_http_status(:accepted)
@@ -92,19 +88,20 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
 
     context 'with a remote URL' do
       let(:content) { 'Micropub test of creating a photo referenced by URL. This post should include a photo of a sunset.' } # rubocop:disable Layout/LineLength
+      let(:photo_url) { Faker::Internet.url(path: '/image.jpg') }
       let(:params) do
         {
           "h": ['entry'],
           "content": content,
-          "photo": 'https://raw.githubusercontent.com/craftyphotons/singulus/main/spec/fixtures/photos/sunset.jpg'
+          "photo": photo_url
         }
       end
       let(:new_post) { Post.find_by(content: content) }
 
-      around do |example|
-        WebMock.allow_net_connect!(net_http_connect_on_start: true)
-        example.run
-        WebMock.disable_net_connect!(allow_localhost: true)
+      before do
+        file = File.open(Dir[Rails.root.join('spec/fixtures/photos/*.jpeg')].sample)
+        stub_request(:any, photo_url).to_return(body: file, status: 200)
+        post '/micropub', params: params, headers: headers
       end
 
       it 'returns HTTP accepted' do
@@ -130,6 +127,8 @@ RSpec.describe 'Micropub Server Implementation Report - Creating Posts (Form-Enc
     let(:content) { 'Micropub test of creating an h-entry with one category. This post should have one category, test1' } # rubocop:disable Layout/LineLength
     let(:params) { { h: 'entry', content: content, category: 'test1' } }
     let(:new_post) { Post.find_by(content: content) }
+
+    before { post '/micropub', params: params, headers: headers }
 
     it 'returns HTTP accepted' do
       expect(response).to have_http_status(:accepted)
