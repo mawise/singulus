@@ -16,7 +16,7 @@
 #
 FactoryBot.define do
   factory :photo do
-    file { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/photos/sunset.jpg'), 'image/jpeg') }
+    file { Rack::Test::UploadedFile.new(Dir[Rails.root.join('spec/fixtures/photos/*.jpeg')].sample, 'image/jpeg') }
     alt { Faker::Lorem.sentence }
   end
 end
