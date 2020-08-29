@@ -56,14 +56,4 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Uploads configuration
   config.x.uploads.url = "#{ENV.fetch('UPLOADS_URL')}/singulus-development/"
-
-  # Additional configuration
-  config.after_initialize do
-    Bullet.enable = true
-    Bullet.alert = true
-    Bullet.bullet_logger = true
-    Bullet.console = true
-    Bullet.rails_logger = true
-    Bullet.add_footer = true
-  end
 end
