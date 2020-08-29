@@ -13,14 +13,14 @@
 # **`author`**        | `jsonb`            |
 # **`content`**       | `text`             |
 # **`name`**          | `text`             |
-# **`post_rel`**      | `text`             | `not null`
+# **`post_rel`**      | `text`             |
 # **`publication`**   | `text`             |
 # **`published_at`**  | `datetime`         |
 # **`uid`**           | `text`             | `not null`
 # **`urls`**          | `text`             | `is an Array`
 # **`created_at`**    | `datetime`         | `not null`
 # **`updated_at`**    | `datetime`         | `not null`
-# **`post_id`**       | `uuid`             | `not null`
+# **`post_id`**       | `uuid`             |
 #
 # ### Indexes
 #

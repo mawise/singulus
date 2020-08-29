@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_28_212255) do
+ActiveRecord::Schema.define(version: 2020_08_29_004609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 2020_08_28_212255) do
   end
 
   create_table "citations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "post_id", null: false
-    t.text "post_rel", null: false
+    t.uuid "post_id"
+    t.text "post_rel"
     t.text "uid", null: false
     t.datetime "accessed_at"
     t.jsonb "author"
