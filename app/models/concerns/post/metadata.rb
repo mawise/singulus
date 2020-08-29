@@ -8,7 +8,7 @@ class Post < ApplicationRecord
     def metadata
       {
         description: meta_description
-      }.merge(opengraph_metadata).merge(twitter_metadata)
+      }.merge(open_graph_metadata).merge(twitter_metadata)
     end
 
     def meta_description

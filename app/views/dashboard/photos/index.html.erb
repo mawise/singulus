@@ -9,7 +9,6 @@
     <tr>
       <th>Preview</th>
       <th>Alt Text</th>
-      <th>Associations</th>
       <th>Created</th>
       <th>Updated</th>
     </tr>
@@ -19,20 +18,9 @@
     <% @photos.each do |photo| %>
       <tr>
         <td>
-          <%= link_to dashboard_photo_path(photo) do %><%= image_tag photo.file_url(:thumbnail), alt: photo.alt %><% end %>
+          <%= link_to dashboard_photo_path(photo) do %><%= image_tag photo.thumbnail_url, alt: photo.alt %><% end %>
         </td>
         <td><%= photo.alt %></td>
-        <td>
-          <ul>
-            <% photo.posts.each do |post| %>
-              <li><span class="icon"><i class="fas fa-camera"></i></span> <%= link_to (post.name.presence || post.summary.presence || post.content), dashboard_post_path(post) %></li>
-            <% end %>
-
-            <% photo.users.each do |user| %>
-              <li><span class="icon"><i class="fas fa-user"></i></span> <%= user.name %></li>
-            <% end %>
-          </ul>
-        </td>
         <td><%= time_tag(photo.created_at, photo.created_at.strftime('%Y-%m-%d')) %></td>
         <td><%= time_tag(photo.updated_at, photo.updated_at.strftime('%Y-%m-%d')) %></td>
       </tr>

@@ -5,6 +5,7 @@ require 'image_processing/mini_magick'
 # Uploader for photo assets.
 class PhotoUploader < Shrine
   plugin :instrumentation
+  plugin :backgrounding
   plugin :refresh_metadata
   plugin :add_metadata
   plugin :determine_mime_type
@@ -17,7 +18,7 @@ class PhotoUploader < Shrine
     calculate_signature(io, :sha256)
   end
 
-  Attacher.derivatives(:thumbnails) do |original|
+  Attacher.derivatives(:thumbnail) do |original|
     magick = ImageProcessing::MiniMagick.source(original).loader(page: 0)
     {
       thumbnail: magick.quality(85).resize_to_limit(200, nil).convert('jpeg').call
@@ -34,14 +35,18 @@ class PhotoUploader < Shrine
     }
   end
 
-  Attacher.derivatives(:meta) do |original|
+  Attacher.derivatives(:open_graph) do |original|
+    magick = ImageProcessing::MiniMagick.source(original).loader(page: 0)
+    {
+      open_graph: magick.quality(85).resize_to_limit(1200, 630).convert('jpeg').call
+    }
+  end
+
+  Attacher.derivatives(:twitter_card) do |original|
     magick = ImageProcessing::MiniMagick.source(original).loader(page: 0)
     aspect_ratio = file.metadata['width'].to_f / file.metadata['height']
-
     twitter_card_dimensions = aspect_ratio.to_d == 1.0.to_d ? [400, 400] : [400, nil]
-
     {
-      opengraph: magick.quality(85).resize_to_limit(1200, 630).convert('jpeg').call,
       twitter_card: magick.quality(85).resize_to_limit(*twitter_card_dimensions).convert('jpeg').call
     }
   end
@@ -52,5 +57,13 @@ class PhotoUploader < Shrine
       wilson_list: magick.quality(85).resize_to_limit(660, nil).convert('jpeg').call,
       wilson_post: magick.quality(85).resize_to_limit(2400, nil).convert('jpeg').call
     }
+  end
+
+  Attacher.promote_block do |attacher|
+    PhotoPromoteWorker.perform_async(attacher.record.id)
+  end
+
+  Attacher.destroy_block do |attacher|
+    PhotoDestroyWorker.perform_async(attacher.data)
   end
 end

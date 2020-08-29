@@ -69,8 +69,8 @@ class User < ApplicationRecord
     photo&.file_url
   end
 
-  def opengraph_photo_url
-    photo&.opengraph_url
+  def open_graph_photo_url
+    photo&.open_graph_url
   end
 
   def twitter_card_photo_url

@@ -10,6 +10,8 @@ class HugoPublishWorker < ApplicationWorker
   def perform(id)
     find_post(id)
 
+    create_meta_images
+
     Retriable.retriable on: [Octokit::Conflict], on_retry: method(:log_retry), tries: 15, base_interval: 1.0 do
       sha ? perform_update : perform_create
     end
@@ -36,6 +38,14 @@ class HugoPublishWorker < ApplicationWorker
 
       #{post.content}
     CONTENT
+  end
+
+  def create_meta_images
+    meta_photo = @post.type == 'photo' ? @post.photos.first : @post.featured
+    return unless meta_photo
+
+    meta_photo.create_meta_images! unless meta_photo.open_graph_url && meta_photo.twitter_card_url
+    post.reload
   end
 
   def sha

@@ -29,15 +29,10 @@ class Photo < ApplicationRecord
 
   delegate :size, :metadata, :mime_type, to: :file
 
-  after_create :create_derivatives!
-
-  def create_derivatives!
-    file_attacher.create_derivatives(:thumbnails)
-    file_attacher.create_derivatives(:wilson)
-    file_attacher.create_derivatives(:meta)
-    save
-
-    ProcessPhotoDerivativesWorker.perform_async(id)
+  def create_meta_images!
+    file_attacher.create_derivatives(:open_graph) if open_graph_url.blank?
+    file_attacher.create_derivatives(:twitter_card) if twitter_card_url.blank?
+    file_attacher.atomic_promote
   end
 
   def aspect_ratio
@@ -45,23 +40,27 @@ class Photo < ApplicationRecord
   end
 
   def width(derivative = nil)
-    derivative ? file_data['derivatives'][derivative.to_s]['metadata']['width'] : file.metadata['width']
+    derivative ? file_data.dig('derivatives', derivative.to_s, 'metadata', 'width') : file.metadata['width']
   end
 
   def height(derivative = nil)
-    derivative ? file_data['derivatives'][derivative.to_s]['metadata']['height'] : file.metadata['height']
+    derivative ? file_data.dig('derivatives', derivative.to_s, 'metadata', 'height') : file.metadata['height']
   end
 
-  def opengraph_url
-    file_url(:opengraph)
+  def thumbnail_url
+    file_url(:thumbnail) || file_url
   end
 
-  def opengraph_height
-    height(:opengraph)
+  def open_graph_url
+    file_url(:open_graph)
   end
 
-  def opengraph_width
-    width(:opengraph)
+  def open_graph_height
+    height(:open_graph)
+  end
+
+  def open_graph_width
+    width(:open_graph)
   end
 
   def twitter_card_url
@@ -87,7 +86,7 @@ class Photo < ApplicationRecord
   def as_front_matter_json
     {
       url: file_url,
-      opengraph_url: opengraph_url,
+      open_graph_url: open_graph_url,
       twitter_card_url: twitter_card_url,
       wilson_list_url: wilson_list_url,
       wilson_post_url: wilson_post_url,

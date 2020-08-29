@@ -5,7 +5,7 @@ class Post < ApplicationRecord
   module OpenGraphMetadata
     extend ActiveSupport::Concern
 
-    def opengraph_metadata
+    def open_graph_metadata
       %i[title url image image_height image_width type description locale].each_with_object({}) do |prop, h|
         h[:"og_#{prop}"] = send(prop.to_s.prepend('og_').to_sym)
       end
@@ -24,23 +24,24 @@ class Post < ApplicationRecord
     def og_image
       return super if self[:og_image]
 
-      return featured.opengraph_url if featured.present?
+      return photos.first.open_graph_url if photos.any?
+      return featured.open_graph_url if featured.present?
 
-      author.opengraph_photo_url
+      author.open_graph_photo_url
     end
 
     def og_image_width
-      return photos.first.opengraph_width if type == 'photo'
-      return featured.opengraph_width if featured.present?
+      return photos.first.open_graph_width if type == 'photo'
+      return featured.open_graph_width if featured.present?
 
-      author.photo&.opengraph_width
+      author.photo&.open_graph_width
     end
 
     def og_image_height
-      return photos.first.opengraph_height if type == 'photo'
-      return featured.opengraph_height if featured.present?
+      return photos.first.open_graph_height if type == 'photo'
+      return featured.open_graph_height if featured.present?
 
-      author.photo&.opengraph_height
+      author.photo&.open_graph_height
     end
 
     def og_type # rubocop:disable Metrics/MethodLength
