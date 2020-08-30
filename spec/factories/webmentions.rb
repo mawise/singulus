@@ -19,6 +19,7 @@
 # **`status`**             | `text`             | `default("pending"), not null`
 # **`status_info`**        | `jsonb`            | `not null`
 # **`target_url`**         | `text`             | `not null`
+# **`url`**                | `text`             |
 # **`verified_at`**        | `datetime`         |
 # **`created_at`**         | `datetime`         | `not null`
 # **`updated_at`**         | `datetime`         | `not null`

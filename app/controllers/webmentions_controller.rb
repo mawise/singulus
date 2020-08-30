@@ -4,6 +4,8 @@
 class WebmentionsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[create]
 
+  before_action :allow_site_target_only, only: %i[create]
+
   def create
     @webmention = Webmention.new(webmention_params)
     @webmention.received_at = Time.now.utc
@@ -21,6 +23,14 @@ class WebmentionsController < ApplicationController
   end
 
   private
+
+  def allow_site_target_only
+    site_url = Rails.configuration.x.site.url
+    return if webmention_params[:target_url].blank? || webmention_params[:target_url].start_with?(site_url)
+
+    error = { error: 'invalid_request', error_description: "Target must be on #{site_url}" }
+    render json: error.to_json, status: :bad_request
+  end
 
   def error_response(webmention)
     {

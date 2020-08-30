@@ -19,6 +19,7 @@
 # **`status`**             | `text`             | `default("pending"), not null`
 # **`status_info`**        | `jsonb`            | `not null`
 # **`target_url`**         | `text`             | `not null`
+# **`url`**                | `text`             |
 # **`verified_at`**        | `datetime`         |
 # **`created_at`**         | `datetime`         | `not null`
 # **`updated_at`**         | `datetime`         | `not null`
@@ -79,33 +80,6 @@ RSpec.describe Webmention, type: :model do
 
     it 'is invalid' do
       expect(webmention).not_to be_valid
-    end
-  end
-
-  context 'when the target URL is for a post that does not exist' do
-    subject(:webmention) { described_class.new(source_url: source_url, target_url: target_url) }
-
-    let(:source_url) { Faker::Internet.url }
-    let(:target_url) { "#{Rails.configuration.x.site.url}/notes/abc123" }
-
-    it 'adds an error message' do
-      webmention.valid?
-      expect(webmention.errors[:target_url]).to include('does not exist')
-    end
-
-    it 'is invalid' do
-      expect(webmention).not_to be_valid
-    end
-  end
-
-  context 'when the target URL is for a post that exists' do
-    subject(:webmention) { described_class.new(source_url: source_url, target_url: target_url) }
-
-    let(:source_url) { Faker::Internet.url }
-    let(:target_url) { post.permalink_url }
-
-    it 'is valid' do
-      expect(webmention).to be_valid
     end
   end
 end

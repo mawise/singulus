@@ -15,6 +15,8 @@ class HugoPublishWorker < ApplicationWorker
     Retriable.retriable on: [Octokit::Conflict], on_retry: method(:log_retry), tries: 15, base_interval: 1.0 do
       sha ? perform_update : perform_create
     end
+
+    send_webmentions
   rescue Octokit::NotFound
     Rails.logger.info("Tried to update the post but it was not found: #{id}")
   end
@@ -47,6 +49,8 @@ class HugoPublishWorker < ApplicationWorker
     meta_photo.create_meta_images! unless meta_photo.open_graph_url && meta_photo.twitter_card_url
     post.reload
   end
+
+  def send_webmentions; end
 
   def sha
     @sha ||=

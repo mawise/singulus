@@ -56,8 +56,8 @@ gem 'octokit', '~> 4.18'
 
 # Miscellaneous
 gem 'flutie', '~> 2.2'
-gem 'http', '~> 4.4'
 gem 'hashids', '~> 1.0'
+gem 'http', '~> 4.4'
 gem 'kaminari', '~> 1.2'
 gem 'kramdown', '~> 2.3'
 gem 'kramdown-parser-gfm', '~> 1.1.0'
@@ -96,5 +96,6 @@ end
 
 group :test do
   gem 'coveralls', '~> 0.8', require: false
-  gem 'webmock', '~> 3.8'
+  gem 'vcr', '~> 6.0', require: false
+  gem 'webmock', '~> 3.8', require: false
 end

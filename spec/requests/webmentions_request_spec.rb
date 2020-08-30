@@ -39,8 +39,7 @@ RSpec.describe '/webmentions', type: :request do
     subject(:create_webmention) { post '/webmentions', params: { source: source_url, target: target_url } }
 
     let(:source_url) { Faker::Internet.url }
-    let(:target_url) { "#{Rails.configuration.x.site.url}/non-existent-post" }
-    let(:new_webmention) { Webmention.find_by(source_url: source_url, target_url: target_url) }
+    let(:target_url) { Faker::Internet.url }
 
     it 'returns HTTP bad request' do
       create_webmention

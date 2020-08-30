@@ -21,6 +21,7 @@
 # **`status`**             | `text`             | `default("pending"), not null`
 # **`status_info`**        | `jsonb`            | `not null`
 # **`target_url`**         | `text`             | `not null`
+# **`url`**                | `text`             |
 # **`verified_at`**        | `datetime`         |
 # **`created_at`**         | `datetime`         | `not null`
 # **`updated_at`**         | `datetime`         | `not null`
@@ -64,11 +65,10 @@ class Webmention < ApplicationRecord
   belongs_to :source, class_name: 'Post', inverse_of: :webmentions_as_source, optional: true
   belongs_to :target, class_name: 'Post', inverse_of: :webmentions_as_target, optional: true
 
-  validates :source_url, presence: true, url: { schemes: %w[http https], public_suffix: true }
-  validates :target_url, presence: true, url: { schemes: %w[http https], public_suffix: true }
+  validates :source_url, presence: true, url: { schemes: %w[http https] }
+  validates :target_url, presence: true, url: { schemes: %w[http https] }
 
   validate :source_url_and_target_url_cannot_be_the_same
-  validate :target_exists
 
   scope :approved, -> { where(status: 'approved') }
   scope :denied, -> { where(status: 'denied') }
@@ -78,6 +78,10 @@ class Webmention < ApplicationRecord
   scope :incoming, -> { where.not(target_id: nil) }
   scope :outgoing, -> { where.not(source_id: nil) }
   scope :local, -> { where.not(target_id: nil, source_id: nil) }
+
+  def send_to_target!
+    SendWebmention.new(self).call
+  end
 
   def source_uri
     URI(source_url) if source_url.present?
@@ -97,16 +101,6 @@ class Webmention < ApplicationRecord
   end
 
   private
-
-  def target_exists
-    return if target_uri.blank?
-
-    # TODO: Current permalink URL of each post should be stored on a table and be compared directly to target_url
-    post_id = target_uri.path.split('/').last
-    return if Post.exists?(short_uid: post_id)
-
-    errors.add(:target_url, 'does not exist')
-  end
 
   def source_url_and_target_url_cannot_be_the_same
     errors.add(:source_url_and_target_url, "can't be the same") if source_url == target_url
