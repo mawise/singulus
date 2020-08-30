@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Creates the references table and removes the post reference from the citations table.
 class CreateReferences < ActiveRecord::Migration[6.0]
   def change

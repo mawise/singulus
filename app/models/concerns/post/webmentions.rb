@@ -12,6 +12,8 @@ class Post < ApplicationRecord
                                        class_name: 'Webmention', inverse_of: :target, dependent: :nullify
     end
 
-    def discover_webmentions; end
+    def build_webmentions
+      DiscoverWebmentions.new(self).call
+    end
   end
 end

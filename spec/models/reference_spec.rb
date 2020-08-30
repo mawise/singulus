@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ## Schema Information
 #
 # Table name: `references`
@@ -39,6 +41,5 @@
 #
 require 'rails_helper'
 
-RSpec.describe Reference, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+# RSpec.describe Reference, type: :model do
+# end
