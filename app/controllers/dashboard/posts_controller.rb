@@ -64,10 +64,17 @@ module Dashboard
       @post = Post.find(params[:id])
     end
 
-    def post_params
+    def post_params # rubocop:disable Metrics/MethodLength
       params.require(:post).permit(
         :name, :content, :slug, :summary, :category_names,
-        :bookmark_of_url, :in_reply_to_url, :like_of_url, :repost_of_url,
+        references_attributes: [
+          :citation_id, :rel,
+          {
+            citation_attributes: [
+              :accessed_at, :author, :content, :name, :publication, :published_at, :uid, { urls: [] }
+            ]
+          }
+        ],
         featured_photo_attachments_attributes: [{ attachable_attributes: %i[alt file] }],
         photo_attachments_attributes: [{ attachable_attributes: %i[alt file] }]
       )

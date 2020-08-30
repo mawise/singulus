@@ -44,6 +44,23 @@ RSpec.describe '/dashboard/posts', type: :request do
       post '/dashboard/posts', params: params
       expect(new_post.links.first.target_url).to eq(new_post.permalink_url)
     end
+
+    context 'with attributes for a bookmark' do
+      let(:params) do
+        attrs = FactoryBot.attributes_for(:bookmark_post)
+        {
+          post: {
+            content: content,
+            references_attributes: attrs[:references_attributes]
+          }
+        }
+      end
+
+      it 'creates a bookmark post' do
+        post '/dashboard/posts', params: params
+        expect(new_post.type).to eq('bookmark')
+      end
+    end
   end
 
   context 'with existing post' do

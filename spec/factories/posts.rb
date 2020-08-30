@@ -147,9 +147,12 @@ FactoryBot.define do
       updated_at { timestamp }
       published_at { timestamp }
 
-      bookmarks_attributes do
+      references_attributes do
         Array.new(citation_count) do
-          attributes_for(:citation, :bookmark, timestamp: timestamp)
+          {
+            rel: 'bookmark',
+            citation_attributes: attributes_for(:citation, timestamp: timestamp)
+          }
         end
       end
     end
@@ -164,9 +167,12 @@ FactoryBot.define do
       updated_at { timestamp }
       published_at { timestamp }
 
-      likes_attributes do
+      references_attributes do
         Array.new(citation_count) do
-          attributes_for(:citation, :like, timestamp: timestamp)
+          {
+            rel: 'like',
+            citation_attributes: attributes_for(:citation, timestamp: timestamp)
+          }
         end
       end
     end
@@ -181,9 +187,12 @@ FactoryBot.define do
       updated_at { timestamp }
       published_at { timestamp }
 
-      recipients_attributes do
+      references_attributes do
         Array.new(citation_count) do
-          attributes_for(:citation, :reply, timestamp: timestamp)
+          {
+            rel: 'reply',
+            citation_attributes: attributes_for(:citation, timestamp: timestamp)
+          }
         end
       end
     end
@@ -198,9 +207,12 @@ FactoryBot.define do
       updated_at { timestamp }
       published_at { timestamp }
 
-      reposts_attributes do
+      references_attributes do
         Array.new(citation_count) do
-          attributes_for(:citation, :repost, timestamp: timestamp)
+          {
+            rel: 'repost',
+            citation_attributes: attributes_for(:citation, timestamp: timestamp)
+          }
         end
       end
     end

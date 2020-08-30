@@ -2,16 +2,20 @@
 
 # Post type discovery based on https://indieweb.org/post-type-discovery
 class PostTypeDiscovery
+  attr_reader :post
+
   def call(post) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+    @post = post
+
     return 'rsvp' if post.rsvp.present?
-    return 'reply' if post.recipients.any?
-    return 'repost' if post.reposts.any?
-    return 'like' if post.likes.any?
-    return 'bookmark' if post.bookmarks.any?
+    return 'reply' if any_citations?('reply')
+    return 'repost' if any_citations?('repost')
+    return 'like' if any_citations?('like')
+    return 'bookmark' if any_citations?('bookmark')
 
     # return 'audio' if audio.any?
     # return 'video' if videos.any?
-    return 'photo' if post.photos.any? || post.photo_attachments.any?
+    return 'photo' if any_photos?
 
     if post.content.present?
       normalized_content = post.content.strip.squeeze
@@ -27,5 +31,13 @@ class PostTypeDiscovery
     return 'article' unless /\A#{Regexp.escape(normalized_name)}/.match?(normalized_content)
 
     'note'
+  end
+
+  def any_citations?(rel)
+    post.references.any? { |r| r.rel == rel }
+  end
+
+  def any_photos?
+    post.photo_attachments.any?
   end
 end

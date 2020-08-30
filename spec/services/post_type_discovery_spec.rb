@@ -3,17 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe PostTypeDiscovery, type: :service do
-  %i[article bookmark note like reply repost].each do |type|
+  subject(:post_type_discovery) { described_class.new }
+
+  %i[article bookmark note like photo reply repost].each do |type|
     it "returns #{type} for a #{type}" do
       post = FactoryBot.build(:"#{type}_post")
-      post.valid?
-      expect(post.type).to eq(type.to_s)
+      expect(post_type_discovery.call(post)).to eq(type.to_s)
     end
-  end
-
-  it 'returns photo for a post with photos' do
-    post = FactoryBot.build(:photo_post)
-    post.valid?
-    expect(post.type).to eq('photo')
   end
 end

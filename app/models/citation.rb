@@ -13,24 +13,17 @@
 # **`author`**        | `jsonb`            |
 # **`content`**       | `text`             |
 # **`name`**          | `text`             |
-# **`post_rel`**      | `text`             |
 # **`publication`**   | `text`             |
 # **`published_at`**  | `datetime`         |
 # **`uid`**           | `text`             | `not null`
 # **`urls`**          | `text`             | `is an Array`
 # **`created_at`**    | `datetime`         | `not null`
 # **`updated_at`**    | `datetime`         | `not null`
-# **`post_id`**       | `uuid`             |
 #
 # ### Indexes
 #
 # * `index_citations_on_name`:
 #     * **`name`**
-# * `index_citations_on_post_id`:
-#     * **`post_id`**
-# * `index_citations_on_post_id_and_post_rel`:
-#     * **`post_id`**
-#     * **`post_rel`**
 # * `index_citations_on_publication`:
 #     * **`publication`**
 # * `index_citations_on_uid` (_unique_):
@@ -38,13 +31,9 @@
 # * `index_citations_on_urls` (_using_ gin):
 #     * **`urls`**
 #
-# ### Foreign Keys
-#
-# * `fk_rails_...`:
-#     * **`post_id => posts.id`**
-#
 class Citation < ApplicationRecord
-  belongs_to :post, optional: true, touch: true
+  has_many :references, inverse_of: :citation, dependent: :destroy
+  has_many :posts, through: :references, inverse_of: :citations
 
   def as_front_matter_json
     {

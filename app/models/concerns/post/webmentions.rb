@@ -11,5 +11,7 @@ class Post < ApplicationRecord
       has_many :webmentions_as_target, foreign_key: :target_id,
                                        class_name: 'Webmention', inverse_of: :target, dependent: :nullify
     end
+
+    def discover_webmentions; end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_29_212808) do
+ActiveRecord::Schema.define(version: 2020_08_30_142431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -33,8 +33,6 @@ ActiveRecord::Schema.define(version: 2020_08_29_212808) do
   end
 
   create_table "citations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "post_id"
-    t.text "post_rel"
     t.text "uid", null: false
     t.datetime "accessed_at"
     t.jsonb "author"
@@ -46,8 +44,6 @@ ActiveRecord::Schema.define(version: 2020_08_29_212808) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_citations_on_name"
-    t.index ["post_id", "post_rel"], name: "index_citations_on_post_id_and_post_rel"
-    t.index ["post_id"], name: "index_citations_on_post_id"
     t.index ["publication"], name: "index_citations_on_publication"
     t.index ["uid"], name: "index_citations_on_uid", unique: true
     t.index ["urls"], name: "index_citations_on_urls", using: :gin
@@ -170,6 +166,19 @@ ActiveRecord::Schema.define(version: 2020_08_29_212808) do
     t.index ["url"], name: "index_posts_on_url"
   end
 
+  create_table "references", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "citation_id", null: false
+    t.uuid "post_id", null: false
+    t.text "rel", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["citation_id", "post_id", "rel"], name: "index_references_on_citation_id_and_post_id_and_rel", unique: true
+    t.index ["citation_id", "rel"], name: "index_references_on_citation_id_and_rel"
+    t.index ["citation_id"], name: "index_references_on_citation_id"
+    t.index ["post_id", "rel"], name: "index_references_on_post_id_and_rel"
+    t.index ["post_id"], name: "index_references_on_post_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -221,12 +230,13 @@ ActiveRecord::Schema.define(version: 2020_08_29_212808) do
     t.index ["target_id"], name: "index_webmentions_on_target_id"
   end
 
-  add_foreign_key "citations", "posts"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "posts", "users", column: "author_id"
+  add_foreign_key "references", "citations"
+  add_foreign_key "references", "posts"
   add_foreign_key "webmentions", "posts", column: "source_id"
   add_foreign_key "webmentions", "posts", column: "target_id"
 end
