@@ -177,7 +177,7 @@ GEM
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     method_source (1.0.0)
-    microformats (4.2.0)
+    microformats (4.2.1)
       json (~> 2.2)
       nokogiri (~> 1.10)
     mini_magick (4.10.1)
