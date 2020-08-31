@@ -28,6 +28,10 @@ module IndieAuth
       @me = parameters[:me]
     end
 
+    def authorizable?
+      valid?
+    end
+
     def scopes
       Doorkeeper::OAuth::Scopes.from_string(scope)
     end
@@ -42,20 +46,6 @@ module IndieAuth
 
     private
 
-    def validate_client
-      @client = Auth::Application.find_by(url: client_id)
-      return true if @client.present?
-
-      @client = Auth::Application.create(
-        name: client_id, # TODO: Get from client discovery.
-        url: client_id,
-        confidential: false,
-        redirect_uri: redirect_uri,
-        scopes: scopes
-      )
-      @client.persisted?
-    end
-
     def validate_redirect_uri
       return false if redirect_uri.blank?
 
@@ -64,7 +54,7 @@ module IndieAuth
 
       # TODO: Support off-domain redirect URIs via client discovery.
       uri = checker.as_uri(redirect_uri)
-      client_uri = URI.parse(client_id)
+      client_uri = URI.parse(client.application.uid)
       checker.valid?(redirect_uri) && uri.host == client_uri.host
     end
 

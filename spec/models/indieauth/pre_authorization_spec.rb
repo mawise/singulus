@@ -14,7 +14,7 @@ RSpec.describe IndieAuth::PreAuthorization, type: :model do # rubocop:disable RS
   let(:user) { FactoryBot.create(:user) }
 
   # TODO: Temporary until we have the client get upserted
-  let(:client) { FactoryBot.create(:oauth_application) }
+  let(:client) { FactoryBot.create(:oauth_application, uid: client_id, confidential: false) }
   let(:profile_url) { 'https://example.com/profile' }
   let(:client_id) { 'https://client.net' }
   let(:redirect_uri) { 'https://client.net/auth/callback' }
@@ -22,7 +22,7 @@ RSpec.describe IndieAuth::PreAuthorization, type: :model do # rubocop:disable RS
   let(:scope) { 'profile' }
   let(:pre_auth_params) do
     {
-      client_id: client_id,
+      client_id: client.uid,
       redirect_uri: redirect_uri,
       me: user.profile_url,
       response_type: response_type,

@@ -8,12 +8,18 @@ module IndieAuth
     skip_before_action :verify_authenticity_token, only: %i[create]
     skip_before_action :authenticate_resource_owner!, only: %i[create]
 
+    def new
+      find_client
+      super
+    end
+
     def create
       if params[:code]
         render_authenticate_response
       else
         verify_authenticity_token
         authenticate_resource_owner!
+        find_client
         redirect_or_render authorize_response
       end
     end
@@ -40,6 +46,17 @@ module IndieAuth
     def render_invalid_grant
       description = I18n.t(:invalid_grant, scope: %i[doorkeeper errors messages])
       render json: { error: 'invalid_grant', error_description: description }, status: :bad_request
+    end
+
+    def find_client
+      client_id = pre_auth_params[:client_id]
+      @client = Auth::Application.create_with(
+        name: client_id,
+        url: client_id,
+        confidential: false,
+        redirect_uri: pre_auth_params[:redirect_uri],
+        scopes: pre_auth_params[:scopes]
+      ).find_or_create_by(uid: client_id)
     end
 
     def grant
